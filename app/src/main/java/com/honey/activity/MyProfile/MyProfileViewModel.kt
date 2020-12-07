@@ -1,0 +1,47 @@
+package com.honey.activity.MyProfile
+
+import android.app.Activity
+import android.content.Context
+import androidx.lifecycle.MutableLiveData
+import com.honey.base.BaseViewModel
+import com.honey.model.request.CommonModel
+import com.honey.utils.CommonUtils
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.http.Multipart
+
+class MyProfileViewModel : BaseViewModel(){
+    var response = MutableLiveData<CommonModel>()
+    var editProfileResponse = MutableLiveData<CommonModel>()
+    var error = MutableLiveData<Throwable>()
+
+    fun userProfileApi(context: Context,token:String){
+        CommonUtils.showLoadingDialog(context as Activity)
+        apiInterface.userprofile(token=token).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onSuccess(it) }, { onFailure(it) })
+    }
+
+    fun userEditProfileApi(context: Context,image: MultipartBody.Part?,requestBody: Map<String,RequestBody>)
+    {
+        CommonUtils.showLoadingDialog(context as Activity)
+        apiInterface.userEditProfile(image= image,requestBody= requestBody).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onEditResponse(it) }, { onFailure(it) })
+    }
+
+    private fun onEditResponse(response: CommonModel){
+        CommonUtils.dismissLoadingDialog()
+        this.editProfileResponse.value=response
+
+    }
+
+    fun onSuccess(response: CommonModel){
+        CommonUtils.dismissLoadingDialog()
+        this.response.value=response
+    }
+
+    fun onFailure(it : Throwable){
+        CommonUtils.dismissLoadingDialog()
+        error.value=it
+    }
+
+}

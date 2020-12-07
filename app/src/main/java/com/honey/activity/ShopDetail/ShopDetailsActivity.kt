@@ -1,0 +1,233 @@
+package com.honey.activity.ShopDetail
+
+import android.app.Dialog
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.os.Build
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
+import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.honey.R
+import com.honey.activity.Login.LoginActivity
+import com.honey.activity.Review.ReviewActivity
+import com.honey.adapter.HomeOptionAdapter
+import com.honey.adapter.ProductAdapter
+import com.honey.base.BaseActivity
+import com.honey.model.request.CommonModel
+import com.honey.model.response.success.CommonProductItemModel
+import com.honey.model.response.success.ResponseBean
+import com.honey.utils.CommonUtils
+import com.honey.utils.ErrorUtil
+import com.honey.utils.GuestData
+import com.honey.utils.ParamEnum
+import com.thekhaeng.pushdownanim.PushDownAnim
+import kotlinx.android.synthetic.main.activity_shop_details.*
+import kotlinx.android.synthetic.main.layout_common_toolbar.*
+import java.util.*
+
+class ShopDetailsActivity : BaseActivity(), View.OnClickListener, HomeOptionAdapter.onOptionClickListner, ProductAdapter.onProductClickListner {
+    private lateinit var shopViewModel: ShopDetailsViewModel
+    private var categoryList:List<CommonProductItemModel>?=null
+    private var product_id: String?=null
+    private var seller_id: String?=null
+    private var pos: Int?=null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_shop_details)
+        init()
+        initControl()
+        myObserver()
+     }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    override fun onResume() {
+        super.onResume()
+        CommonUtils.setToolbar(this,"")
+    }
+
+    override fun init() {
+        shopViewModel = ViewModelProviders.of(this).get(ShopDetailsViewModel::class.java)
+        shopViewModel.storeDetailApi(this, ""+intent.getStringExtra("store_id"),prefs.jwtToken!!)
+    }
+
+    override fun initControl() {
+        tvReview.setOnClickListener(this)
+        ivFav.setOnClickListener(this)
+        PushDownAnim.setPushDownAnimTo(tvReview).setScale(PushDownAnim.MODE_SCALE, 0.89f)
+    }
+    override fun myObserver(){
+        shopViewModel.response.observe(this, Observer {
+            if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it.response)
+            else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+
+        shopViewModel.onProductResponse.observe(this, Observer {
+            if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setProductByCategory(it.response)
+            else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+
+        shopViewModel.onCartResponse.observe(this, Observer {
+            if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkData(it)
+            else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) showAlertDialog() })
+
+        shopViewModel.onFavResponse.observe(this, Observer {
+            if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkFavData(it)
+            else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+        shopViewModel.error.observe(this,Observer{ErrorUtil.handlerGeneralError(this, it) })
+    }
+
+    private fun checkFavData(response: CommonModel?) {
+        if(response!!.message.equals("Product removed from wishlist successfully"))
+        {
+            categoryList!!.get(pos!!).favourite = "no"
+            rvShops.adapter!!.notifyItemChanged(pos!!)
+        }else if(response.message.equals("Product added to wishlist successfully")){
+            categoryList!!.get(pos!!).favourite = "yes"
+            rvShops.adapter!!.notifyItemChanged(pos!!)
+        }else if(response.message.equals("Store added to wishlist successfully"))
+        {
+            ivHeart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.bitmap_fav_in))
+        }
+        else {
+            ivHeart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.bitmap_fav_out))
+        }
+    }
+    private fun checkData(response: CommonModel?) {
+        if(response!!.message.equals("Product added to Cart successfully")) {
+            categoryList!!.get(pos!!).havecart = "yes"
+            rvShops.adapter!!.notifyItemChanged(pos!!)
+        }else
+        {
+            CommonUtils.showSnackBar(this,response.message)
+        }
+    }
+    private fun showAlertDialog() {
+        val dialog = Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setContentView(R.layout.dialog_aleart)
+        dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        val tvYes = dialog.findViewById<TextView>(R.id.tvYes)
+        tvYes.setOnClickListener {
+            dialog.dismiss()
+            shopViewModel.addToCartApi(product_id!!,seller_id!!,"yes",prefs.jwtToken!!)
+        }
+
+        val tvNo = dialog.findViewById<TextView>(R.id.tvNo)
+        tvNo.setOnClickListener {
+            dialog.dismiss()
+            rvShops.adapter!!.notifyItemChanged(pos!!)
+        }
+        dialog.show()
+    }
+    private fun setDataToUi(response: ResponseBean?) {
+
+        // Disable options
+        val optionManger = LinearLayoutManager(this)
+        optionManger.orientation=LinearLayoutManager.HORIZONTAL
+        rvOptions.layoutManager=optionManger
+        rvOptions.adapter=HomeOptionAdapter(this,"", response!!.storeModel!!.type,null)
+        rvOptions.scheduleLayoutAnimation()
+
+        CommonUtils.setRoundImage(this,ivShop,lvShopDetail,""+response!!.storeModel!!.image)
+        tvShopName.text=response!!.storeModel!!.name
+        tvAddress.text=response!!.storeModel!!.address
+        tvRating.text=""+response!!.storeModel!!.rating
+        tvTime.text=""+response!!.storeModel!!.deliveryTime+" Days"
+        if(response.total_rating.equals("0")) tvReviews.text="(+ "+response!!.total_rating +" review )"
+        else tvReviews.text="(+ "+response!!.total_rating +" reviews )"
+        CommonUtils.setRoundImage(this,ivShopCover,lvShopCoverDetail,""+response!!.storeModel!!.cover_image)
+
+        // Select Option
+        val selectOption = LinearLayoutManager(this)
+        selectOption.orientation=LinearLayoutManager.HORIZONTAL
+        rvOptionsSelection.layoutManager=selectOption
+        rvOptionsSelection.adapter=HomeOptionAdapter(this,"Home",response!!.storeModel!!.type,this)
+        rvOptionsSelection.scheduleLayoutAnimation()
+
+        if(response.storeModel!!.favourite.equals("yes")) ivHeart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.bitmap_fav_in))
+        else ivHeart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.bitmap_fav_out))
+    }
+    private fun getGuestAddedProduct(list: List<CommonProductItemModel>?): List<CommonProductItemModel>? {
+        for(i in 0..(list!!.size-1))
+        {
+            if(GuestData.instance!!.allData!!.size>0){
+                for(j in 0..(GuestData.instance!!.allData!!.size-1)){
+                    if(GuestData!!.instance!!.allData!!.get(j).product_id.equals(list.get(i).id))
+                    {
+                        list.get(i).havecart="yes"
+                        break
+                    }
+                }
+            }
+            else{
+                break
+            }
+        }
+
+        return list
+    }
+    private fun setProductByCategory(response: ResponseBean?) {
+        // Selected Option
+        categoryList=response!!.list!!
+        if(prefs.jwtToken.equals(""))
+        {
+            categoryList=getGuestAddedProduct(categoryList)
+        }
+
+        if(categoryList!!.size>0) lvNoProducts.visibility=View.GONE
+        else lvNoProducts.visibility=View.VISIBLE
+
+        Collections.shuffle(categoryList)
+        val shopsManager = LinearLayoutManager(this)
+        rvShops.layoutManager = shopsManager
+        rvShops.adapter = ProductAdapter(this, categoryList, this)
+        rvShops.scheduleLayoutAnimation()
+
+    }
+    override fun onClick(p0: View?) {
+        when(p0!!.id)
+        {
+            R.id.tvReview -> {
+                val  intent = Intent(this, ReviewActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.putExtra("type",ParamEnum.STORE_TYPE.theValue() as String)
+                intent.putExtra("id",getIntent().getStringExtra("store_id")!!)
+                startActivity(intent)
+            }
+            R.id.ivFav -> {
+                if(prefs.jwtToken.equals(""))
+                {
+                    val intent = Intent(this, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }else {
+                    CommonUtils.showLoadingDialog(this)
+                    shopViewModel.addToWishApi(prefs.jwtToken!!, intent.getStringExtra("store_id")!!, "" + ParamEnum.STORE.theValue())
+                }
+            }
+        }
+    }
+    override fun onSelectedOtion(option: String) {
+       shopViewModel.productsTypeApi(this, intent.getStringExtra("store_id")!!,option.toLowerCase(),prefs.jwtToken!!)
+    }
+    override fun onCart(pos: Int, product_id: String, seller_id: String) {
+        this.pos=pos;
+        this.product_id=product_id
+        this.seller_id=seller_id
+        shopViewModel.addToCartApi(product_id,seller_id,"no",prefs.jwtToken!!)
+    }
+    override fun onFav(pos: Int,product_id: String) {
+        this.pos=pos
+        if(prefs.jwtToken.equals("")) CommonUtils.startActivity(this,LoginActivity::class.java)
+        else shopViewModel.addToWishApi(prefs.jwtToken!!,product_id,""+ParamEnum.PRODUCT.theValue())
+    }
+}

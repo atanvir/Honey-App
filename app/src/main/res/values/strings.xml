@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Honey</string>
+    <string name="cancel_now"><font color="#000000">There’s a</font><font color="#fea405"> $5.20</font><font color="#000000"> \ncharge to cancel now</font></string>
+    <string name="paid_by"><font color="#9796a1">Paid by :</font><font color="#000000"> Card ending with 0202</font></string>
+    <string name="see_review"><u>See Review</u></string>
+    <string name="google_map_api_key">AIzaSyBIcOPG6bi5aIgM-99JWsF_boy5_t9QjGE</string>
+    <string name="default_notification_channel_id"> 1001 </string>
+</resources>

@@ -1,0 +1,96 @@
+package com.honey.activity.FilteredShops
+
+import android.os.Build
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import androidx.annotation.RequiresApi
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.honey.R
+import com.honey.activity.Search.SearchActivity
+import com.honey.adapter.CommonHomeAdapter
+import com.honey.base.BaseActivity
+import com.honey.model.request.CommonModel
+import com.honey.model.response.success.CommonShopsItemModel
+import com.honey.model.response.success.ProductDetailModel
+import com.honey.model.response.success.ResponseBean
+import com.honey.utils.CommonUtils
+import com.honey.utils.ErrorUtil
+import com.honey.utils.ParamEnum
+import kotlinx.android.synthetic.main.activity_filtered_shops.*
+import org.koin.core.logger.KOIN_TAG
+import retrofit2.http.Tag
+
+class FilteredShopActivity : BaseActivity(), CommonHomeAdapter.setOnShopClickListner, View.OnClickListener {
+    private lateinit var filteredShopViewModel: FilteredShopViewModel
+    var pos:Int?=0
+    private var dataList :MutableList<CommonShopsItemModel>?=null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_filtered_shops)
+        init()
+        initControl()
+        myObserver()
+        setAdapter()
+    }
+
+    private fun setAdapter() {
+        dataList=ArrayList()
+        val data=intent.getParcelableArrayListExtra<ProductDetailModel>("data")
+        for(i in 0..data!!.size-1){
+            Log.e("",""+data.get(i).rating_count)
+            dataList!!.add(CommonShopsItemModel(data.get(i).id!!.toInt(),data.get(i).name,data.get(i).images,data.get(i).delivery_time,data.get(i).rating,data.get(i).rating_count,data.get(i).favourite))
+        }
+
+        if(dataList!!.size==0) lvHomeFilter.visibility=View.VISIBLE
+        val homeAdapter= CommonHomeAdapter(this,dataList!!,"all",this)
+        rvFilterShops.adapter=homeAdapter
+        homeAdapter.notifyDataSetChanged()
+        rvFilterShops.scheduleLayoutAnimation()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    override fun onResume() {
+        super.onResume()
+        CommonUtils.setToolbar(this,"Filtered Shops")
+    }
+
+    override fun init() {
+        filteredShopViewModel=ViewModelProviders.of(this).get(FilteredShopViewModel::class.java)
+    }
+
+    override fun initControl() {
+        edFindShop.setOnClickListener(this)
+    }
+
+    override fun myObserver() {
+
+        filteredShopViewModel.onFavResponse.observe(this, Observer {
+            if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkFavData(it)
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message)
+        })
+
+        filteredShopViewModel.error.observe(this,Observer{ ErrorUtil.handlerGeneralError(this, it) })
+    }
+
+    private fun checkFavData(response: CommonModel?) {
+        if(response!!.message.equals("Store added to wishlist successfully")) dataList!!.get(pos!!).favourite="yes"
+        else if(response.message.equals("Store removed from wishlist successfully")) dataList!!.get(pos!!).favourite="no"
+        rvFilterShops.adapter!!.notifyItemChanged(pos!!)
+    }
+
+    override fun onFav(pos: Int, storeId: String) {
+        this.pos=pos
+        filteredShopViewModel.addToWishApi(prefs.jwtToken!!,storeId,""+ParamEnum.STORE.theValue())
+    }
+
+    override fun onClick(v: View?) {
+        when(v!!.id)
+        {
+            R.id.edFindShop -> { CommonUtils.startActivity(this, SearchActivity::class.java)}
+        }
+    }
+
+}
