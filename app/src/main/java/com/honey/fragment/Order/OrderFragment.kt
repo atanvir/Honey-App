@@ -17,7 +17,6 @@ import com.honey.utils.CommonUtils
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension.TAG
-import kotlinx.android.synthetic.main.activity_track_order.*
 import kotlinx.android.synthetic.main.fragment_order.*
 
 class OrderFragment(var pos:Int) : BaseFragment() {
@@ -42,11 +41,9 @@ class OrderFragment(var pos:Int) : BaseFragment() {
     }
 
     override fun myObserver() {
-
         orderViewModel.upcomingResponse.observe(requireActivity(), Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) upcomingOrderData(it)
             else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(requireActivity(),it.message) })
-
 
         orderViewModel.reOrderResponse.observe(requireActivity(), Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) refreshOrder(it)
@@ -61,7 +58,7 @@ class OrderFragment(var pos:Int) : BaseFragment() {
 
     private fun refreshOrder(it: CommonListModel?) {
         Log.e(TAG(this),it!!.message!!)
-        CommonUtils.showSnackBarGreen(requireActivity(),it!!.message!!)
+        CommonUtils.showSnackBarGreen(requireActivity(), it.message!!)
         if(pos==0) orderViewModel.upcomingOrderApi(requireActivity(),prefs.jwtToken!!)
         else orderViewModel.pastOrdersApi(requireActivity(),prefs.jwtToken!!)
     }
@@ -71,7 +68,7 @@ class OrderFragment(var pos:Int) : BaseFragment() {
         rvOrders.visibility=View.VISIBLE
         lanim.visibility=View.GONE
         rvOrders.layoutManager=LinearLayoutManager(activity)
-        rvOrders.adapter= CommonOrderAdapter(requireContext(),pos,it!!.response!!,orderViewModel)
+        rvOrders.adapter= CommonOrderAdapter(requireContext(),pos, it.response!!,orderViewModel)
         rvOrders.notifyDataSetChanged()
         rvOrders.scheduleLayoutAnimation()
         }else{

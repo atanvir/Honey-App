@@ -9,13 +9,11 @@ import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
-import android.os.Build
-import android.os.Bundle
-import android.os.Handler
-import android.os.Message
+import android.os.*
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -48,6 +46,7 @@ import com.honey.utils.CommonUtils.Companion.PERMISSION
 import com.honey.utils.CommonUtils.Companion.PERMISSION_DIALOG_REQ
 import com.honey.utils.CommonUtils.Companion.PLACE_REQ_CODE
 import com.honey.utils.ParamEnum
+import com.honey.utils.ViewExtension
 import com.honey.utils.ViewExtension.observeOnce
 import kotlinx.android.synthetic.main.activity_select_location.*
 import java.util.*
@@ -71,22 +70,8 @@ class SelectLocationActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnC
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_location)
-        if(checkPermissions()) { startLocationFunctioning() }
+        startLocationFunctioning()
     }
-
-    private fun checkPermissions(): Boolean {
-        var ret = true
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                ret = false
-                requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), PERMISSION)
-            }
-        }
-
-        return ret
-    }
-
 
     override fun init() {
         selectLocationViewModel = ViewModelProviders.of(this).get(SelectLocationViewModel::class.java)
@@ -106,9 +91,7 @@ class SelectLocationActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnC
         selectLocationViewModel.currentAddressSuccess.observe(this, Observer {
             tvAddress.setText(""+it)
         })
-        selectLocationViewModel.error.observe(this, Observer {
-            CommonUtils.showSnackBar(this,it.message)
-        })
+        selectLocationViewModel.error.observe(this, Observer { CommonUtils.showSnackBar(this,it.message) })
 
     }
 
@@ -229,8 +212,11 @@ class SelectLocationActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnC
             }
 
             PERMISSION_DIALOG_REQ -> {
-                if(resultCode==Activity.RESULT_OK) loadCurrentLoc()
-                else if(resultCode==Activity.RESULT_CANCELED) Log.e("error","Please allow permissions")
+                if (resultCode == Activity.RESULT_OK) { loadCurrentLoc() }
+                else if (resultCode == Activity.RESULT_CANCELED) {
+                    CommonUtils.showSnackBarGreen(this,"Please turn on gps for the security purpose")
+                    setUpLocationSettingsTaskStuff()
+                }
             }
         }
     }
@@ -290,25 +276,31 @@ class SelectLocationActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnC
     }
 
 
-    @SuppressLint("MissingPermission")
     fun loadCurrentLoc() {
         try {
-            mFusedLocationClient!!.lastLocation.addOnSuccessListener(this)
-            locationCallback = object : LocationCallback() {
+            locationCallback=object: LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
+                    Log.e(ViewExtension.TAG(this), "" + locationResult)
                     for (location in locationResult.locations) {
                         if (location != null) {
-                            if (!isLocServiceStarted) {
-                                locationCallBack(location)
-                            }
+                            locationCallBack(location)
+                            mFusedLocationClient!!.removeLocationUpdates(locationCallback)
                         }
                     }
                 }
             }
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), PERMISSION)
+                }
+            }
+            else {
+                mFusedLocationClient!!.lastLocation.addOnSuccessListener(this)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
 
     fun locationCallBack(location: Location?) {
@@ -353,11 +345,10 @@ class SelectLocationActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnC
 
     }
 
-    override fun onSuccess(location: Location?) {
-        if (location != null)  {locationCallBack(location) }
-        else {
-            isLocServiceStarted=false
-        }
+    @SuppressLint("MissingPermission")
+    override fun onSuccess(p0: Location?) {
+        if(p0!=null) locationCallBack(p0)
+        else mFusedLocationClient!!.requestLocationUpdates(locationRequest,locationCallback, Looper.getMainLooper())
     }
 
     override fun onBackPressed() {

@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.Window
@@ -31,8 +30,7 @@ import com.honey.utils.CommonUtils
 import com.honey.utils.ErrorUtil
 import com.honey.utils.GuestData
 import com.honey.utils.ParamEnum
-import com.honey.utils.ViewExtension.observeOnce
-import kotlinx.android.synthetic.main.activity_o_t_p_verification.*
+import kotlinx.android.synthetic.main.activity_otp_verification.*
 import kotlinx.android.synthetic.main.dialog_verified.*
 import java.util.concurrent.TimeUnit
 
@@ -48,7 +46,7 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_o_t_p_verification)
+        setContentView(R.layout.activity_otp_verification)
         init()
         initControl()
         myObserver()
@@ -82,9 +80,9 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
 
     override fun myObserver() {
         otpViewModel.response.observe(this, Observer {   if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkData(it.signup!!)
-        else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+        else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
         otpViewModel.verifyResponse.observe(this, Observer {   if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkData(it!!)
-        else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+        else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
         otpViewModel.error.observe(this, Observer{ ErrorUtil.handlerGeneralError(this, it) })
     }
 

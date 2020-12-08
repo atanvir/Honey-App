@@ -46,7 +46,7 @@ class RatingActivity : BaseActivity(), View.OnClickListener {
             finish()
             Toast.makeText(this,it.message,Toast.LENGTH_LONG).show()
             }
-            else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) {CommonUtils.showSnackBar(this,it.message)} })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) {CommonUtils.showSnackBar(this,it.message)} })
 
         ratingViewModel.error.observe(this, Observer{ ErrorUtil.handlerGeneralError(this, it) })
 

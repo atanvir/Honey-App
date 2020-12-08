@@ -47,7 +47,7 @@ class ApiConstant : Serializable {
         const val RE_ORDER="reorder"
         const val ORDER_RATING="order_rating"
         const val HOME_FILTER="homesearch"
-        const val OFFER_DETAIL=""
+        const val OFFER_DETAIL="offer_detail"
 
         // Google Map Api
         const val GOOGLE_DIRECTION_API="json"

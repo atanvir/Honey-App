@@ -87,7 +87,6 @@ class ContactUsActivity : BaseActivity(), View.OnClickListener {
                 contactUsViewModel.contactUsApi(this,AddRequestBody(ContactUsModel(edReason.text.toString().trim(),edQuery.text.toString())).body,getUploadedPhoto()!!)
             }
             }
-
             R.id.ivQueryPhoto ->{clAddImage.performClick()}
         }
     }
@@ -104,7 +103,6 @@ class ContactUsActivity : BaseActivity(), View.OnClickListener {
 
     private fun checkValidations(): Boolean {
         var ret=true
-
         if(edReason.text.toString().trim().length==0){
             ret=false
             CommonUtils.showSnackBar(this,"Please specify reason")
@@ -117,7 +115,6 @@ class ContactUsActivity : BaseActivity(), View.OnClickListener {
             ret=false
             CommonUtils.showSnackBar(this,"Please upload photo")
         }
-
         return ret
     }
 
@@ -132,7 +129,6 @@ class ContactUsActivity : BaseActivity(), View.OnClickListener {
                 requestPermissions(arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),PERMISSION)
             }
         }
-
         return ret
     }
 
@@ -155,13 +151,12 @@ class ContactUsActivity : BaseActivity(), View.OnClickListener {
             PERMISSION ->{
                 var reqestDecline=false
                 for (i in 0..grantResults.size-1) {
-                    if(grantResults.get(i)==PackageManager.PERMISSION_DENIED)
-                    {
-                        reqestDecline=true
-                    }
-
-                    if(reqestDecline) CommonUtils.showSnackBar(this,"Please allow the permission for the security purpose")
-                    else launchIntent()
+                if(grantResults.get(i)==PackageManager.PERMISSION_DENIED)
+                {
+                    reqestDecline=true
+                }
+                if(reqestDecline) CommonUtils.showSnackBar(this,"Please allow the permission for the security purpose")
+                else launchIntent()
                 }
             }
         }
@@ -171,17 +166,18 @@ class ContactUsActivity : BaseActivity(), View.OnClickListener {
         when(requestCode)
         {
             IMAGE_REQ ->{
-                if(resultCode== Activity.RESULT_OK) {
-                    clAddImage.visibility=View.GONE
-                    ivQueryPhoto.visibility=View.VISIBLE
-                    if (data != null) {
-                        path = FilePath.getPath(this, Uri.parse(data.getDataString()))
-                        path = path
-                        CommonUtils.setRoundImage(this, ivQueryPhoto, null, "" + Uri.parse(data.getDataString()))
-                    } else {
-                        CommonUtils.setRoundImage(this, ivQueryPhoto, null, "" + Uri.parse(path))
-                    }
+            if(resultCode== Activity.RESULT_OK) {
+               clAddImage.visibility=View.GONE
+               ivQueryPhoto.visibility=View.VISIBLE
+               if (data != null) {
+                    path = FilePath.getPath(this, Uri.parse(data.getDataString()))
+                    path = path
+                    CommonUtils.setRoundImage(this, ivQueryPhoto, null, "" + Uri.parse(data.getDataString()))
                 }
+               else {
+                    CommonUtils.setRoundImage(this, ivQueryPhoto, null, "" + Uri.parse(path))
+                }
+            }
             }
         }
     }

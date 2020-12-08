@@ -70,5 +70,9 @@ class CommonModel{
     @Expose
     var routes:List<ResponseBean>?=null
 
+    @SerializedName("offer_detail")
+    @Expose
+    var offer_detail:ResponseBean?=null
+
 
  }

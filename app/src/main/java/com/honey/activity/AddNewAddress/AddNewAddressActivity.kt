@@ -23,6 +23,7 @@ import com.honey.model.response.success.ResponseBean
 import com.honey.utils.CommonUtils
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
+import com.honey.utils.ViewExtension
 import com.honey.utils.ViewExtension.observeOnce
 import io.reactivex.internal.util.NotificationLite.getValue
 import kotlinx.android.synthetic.main.activity_add_new_address.*

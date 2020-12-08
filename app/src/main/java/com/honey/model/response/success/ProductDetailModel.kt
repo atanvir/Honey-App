@@ -40,7 +40,7 @@ class ProductDetailModel() :Parcelable{
     @Expose
     var tax: Int? = null
 
-    @SerializedName("quantity")
+    @SerializedName("quantity",alternate = arrayOf("qty"))
     @Expose
     var quantity: String? = null
 

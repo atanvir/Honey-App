@@ -28,7 +28,7 @@ class CouponActivity : BaseActivity(), View.OnClickListener, CouponAdapter.setOn
         init()
         initControl()
         myObserver()
-    }
+}
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
@@ -72,9 +72,9 @@ class CouponActivity : BaseActivity(), View.OnClickListener, CouponAdapter.setOn
     override fun onClick(v: View?) {
         when(v!!.id)
         {
-            R.id.btnApply ->{
-                if(!edCoupon.text.toString().equals("")) couponViewModel.applyCouponApi(this,prefs.jwtToken!!,edCoupon.text.toString())
-                else CommonUtils.showSnackBar(this,"Please enter Coupon code first")
+            R.id.btnApply -> {
+            if(!edCoupon.text.toString().equals("")) couponViewModel.applyCouponApi(this,prefs.jwtToken!!,edCoupon.text.toString())
+            else CommonUtils.showSnackBar(this,"Please enter Coupon code first")
             }
         }
    }

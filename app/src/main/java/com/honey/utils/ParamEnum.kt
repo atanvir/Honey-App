@@ -32,7 +32,7 @@ enum class ParamEnum {
     PRODUCT_TYPE("0"),
     STORE_TYPE("1"),
     ORDER_ID("order_id"),
-    BASE_URL("https://mobuloustech.com/honey_app/api/"),
+    API_BASE_URL("https://mobuloustech.com/honey_app/api/"),
     GOOGLE_MAP_KEY("AIzaSyBIcOPG6bi5aIgM-99JWsF_boy5_t9QjGE"),
     GOOGLE_MAP_BASE_URL("https://maps.google.com/maps/api/directions/"),
     LOCALITY("locality");

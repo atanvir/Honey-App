@@ -45,12 +45,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="24dp"
         android:singleLine="true"
         android:text="Product 1"
         android:textAlignment="viewStart"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toStartOf="@+id/ivRemove"
+        app:layout_constraintEnd_toStartOf="@+id/tvQuantity"
         app:layout_constraintStart_toEndOf="@+id/ivProductPic"
         app:layout_constraintTop_toTopOf="parent" />
 

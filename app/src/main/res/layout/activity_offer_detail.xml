@@ -35,11 +35,27 @@
                 android:layout_width="0dp"
                 android:layout_height="180dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/banner_01"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lvCoverOffer"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="16dp"
+                android:scaleType="fitCenter"
+                android:visibility="visible"
+                android:elevation="2dp"
+                app:layout_constraintBottom_toBottomOf="@id/ivOfferPic"
+                app:layout_constraintEnd_toEndOf="@id/ivOfferPic"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/ivOfferPic"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="loader.json"
+                app:lottie_loop="true" />
 
             <TextView
                 android:id="@+id/tvName"
@@ -52,7 +68,6 @@
                 android:drawablePadding="6dp"
                 android:foregroundGravity="center"
                 android:gravity="center"
-                android:text="Offer One Test"
                 android:textAlignment="viewStart"
                 android:textSize="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +85,6 @@
                 android:drawablePadding="6dp"
                 android:foregroundGravity="center"
                 android:gravity="center"
-                android:text="SAR 500"
                 android:textAlignment="center"
                 android:textSize="23dp"
                 app:layout_constraintStart_toStartOf="@+id/tvName"
@@ -86,7 +100,6 @@
                 android:drawablePadding="6dp"
                 android:foregroundGravity="center"
                 android:gravity="center"
-                android:text="SAR 1000"
                 android:textAlignment="center"
                 android:textColor="@color/cool_grey"
                 android:textSize="14dp"
@@ -148,7 +161,6 @@
                 android:backgroundTint="@color/app_theme_color"
                 android:elevation="6dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/store_c"
                 app:layout_constraintStart_toStartOf="@+id/textView85"
                 app:layout_constraintTop_toBottomOf="@+id/textView85" />
 
@@ -159,7 +171,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="3dp"
-                android:text="Honey Store"
                 android:textColor="@color/black"
                 android:textSize="14dp"
                 app:layout_constraintBottom_toTopOf="@+id/tvSellerAddress"
@@ -173,7 +184,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Noida Phase-2, Yakubpur, Noida, Uttar Pradesh 201305, India"
                 android:textAlignment="viewStart"
                 android:textColor="@color/grey"
                 android:textSize="14dp"
@@ -221,7 +231,7 @@
         android:layout_marginStart="24dp"
         android:elevation="12dp"
         android:src="@drawable/cart_bag"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/btnAddtoCart"
         app:layout_constraintStart_toStartOf="@+id/btnAddtoCart"
         app:layout_constraintTop_toTopOf="@+id/btnAddtoCart" />
@@ -242,7 +252,7 @@
         android:paddingRight="20dp"
         android:text="ADD TO CART"
         android:textColor="@android:color/white"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

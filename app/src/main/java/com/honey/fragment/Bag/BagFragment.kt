@@ -82,22 +82,22 @@ class BagFragment : BaseFragment(), View.OnClickListener, BagItemAdapter.setOnBa
 
         bagViewModel.response.observe(requireActivity(), Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it)
-            else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(activity,it.message)
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(activity,it.message)
         })
 
         bagViewModel.updateCartResponse.observe(requireActivity(), Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) responseHandler()
-            else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(activity,it.message)
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(activity,it.message)
         })
 
         bagViewModel.removeCartResponse.observe(requireActivity(), Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) responseHandler()
-            else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(activity,it.message)
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(activity,it.message)
         })
 
         bagViewModel.removeCouponResponse.observe(requireActivity(), Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) bagViewModel.cartListApi(prefs.jwtToken!!,cart_id,quantity)
-            else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(activity,it.message)
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(activity,it.message)
         })
 
         bagViewModel.error.observe(requireActivity(),Observer{ ErrorUtil.handlerGeneralError(requireActivity(), it) })
@@ -115,20 +115,21 @@ class BagFragment : BaseFragment(), View.OnClickListener, BagItemAdapter.setOnBa
             clNoItem.visibility=View.VISIBLE
         }
 
-        if (response!!.cart_list!!.cart_list != null) {
-            if (response!!.cart_list!!.cart_list!!.size > 0) {
+        if (response.cart_list!!.cart_list != null) {
+            if (response.cart_list.cart_list!!.size > 0) {
                 mainCl.visibility = View.VISIBLE
+                clNoItem.visibility = View.GONE
             } else {
                 mainCl.visibility = View.GONE
                 clNoItem.visibility=View.VISIBLE
             }
 
-            if(response.cart_list!!.cart_list!!.size>0)
+            if(response.cart_list.cart_list!!.size>0)
             {
                 cartData=response!!.cart_list!!.cart_list!!.get(0)
             }
 
-            val adapter = BagItemAdapter(requireContext(), response!!.cart_list!!.cart_list!!, this)
+            val adapter = BagItemAdapter(requireContext(), response.cart_list.cart_list!!, this)
             rvCart.adapter = adapter
             adapter.notifyDataSetChanged()
             rvCart.scheduleLayoutAnimation()
@@ -139,6 +140,7 @@ class BagFragment : BaseFragment(), View.OnClickListener, BagItemAdapter.setOnBa
                 isCouponApplied=false
                 clCoupon.backgroundTintList=requireActivity().getColorStateList(R.color.app_theme_organe)
                 tvLabelCoupon.text="Apply Coupon"
+                prefs.coupon_code=""
                 ivArrowCoupon.setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.bitmap_arrow))
                 clDiscount.visibility=View.GONE }
             else { clDiscount.visibility=View.VISIBLE
@@ -172,6 +174,8 @@ class BagFragment : BaseFragment(), View.OnClickListener, BagItemAdapter.setOnBa
                 prefs.total=tvTotal.text.toString()
                 prefs.item=tvItems.text.toString()
                 prefs.discount=tvDiscount.text.toString()
+                Log.e("Latitute",""+cartData!!.latitude)
+                Log.e("Longitude",""+cartData!!.longitude)
                 prefs.latitude=""+cartData!!.latitude
                 prefs.longitude= ""+cartData!!.longitude
                 if(prefs.isLogin!!) CommonUtils.startActivity(requireActivity(), PaymentActivity::class.java)

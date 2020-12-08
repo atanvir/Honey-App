@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.media.RingtoneManager
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
@@ -27,9 +26,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -43,14 +39,11 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
 import com.honey.R
 import com.honey.activity.Login.LoginActivity
 import com.honey.activity.Main.MainActivity
 import com.honey.activity.ShopDetail.ShopDetailsActivity
-import com.honey.activity.TrackOrderActivity
-import com.honey.firebase.NotificationHelper
 import com.honey.fragment.Favorite.FavoriteFragment
 import com.honey.fragment.Notification.NotificationFragment
 import java.security.MessageDigest
@@ -129,9 +122,6 @@ class CommonUtils {
             {
                 tvTitle.visibility= View.GONE
                 ivFav.visibility=View.VISIBLE
-            }else if(activity is TrackOrderActivity)
-            {
-                tvTitle.visibility= View.VISIBLE
             }
 
             activity.setSupportActionBar(toolbar)
@@ -141,9 +131,9 @@ class CommonUtils {
             val intent:Intent
             val prefs=SharedPreferenceUtil.getInstance(context)
             if(context is MainActivity && prefs.jwtToken!!.equals("")){
-                    intent = Intent(context, LoginActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    context.startActivity(intent)
+                intent = Intent(context, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                context.startActivity(intent)
             }else {
                 intent = Intent(context, className)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK

@@ -21,7 +21,6 @@ class ContactUsViewModel : BaseViewModel(){
         apiInterface.contactUs(image=image,data=data).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onSuccess(it) }, { onFailure(it) })
     }
 
-
     fun onSuccess(response: CommonModel){
         CommonUtils.dismissLoadingDialog()
         this.response.value=response

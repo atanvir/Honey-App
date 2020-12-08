@@ -73,7 +73,7 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
     override fun myObserver() {
         orderDetailViewModel.response.observe(this, Observer {
             if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it.response)
-            else if (it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this, it.message)
+            else if (it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this, it.message)
         })
 
         orderDetailViewModel.cancelOrderResponse.observe(this, Observer {

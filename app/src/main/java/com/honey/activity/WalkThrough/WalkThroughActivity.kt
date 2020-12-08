@@ -29,7 +29,7 @@ class WalkThroughActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun init() {
-        val pagerAdpater=WalkThrowAdapter(this!!,images!!,desc!!)
+        val pagerAdpater=WalkThrowAdapter(this, images, desc)
         viewPager.adapter=pagerAdpater
         viewPager.setPageTransformer(true, DepthPageTransformer())
         dotsIndicator.setViewPager(viewPager)

@@ -15,11 +15,11 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        init()
-        initControl()
-        myObserver()
+    super.onCreate(savedInstanceState)
+     setContentView(R.layout.activity_login)
+     init()
+     initControl()
+     myObserver()
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -44,20 +44,18 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         when(p0!!.id)
         {
             R.id.btnNext -> {
-                if(checkValidation()) {
-                    val intent= Intent(this, OTPVerificationActivity::class.java)
-                    intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-                    intent.putExtra("country_code",""+countryCodePicker.defaultCountryCodeWithPlus)
-                    intent.putExtra("phone_number",""+edPhoneNumber.text.toString().trim())
-                    startActivity(intent)
-                }
+            if(checkValidation()) {
+            val intent= Intent(this, OTPVerificationActivity::class.java)
+            intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra("country_code",""+countryCodePicker.defaultCountryCodeWithPlus)
+            intent.putExtra("phone_number",""+edPhoneNumber.text.toString().trim())
+            startActivity(intent) }
             }
         }
     }
 
     private fun checkValidation(): Boolean {
         var ret=true
-        Log.e("length",""+edPhoneNumber.text.toString().length);
         if(edPhoneNumber.text.toString().length==0)
         {
             ret=false
@@ -69,6 +67,5 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             CommonUtils.showSnackBar(this,"Please enter valid phone number")
         }
         return ret
-
     }
 }

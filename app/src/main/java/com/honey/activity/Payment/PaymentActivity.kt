@@ -12,24 +12,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.honey.R
 import com.honey.activity.AddNewAddress.AddNewAddressActivity
-import com.honey.activity.DeliveryAddress.DeliveryAddressActivity
 import com.honey.activity.Main.MainActivity
-import com.honey.activity.Order.OrderActivity
-import com.honey.activity.TrackOrderActivity
 import com.honey.base.BaseActivity
 import com.honey.model.request.CommonModel
 import com.honey.model.response.success.ResponseBean
 import com.honey.utils.CommonUtils
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
-import com.honey.utils.ViewExtension.observeOnce
 import com.thekhaeng.pushdownanim.PushDownAnim
-import kotlinx.android.synthetic.main.activity_add_new_address.*
 import kotlinx.android.synthetic.main.activity_payment.*
-import kotlinx.android.synthetic.main.fragment_bag.*
 import kotlinx.android.synthetic.main.layout_billing_details.*
-import kotlinx.android.synthetic.main.layout_main_toolbar.*
-import retrofit2.Response
+import java.lang.Exception
 
 class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheckedChangeListener {
     private lateinit var paymentViewModel: PaymentViewModel
@@ -79,7 +72,7 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
         if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) {
             setDataToUI(it)
         }
-        else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) {
+        else if(it.status.equals(ParamEnum.FAILURE.theValue())) {
             tvShippingCharges.visibility=View.GONE
             cvDefaultAddress.visibility=View.GONE
             tvAddress.visibility=View.VISIBLE
@@ -87,28 +80,34 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
         }})
 
         paymentViewModel.directionResponse.observe(this, Observer {
-            Log.e("distance", it.routes!!.get(0).legs!!.get(0).distance!!.text!!)
-            if(it.routes!!.get(0).legs!!.get(0).distance!!.text!!.contains("km"))
-            {
-                val kms= it.routes!!.get(0).legs!!.get(0).distance!!.text!!.split("km")[0].trim().toLong()
-                if(kms>25)
-                {
-                    val q=kms/25
-                    tvShippingCharges.text=""+(1*40)
-                    rbCOD.visibility=View.GONE
+            try {
+                Log.e("distance", it.routes!!.get(0).legs!!.get(0).distance!!.text!!)
 
-                }else if(kms<=25)
-                {
-                    tvShippingCharges.text="20"
+                if (it.routes!!.get(0).legs!!.get(0).distance!!.text!!.contains("km")) {
+                    val kms =
+                        it.routes!!.get(0).legs!!.get(0).distance!!.text!!.split("km")[0].trim()
+                            .toLong()
+                    if (kms > 25) {
+                        val q = kms / 25
+                        tvShippingCharges.text = "" + (1 * 40)
+                        rbCOD.visibility = View.GONE
+
+                    } else if (kms <= 25) {
+                        tvShippingCharges.text = "20"
+                    }
+                    tvTotal.text =
+                        "" + (prefs.total.toLong() + tvShippingCharges.text.toString().toLong())
                 }
-                tvTotal.text=""+(prefs.total.toLong()+tvShippingCharges.text.toString().toLong())
+            }catch (e:Exception)
+            {
+
             }
 
         })
 
         paymentViewModel.response.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) { fireIntent()}
-            else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message)})
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message)})
         paymentViewModel.error.observe(this, Observer{ ErrorUtil.handlerGeneralError(this, it) })
     }
     private fun fireIntent() {

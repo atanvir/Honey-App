@@ -58,16 +58,16 @@ class CommonTabFragment(var pos : Int,var screen: String) : BaseFragment(), Comm
     override fun myObserver() {
         commonTabViewModel.response.observeOnce(requireActivity(), Observer {
         if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it!!)
-        else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(requireActivity(),it.message) })
+        else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(requireActivity(),it.message) })
 
         commonTabViewModel.onSearchResponse.observe(requireActivity(), Observer {
         if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it!!)
-        else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(requireActivity(),it.message) })
+        else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(requireActivity(),it.message) })
 
         commonTabViewModel.onFavResponse.observeOnce(requireActivity(), Observer {
         if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) removeData(it!!)
 
-        else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(requireActivity(),it.message) })
+        else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(requireActivity(),it.message) })
         commonTabViewModel.error.observeOnce(requireActivity(), Observer{ ErrorUtil.handlerGeneralError(requireActivity(), it) })
     }
 

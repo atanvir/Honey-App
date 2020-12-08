@@ -2,6 +2,7 @@ package com.honey.model.response.success
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.util.stream.IntStream
 
 class ResponseBean {
 
@@ -9,7 +10,7 @@ class ResponseBean {
     @Expose
     var legs:List<DirectionModel>?=null
 
-    @SerializedName("product_list", alternate = arrayOf("products"))
+    @SerializedName("product_list", alternate = arrayOf("products","product"))
     @Expose
     var productList: MutableList<ProductDetailModel>? = null
 
@@ -64,7 +65,11 @@ class ResponseBean {
 
     @SerializedName("sp")
     @Expose
-    var sp: Int? = null
+    var sp: String? = null
+
+    @SerializedName("offer_price")
+    @Expose
+    var offer_price: String? = null
 
     @SerializedName("commision")
     @Expose
@@ -212,7 +217,7 @@ class ResponseBean {
     @Expose
     var list:List<CommonProductItemModel>? = null
 
-    @SerializedName("havecart")
+    @SerializedName("havecart",alternate = arrayOf("haveCart"))
     @Expose
     var havecart: String?=null
 
@@ -288,6 +293,10 @@ class ResponseBean {
     @SerializedName("order_number")
     @Expose
     val order_number:String?=null
+
+    @SerializedName("seller_image")
+    @Expose
+    val seller_image:String?=null
 
     @SerializedName("seller_name")
     @Expose

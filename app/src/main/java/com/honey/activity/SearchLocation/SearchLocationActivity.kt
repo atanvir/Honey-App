@@ -60,11 +60,11 @@ class SearchLocationActivity : BaseActivity(), View.OnClickListener, AddressAdap
 
         searchViewModel.response.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it.user_address!!)
-            else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
 
         searchViewModel.removeAddressResponse.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) removeData(it)
-            else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
 
         searchViewModel.error.observe(this, Observer{ ErrorUtil.handlerGeneralError(this, it) })
     }

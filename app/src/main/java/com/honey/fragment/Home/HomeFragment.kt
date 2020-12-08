@@ -11,11 +11,13 @@ import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -56,11 +58,9 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
     val FILTER_RESULT_REQ:Int=10
     private var googleApiClient: GoogleApiClient? = null
     private var locationRequest: LocationRequest? = null
-    private var isLocServiceStarted = false
     private var locationCallback: LocationCallback? = null
     var lat: Double? = null
     var lng: Double? = null
-    private var mLastLocation: Location? = null
     private var mFusedLocationClient: FusedLocationProviderClient? = null
     private var currentPos=0
     val handler=Handler()
@@ -71,20 +71,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(checkPermissions()) { startLocationFunctioning()}
-    }
-
-
-    private fun checkPermissions(): Boolean {
-        var ret = true
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                ret = false
-                requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), PERMISSION)
-            }
-        }
-        return ret
+        startLocationFunctioning()
     }
 
     fun startLocationFunctioning() {
@@ -112,7 +99,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
     override fun onPause() {
         super.onPause()
         googleApiClient!!.stopAutoManage(requireActivity())
-        googleApiClient!!.disconnect();
+        googleApiClient!!.disconnect()
     }
 
     override fun onStop() {
@@ -122,7 +109,8 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
             googleApiClient!!.disconnect()
         }
     }
-    fun createLocationRequest() {
+
+    fun  createLocationRequest() {
         locationRequest = LocationRequest.create()
         locationRequest!!.setInterval(2000)
         locationRequest!!.setFastestInterval(10 * 1000.toLong())
@@ -130,34 +118,36 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
     }
 
-
-    @SuppressLint("MissingPermission")
+    @RequiresApi(Build.VERSION_CODES.M)
     fun loadCurrentLoc() {
         try {
-            mFusedLocationClient!!.lastLocation.addOnSuccessListener(this)
-            locationCallback = object : LocationCallback() {
+            locationCallback=object: LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
                     Log.e(TAG(this), "" + locationResult)
                     for (location in locationResult.locations) {
                         if (location != null) {
-                            if (!isLocServiceStarted) {
-                                locationCallBack(location)
-                            }
+                            locationCallBack(location)
+                            mFusedLocationClient!!.removeLocationUpdates(locationCallback)
                         }
                     }
                 }
             }
+            if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), PERMISSION)
+                }
+            }
+            else {
+                mFusedLocationClient!!.lastLocation.addOnSuccessListener(this)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
-
     fun locationCallBack(location: Location?) {
-        mLastLocation = location
-        lat = mLastLocation!!.latitude
-        lng = mLastLocation!!.longitude
-        isLocServiceStarted = true
+        lat = location!!.latitude
+        lng = location!!.longitude
         init()
         initControl()
         myObserver()
@@ -169,12 +159,10 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
         val client = LocationServices.getSettingsClient(requireActivity())
         val task = client.checkLocationSettings(builder.build())
         task.addOnSuccessListener { loadCurrentLoc() }
-        task.addOnFailureListener { e ->
-            if (e is ResolvableApiException) {
-                try {
-                    Log.e("requested", "yes")
-                    e.startResolutionForResult(requireActivity(), PERMISSION_DIALOG_REQ)
-                } catch (sendEx: IntentSender.SendIntentException) {
+        task.addOnFailureListener { e -> if (e is ResolvableApiException) {
+                try { e.startResolutionForResult(requireActivity(), PERMISSION_DIALOG_REQ)
+                }
+                catch (sendEx: IntentSender.SendIntentException) {
                     sendEx.printStackTrace()
                 }
             }
@@ -191,15 +179,8 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
     override fun onConnectionSuspended(p0: Int) {
     }
 
-    override fun onSuccess(location: Location?) {
-        if (location != null)  {locationCallBack(location) }
-        else { isLocServiceStarted=false }
-    }
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when(requestCode)
         {
@@ -210,9 +191,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
                         permissionDenied = true
                         break
                     }
-
                 }
-
                 if (permissionDenied) CommonUtils.showSnackBar(requireActivity(), "Please Allow permission for the security purpose")
                 else startLocationFunctioning()
             }
@@ -220,9 +199,9 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
     }
 
     override fun init() {
-
         // Options RecycleView
-        var options = arrayListOf("ALL", "LATEST", "POPULAR", "OFFERS", "DISTANCE")
+//        val options = arrayListOf("ALL", "LATEST", "POPULAR", "OFFERS", "DISTANCE")
+        val options = arrayListOf("ALL", "LATEST", "POPULAR", "DISTANCE")
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation=LinearLayoutManager.HORIZONTAL
         rvOptions.layoutManager=layoutManager
@@ -241,20 +220,17 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
     }
 
     override fun myObserver(){
-
         homeViewModel.response.observe(requireActivity(), Observer {
             if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it.response)
-            else if (it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(activity, it.message)
+            else if (it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(activity, it.message)
         })
 
         homeViewModel.onFavResponse.observe(requireActivity(), Observer {
             if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkFavData(it)
-            else if (it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(activity, it.message)
+            else if (it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(activity, it.message)
         })
 
-        homeViewModel.error.observe(requireActivity(), Observer {
-            ErrorUtil.handlerGeneralError(requireActivity(), it)
-        })
+        homeViewModel.error.observe(requireActivity(), Observer { ErrorUtil.handlerGeneralError(requireActivity(), it) })
     }
 
     private fun checkFavData(response: CommonModel?) {
@@ -290,7 +266,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
         // Shops
         homeDataList=data!!.allstores
         Collections.shuffle(homeDataList)
-        var label=if(homeDataList!!.size>0) "ALL SHOPS" else "ALL SHOP"
+        val label=if(homeDataList!!.size>0) "ALL SHOPS" else "ALL SHOP"
         tvLabel.text=label
         val homeAdapter=CommonHomeAdapter(requireContext(), homeDataList!!,"ALL",this)
         rvFeaturedShops.adapter=homeAdapter
@@ -307,9 +283,9 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
     }
 
     fun startActivity(context: Context, className: Class<out Any?>?) {
-            val intent = Intent(context, className)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            context.startActivity(intent)
+        val intent = Intent(context, className)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        context.startActivity(intent)
     }
 
     override fun onSelectedOtion(option: String) {
@@ -347,28 +323,33 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Log.e(TAG(this), "Request Code : " + requestCode + "\n Result Code : " + resultCode)
-
         when(requestCode)
         {
             FILTER_RESULT_REQ -> {
                 when (resultCode) {
-                    Activity.RESULT_OK -> {
-
-                    }
-                    Activity.RESULT_CANCELED -> {
-                    }
+                Activity.RESULT_OK -> {
+                }
+                Activity.RESULT_CANCELED -> {
+                }
                 }
             }
 
 
             PERMISSION_DIALOG_REQ -> {
-                if (resultCode == Activity.RESULT_OK) loadCurrentLoc()
-                else if (resultCode == Activity.RESULT_CANCELED) Log.e(
-                    "error",
-                    "Please allow permissions"
-                )
+                if (resultCode == Activity.RESULT_OK) { loadCurrentLoc() }
+                else if (resultCode == Activity.RESULT_CANCELED) {
+                    CommonUtils.showSnackBarGreen(requireActivity(),"Please turn on gps for the security purpose")
+                    setUpLocationSettingsTaskStuff()
+                }
             }
     }
 
-}}
+}
+
+    @SuppressLint("MissingPermission")
+    override fun onSuccess(p0: Location?) {
+        if(p0!=null) locationCallBack(p0)
+        else mFusedLocationClient!!.requestLocationUpdates(locationRequest,locationCallback, Looper.getMainLooper())
+    }
+}
 

@@ -68,19 +68,19 @@ class ShopDetailsActivity : BaseActivity(), View.OnClickListener, HomeOptionAdap
     override fun myObserver(){
         shopViewModel.response.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it.response)
-            else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
 
         shopViewModel.onProductResponse.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setProductByCategory(it.response)
-            else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
 
         shopViewModel.onCartResponse.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkData(it)
-            else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) showAlertDialog() })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showAlertDialog() })
 
         shopViewModel.onFavResponse.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkFavData(it)
-            else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
         shopViewModel.error.observe(this,Observer{ErrorUtil.handlerGeneralError(this, it) })
     }
 

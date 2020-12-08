@@ -43,6 +43,10 @@ class CommonShopsItemModel(
     @Expose
     val mrp: String? = null
 
+    @SerializedName("offer_price")
+    @Expose
+    val offer_price:String?=null
+
 
     @SerializedName("email")
     @Expose

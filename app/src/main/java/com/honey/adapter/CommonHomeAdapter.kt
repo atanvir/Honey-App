@@ -22,6 +22,7 @@ import com.honey.utils.CommonUtils.Companion.SHOPS
 import com.honey.utils.SharedPreferenceUtil
 import com.honey.utils.ViewExtension.TAG
 import com.thekhaeng.pushdownanim.PushDownAnim
+import kotlinx.android.synthetic.main.activity_offer_detail.*
 import kotlinx.android.synthetic.main.adapter_common_product.view.*
 import kotlinx.android.synthetic.main.adapter_home_offer.view.*
 import kotlinx.android.synthetic.main.adapter_home_shop.view.*
@@ -30,7 +31,8 @@ import okhttp3.RequestBody
 class CommonHomeAdapter(var context: Context, var list: List<CommonShopsItemModel>, var option:String, var listner: setOnShopClickListner) : RecyclerView.Adapter<CommonHomeAdapter.MyViewHolder>()
 {
     val prefs=SharedPreferenceUtil.getInstance(context)
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder = if(option.equals("offers",ignoreCase = true)) MyViewHolder(LayoutInflater.from(context).inflate(R.layout.adapter_home_offer,parent,false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder =
+    if(option.equals("offers",ignoreCase = true)) MyViewHolder(LayoutInflater.from(context).inflate(R.layout.adapter_home_offer,parent,false))
     else  MyViewHolder(LayoutInflater.from(context).inflate(R.layout.adapter_home_shop,parent,false))
     override fun getItemCount(): Int=list.size
     override fun getItemId(position: Int): Long = position.toLong()
@@ -49,11 +51,12 @@ class CommonHomeAdapter(var context: Context, var list: List<CommonShopsItemMode
             }
 
             OFFERS-> {
-                holder.itemView.tvMRPOffer.paintFlags=holder.itemView.tvMRPOffer.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
                 CommonUtils.setRoundImage(context,holder.itemView.ivOffers,holder.itemView.lvOffers,list.get(position).image!!)
                 holder.itemView.tvOfferTitle.text=list.get(position).name
                 holder.itemView.tvOfferDes.text=list.get(position).description
                 holder.itemView.tvSPOffer.text="SAR "+list.get(position).mrp
+                holder.itemView.tvMRPOffer.paintFlags=holder.itemView.tvMRPOffer.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
+                holder.itemView.tvMRPOffer.text="SAR "+list.get(position).offer_price
             }
         }
     }
@@ -78,20 +81,22 @@ class CommonHomeAdapter(var context: Context, var list: List<CommonShopsItemMode
              {
                  //Offers
                  R.id.clMainOffers-> {
-                     val intent=Intent(context,OfferDetailActivity::class.java)
-                     intent.putExtra("offer_id",""+list.get(adapterPosition).id)
-                     intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                     val intent:Intent?
+                     if(prefs.jwtToken!!.equals("")) intent = Intent(context, LoginActivity::class.java)
+                     else intent = Intent(context, OfferDetailActivity::class.java)
+                     intent.putExtra("offer_id", "" + list.get(adapterPosition).id)
+                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                      context.startActivity(intent)
                  }
 
                  //Shops
                  R.id.clMain -> { storeDetailIntent(""+list.get(adapterPosition).id) }
+
                  R.id.ivFav -> {
                    if(prefs.jwtToken!!.equals("")) {
                          val intent = Intent(context, LoginActivity::class.java)
                          intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
                          context.startActivity(intent)
-
                      }
                    else {
                          if(!list.get(adapterPosition).favourite.equals("yes")) {

@@ -120,10 +120,10 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
     override fun myObserver() {
         mainViewModel.response.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) tvDeliveryAddress.setText(it.default_address!!.address)
-            else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) tvDeliveryAddress.text="Please Add Address" })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) tvDeliveryAddress.text="Please Add Address" })
         mainViewModel.logoutResponse.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) { logoutUser(it) }
-            else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
         mainViewModel.error.observe(this, Observer{ ErrorUtil.handlerGeneralError(this, it) })
     }
 
