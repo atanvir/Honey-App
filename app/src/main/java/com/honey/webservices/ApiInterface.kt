@@ -148,7 +148,8 @@ interface ApiInterface {
     @POST(ApiConstant.ADD_REVIEW)
     fun addReview(@Field("token") token: String,
                   @Field("review") review:String,
-                  @Field("type") type:String): Observable<CommonListModel>
+                  @Field("type") type:String,
+                  @Field("product_id") product_id:String): Observable<CommonListModel>
 
     @Multipart
     @POST(ApiConstant.CONTACT_US)

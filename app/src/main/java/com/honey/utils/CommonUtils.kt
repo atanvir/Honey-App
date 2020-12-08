@@ -150,6 +150,7 @@ class CommonUtils {
             return isConnected
         }
 
+
         fun isOnline(context: Context): Boolean {
             return try {
                 val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -167,9 +168,9 @@ class CommonUtils {
                 println("" + e)
                 false
             }
-        }
+       }
 
-        fun showLoadingDialog(activity: Activity?) {
+       fun showLoadingDialog(activity: Activity?) {
             if (customProgressBar == null) customProgressBar = CustomProgressBar.show(activity, true)
             try {
                 customProgressBar!!.setCancelable(false)

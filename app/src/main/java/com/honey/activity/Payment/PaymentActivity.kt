@@ -84,9 +84,7 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
                 Log.e("distance", it.routes!!.get(0).legs!!.get(0).distance!!.text!!)
 
                 if (it.routes!!.get(0).legs!!.get(0).distance!!.text!!.contains("km")) {
-                    val kms =
-                        it.routes!!.get(0).legs!!.get(0).distance!!.text!!.split("km")[0].trim()
-                            .toLong()
+                    val kms = it.routes!!.get(0).legs!!.get(0).distance!!.text!!.split("km")[0].trim().toLong()
                     if (kms > 25) {
                         val q = kms / 25
                         tvShippingCharges.text = "" + (1 * 40)
@@ -95,8 +93,7 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
                     } else if (kms <= 25) {
                         tvShippingCharges.text = "20"
                     }
-                    tvTotal.text =
-                        "" + (prefs.total.toLong() + tvShippingCharges.text.toString().toLong())
+                    tvTotal.text = "" + (prefs.total.toLong() + tvShippingCharges.text.toString().toLong())
                 }
             }catch (e:Exception)
             {

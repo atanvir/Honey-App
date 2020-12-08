@@ -21,9 +21,9 @@ class ReviewViewModel : BaseViewModel(){
         apiInterface.allReviews(type,id).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onSuccess(it) }, { onFailure(it) })
     }
 
-    fun addReviewApi(context:Context,token:String,review:String,type:String){
+    fun addReviewApi(context:Context,token:String,review:String,type:String,product_id:String){
         CommonUtils.showLoadingDialog(context as Activity)
-        apiInterface.addReview(token=token,review=review,type=type).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onAddReviewSuccess(it) }, { onFailure(it) })
+        apiInterface.addReview(token=token,review=review,type=type,product_id=product_id).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onAddReviewSuccess(it) }, { onFailure(it) })
     }
 
     private fun onAddReviewSuccess(response: CommonListModel) {

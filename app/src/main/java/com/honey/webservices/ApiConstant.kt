@@ -4,7 +4,6 @@ import java.io.Serializable
 
 class ApiConstant : Serializable {
     companion object {
-
         // Project Api's
         const val SEARCH= "search"
         const val HOME_PRODUCT="home_product"

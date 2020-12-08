@@ -142,8 +142,8 @@ class ShopDetailsActivity : BaseActivity(), View.OnClickListener, HomeOptionAdap
         tvAddress.text=response!!.storeModel!!.address
         tvRating.text=""+response!!.storeModel!!.rating
         tvTime.text=""+response!!.storeModel!!.deliveryTime+" Days"
-        if(response.total_rating.equals("0")) tvReviews.text="(+ "+response!!.total_rating +" review )"
-        else tvReviews.text="(+ "+response!!.total_rating +" reviews )"
+        if(response.review!!.size==0) tvReviews.text="(+ "+response.review!!.size +" review )"
+        else tvReviews.text="(+ "+response.review!!.size +" reviews )"
         CommonUtils.setRoundImage(this,ivShopCover,lvShopCoverDetail,""+response!!.storeModel!!.cover_image)
 
         // Select Option

@@ -134,8 +134,8 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
         CommonUtils.setRoundImage(this, ivProductPic, lvProductDetail, response!!.images!!)
         tvName.text=response.name
         tvRating.text = "" + response.rating
-        if(response.total_rating.equals("0")) tvReviews.text="(+ 0 review)"
-        else tvReviews.text="(+"+response.total_rating+" reviews)"
+        if(response.review!!.size==0) tvReviews.text="(+ 0 review)"
+        else tvReviews.text="(+"+response.review!!.size+" reviews)"
         tvSellingPrice.text ="SAR "+response.sp
         tvDesc.text=response.description
         readMore(this,tvDesc,3)

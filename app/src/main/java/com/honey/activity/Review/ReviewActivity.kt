@@ -68,7 +68,7 @@ class ReviewActivity : BaseActivity(), TextView.OnEditorActionListener {
 
     override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
         if(actionId== EditorInfo.IME_ACTION_DONE){
-            reviewViewModel.addReviewApi(this,prefs.jwtToken!!,etReview.text.toString(),intent.getStringExtra("type")!!)
+            reviewViewModel.addReviewApi(this,prefs.jwtToken!!,etReview.text.toString(),intent.getStringExtra("type")!!,intent.getStringExtra("id")!!)
         }
         return false
     }

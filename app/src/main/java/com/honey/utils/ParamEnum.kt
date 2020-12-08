@@ -1,7 +1,6 @@
 package com.honey.utils
 
 enum class ParamEnum {
-
     SUCCESS("SUCCESS"),
     STORE_ID("store_id"),
     FAILURE("FAILURE"),

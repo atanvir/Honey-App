@@ -93,7 +93,6 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
             .addOnConnectionFailedListener(this)
             .build()
         googleApiClient!!.connect()
-        createLocationRequest()
     }
 
     override fun onPause() {
@@ -110,20 +109,18 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
         }
     }
 
-    fun  createLocationRequest() {
+    fun  createLocationRequest() : LocationRequest? {
         locationRequest = LocationRequest.create()
         locationRequest!!.setInterval(2000)
         locationRequest!!.setFastestInterval(10 * 1000.toLong())
         locationRequest!!.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        return locationRequest
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     fun loadCurrentLoc() {
         try {
             locationCallback=object: LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
-                    Log.e(TAG(this), "" + locationResult)
                     for (location in locationResult.locations) {
                         if (location != null) {
                             locationCallBack(location)
@@ -139,6 +136,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
                 }
             }
             else {
+                mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
                 mFusedLocationClient!!.lastLocation.addOnSuccessListener(this)
             }
         } catch (e: Exception) {
@@ -147,19 +145,20 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
     }
     fun locationCallBack(location: Location?) {
         lat = location!!.latitude
-        lng = location!!.longitude
+        lng = location.longitude
         init()
         initControl()
         myObserver()
     }
 
     fun setUpLocationSettingsTaskStuff() {
-        val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest!!)
+        val builder = LocationSettingsRequest.Builder().addLocationRequest(createLocationRequest()!!)
         builder.setAlwaysShow(true)
         val client = LocationServices.getSettingsClient(requireActivity())
         val task = client.checkLocationSettings(builder.build())
         task.addOnSuccessListener { loadCurrentLoc() }
-        task.addOnFailureListener { e -> if (e is ResolvableApiException) {
+        task.addOnFailureListener { e ->
+            if (e is ResolvableApiException) {
                 try { e.startResolutionForResult(requireActivity(), PERMISSION_DIALOG_REQ)
                 }
                 catch (sendEx: IntentSender.SendIntentException) {
@@ -209,6 +208,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
         rvOptions.scheduleLayoutAnimation()
         Log.e(TAG(this),"Latitude : "+lat+" Longitude : "+lng)
         prefs.latitude=""+lat
+
         prefs.longitude=""+lng
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         homeViewModel.homeProductApi(requireActivity(), prefs.jwtToken!!, lat!!, lng!!)
@@ -220,6 +220,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
     }
 
     override fun myObserver(){
+
         homeViewModel.response.observe(requireActivity(), Observer {
             if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it.response)
             else if (it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(activity, it.message)
