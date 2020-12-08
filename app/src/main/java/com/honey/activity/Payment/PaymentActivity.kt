@@ -82,17 +82,19 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
         paymentViewModel.directionResponse.observe(this, Observer {
             try {
                 Log.e("distance", it.routes!!.get(0).legs!!.get(0).distance!!.text!!)
-
                 if (it.routes!!.get(0).legs!!.get(0).distance!!.text!!.contains("km")) {
                     val kms = it.routes!!.get(0).legs!!.get(0).distance!!.text!!.split("km")[0].trim().toLong()
                     if (kms > 25) {
                         val q = kms / 25
                         tvShippingCharges.text = "" + (1 * 40)
                         rbCOD.visibility = View.GONE
-
                     } else if (kms <= 25) {
                         tvShippingCharges.text = "20"
                     }
+                    tvTotal.text = "" + (prefs.total.toLong() + tvShippingCharges.text.toString().toLong())
+                }else if(it.routes!!.get(0).legs!!.get(0).distance!!.text!!.contains("m")){
+                    val kms = it.routes!!.get(0).legs!!.get(0).distance!!.text!!.split("m")[0].trim().toLong()
+                    tvShippingCharges.text = "20"
                     tvTotal.text = "" + (prefs.total.toLong() + tvShippingCharges.text.toString().toLong())
                 }
             }catch (e:Exception)

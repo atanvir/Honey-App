@@ -167,9 +167,7 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
         if(response!!.attributes!!.size>0)
         {
             if(response.attributes!!.get(0).image.equals("")  && response.attributes!!.get(0).labal==null) tvLabelSpecfication.visibility=View.GONE
-            else if(response.attributes!!.get(0).image==null  && response.attributes!!.get(0).labal.equals(
-                    ""
-                )) tvLabelSpecfication.visibility=View.GONE
+            else if(response.attributes!!.get(0).image==null  && response.attributes!!.get(0).labal.equals("")) tvLabelSpecfication.visibility=View.GONE
             else tvLabelSpecfication.visibility=View.VISIBLE
 
         }else{
