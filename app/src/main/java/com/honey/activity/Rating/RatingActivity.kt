@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.honey.R
 import com.honey.base.BaseActivity
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setToolbar
+import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import kotlinx.android.synthetic.main.activity_rating.*
@@ -29,7 +31,7 @@ class RatingActivity : BaseActivity(), View.OnClickListener {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        CommonUtils.setToolbar(this,"Add Review")
+        setToolbar(this,getString(R.string.add_review))
     }
 
     override fun init() {
@@ -46,7 +48,7 @@ class RatingActivity : BaseActivity(), View.OnClickListener {
             finish()
             Toast.makeText(this,it.message,Toast.LENGTH_LONG).show()
             }
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) {CommonUtils.showSnackBar(this,it.message)} })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) {showSnackBar(this,it.message)} })
 
         ratingViewModel.error.observe(this, Observer{ ErrorUtil.handlerGeneralError(this, it) })
 
@@ -72,10 +74,10 @@ class RatingActivity : BaseActivity(), View.OnClickListener {
         var ret=true
         if(ratingBar.rating.toString().equals("0.0") && rbStore.rating.toString().equals("0.0") && edSuggestion.text.toString().equals("")){
             ret=false
-            CommonUtils.showSnackBar(this,"Please give the rating first")
+            showSnackBar(this,getString(R.string.please_give_rating_first))
         }else if(edSuggestion.text.toString().equals("")){
             ret=false
-            CommonUtils.showSnackBar(this,"Please advice for better suggestions!")
+            showSnackBar(this,getString(R.string.please_advice_better_suggestion))
         }
 
         return ret

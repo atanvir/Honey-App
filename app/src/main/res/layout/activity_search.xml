@@ -26,10 +26,10 @@
       android:layout_marginTop="16dp"
       android:layout_marginEnd="16dp"
       android:background="@drawable/drawable_corners_storke"
-      android:drawableLeft="@drawable/search"
+      android:drawableStart="@drawable/bitmap_search_grey"
       android:drawablePadding="16dp"
-      android:hint="Honey Name"
-      android:paddingLeft="18dp"
+      android:hint="@string/honey_name"
+      android:paddingStart="18dp"
       android:textAlignment="viewStart"
       android:textColor="@color/edit_text_color"
       android:textColorHint="@color/edit_text_color"
@@ -90,7 +90,7 @@
       <com.google.android.material.tabs.TabItem
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:text="Honey Product">
+          android:text="@string/honey_product">
 
 
       </com.google.android.material.tabs.TabItem>
@@ -98,7 +98,7 @@
       <com.google.android.material.tabs.TabItem
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:text="Honey Stores">
+          android:text="@string/honey_stores">
 
 
       </com.google.android.material.tabs.TabItem>

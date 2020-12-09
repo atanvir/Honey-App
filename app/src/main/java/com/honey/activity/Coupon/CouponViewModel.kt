@@ -7,6 +7,8 @@ import com.honey.base.BaseViewModel
 import com.honey.model.request.CommonListModel
 import com.honey.model.request.CommonModel
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.dismissLoadingDialog
+import com.honey.utils.CommonUtils.Companion.showLoadingDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -16,31 +18,31 @@ class CouponViewModel: BaseViewModel() {
     var error = MutableLiveData<Throwable>()
 
     fun couponsListApi(context: Context){
-        CommonUtils.showLoadingDialog(context as Activity)
+        showLoadingDialog(context as Activity)
         apiInterface.coupons().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onSuccess(it) }, { onFailure(it) })
     }
 
     fun applyCouponApi(context: Context,token:String,couponCode:String){
-        CommonUtils.showLoadingDialog(context as Activity)
+        showLoadingDialog(context as Activity)
         apiInterface.applyCoupon(token,couponCode).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onApplySuccess(it) }, { onFailure(it) })
     }
 
 
     fun onApplySuccess(response: CommonModel){
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
         this.applyResponse.value=response
     }
 
 
     fun onSuccess(response: CommonListModel){
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
         this.response.value=response
     }
 
 
 
     fun onFailure(it : Throwable){
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
         error.value=it
     }
 }

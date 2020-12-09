@@ -17,6 +17,10 @@ import com.honey.adapter.OfferProductAdapter
 import com.honey.base.BaseActivity
 import com.honey.model.response.success.ResponseBean
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setNormalImage
+import com.honey.utils.CommonUtils.Companion.setRoundImage
+import com.honey.utils.CommonUtils.Companion.setToolbar
+import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension
@@ -36,7 +40,7 @@ class OfferDetailActivity : BaseActivity(), View.OnClickListener {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        CommonUtils.setToolbar(this,"")
+        setToolbar(this,"")
     }
 
     override fun init() {
@@ -52,7 +56,7 @@ class OfferDetailActivity : BaseActivity(), View.OnClickListener {
     override fun myObserver() {
         offerDetailViewModel.response.observe(this, Observer {
             if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUI(it.offer_detail)
-            else if (it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message)
+            else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message)
         })
         offerDetailViewModel.error.observe(this, Observer { ErrorUtil.handlerGeneralError(this, it) })
     }
@@ -60,14 +64,14 @@ class OfferDetailActivity : BaseActivity(), View.OnClickListener {
     private fun setDataToUI(response: ResponseBean?) {
 
         /* --Offer Details-- */
-        CommonUtils.setNormalImage(this,ivOfferPic,lvCoverOffer,response!!.images)
+        setNormalImage(this,ivOfferPic,lvCoverOffer,response!!.images)
         tvName.text=response.name
-        tvSellingPrice.text="SAR "+response.mrp
-        tvMRP.text="SAR "+response.offer_price
+        tvSellingPrice.text=getString(R.string.sar)+" "+response.mrp
+        tvMRP.text=getString(R.string.sar)+" "+response.offer_price
         tvDesc.text=response.description
 
         /* --Seller Deatils--*/
-        CommonUtils.setRoundImage(this,ivSeller,null,response.seller_image!!)
+        setRoundImage(this,ivSeller,null,response.seller_image!!)
         tvSellerName.text=response.seller_name
         tvSellerAddress.text=response.seller_address
 

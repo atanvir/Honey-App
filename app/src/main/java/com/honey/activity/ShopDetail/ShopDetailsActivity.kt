@@ -27,6 +27,11 @@ import com.honey.model.request.CommonModel
 import com.honey.model.response.success.CommonProductItemModel
 import com.honey.model.response.success.ResponseBean
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setRoundImage
+import com.honey.utils.CommonUtils.Companion.setToolbar
+import com.honey.utils.CommonUtils.Companion.showLoadingDialog
+import com.honey.utils.CommonUtils.Companion.showSnackBar
+import com.honey.utils.CommonUtils.Companion.startActivity
 import com.honey.utils.ErrorUtil
 import com.honey.utils.GuestData
 import com.honey.utils.ParamEnum
@@ -52,7 +57,7 @@ class ShopDetailsActivity : BaseActivity(), View.OnClickListener, HomeOptionAdap
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        CommonUtils.setToolbar(this,"")
+        setToolbar(this,"")
     }
 
     override fun init() {
@@ -68,11 +73,11 @@ class ShopDetailsActivity : BaseActivity(), View.OnClickListener, HomeOptionAdap
     override fun myObserver(){
         shopViewModel.response.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it.response)
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
 
         shopViewModel.onProductResponse.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setProductByCategory(it.response)
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
 
         shopViewModel.onCartResponse.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkData(it)
@@ -80,19 +85,19 @@ class ShopDetailsActivity : BaseActivity(), View.OnClickListener, HomeOptionAdap
 
         shopViewModel.onFavResponse.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkFavData(it)
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
         shopViewModel.error.observe(this,Observer{ErrorUtil.handlerGeneralError(this, it) })
     }
 
     private fun checkFavData(response: CommonModel?) {
-        if(response!!.message.equals("Product removed from wishlist successfully"))
+        if(response!!.message.equals(getString(R.string.product_removed_from_wishlist)))
         {
             categoryList!!.get(pos!!).favourite = "no"
             rvShops.adapter!!.notifyItemChanged(pos!!)
-        }else if(response.message.equals("Product added to wishlist successfully")){
+        }else if(response.message.equals(getString(R.string.product_added_to_wishlist))){
             categoryList!!.get(pos!!).favourite = "yes"
             rvShops.adapter!!.notifyItemChanged(pos!!)
-        }else if(response.message.equals("Store added to wishlist successfully"))
+        }else if(response.message.equals(getString(R.string.store_added_to_wishlist)))
         {
             ivHeart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.bitmap_fav_in))
         }
@@ -101,12 +106,12 @@ class ShopDetailsActivity : BaseActivity(), View.OnClickListener, HomeOptionAdap
         }
     }
     private fun checkData(response: CommonModel?) {
-        if(response!!.message.equals("Product added to Cart successfully")) {
+        if(response!!.message.equals(getString(R.string.product_added_to_cart))) {
             categoryList!!.get(pos!!).havecart = "yes"
             rvShops.adapter!!.notifyItemChanged(pos!!)
         }else
         {
-            CommonUtils.showSnackBar(this,response.message)
+            showSnackBar(this,response.message)
         }
     }
     private fun showAlertDialog() {
@@ -137,14 +142,14 @@ class ShopDetailsActivity : BaseActivity(), View.OnClickListener, HomeOptionAdap
         rvOptions.adapter=HomeOptionAdapter(this,"", response!!.storeModel!!.type,null)
         rvOptions.scheduleLayoutAnimation()
 
-        CommonUtils.setRoundImage(this,ivShop,lvShopDetail,""+response!!.storeModel!!.image)
+        setRoundImage(this,ivShop,lvShopDetail,""+response!!.storeModel!!.image)
         tvShopName.text=response!!.storeModel!!.name
         tvAddress.text=response!!.storeModel!!.address
         tvRating.text=""+response!!.storeModel!!.rating
-        tvTime.text=""+response!!.storeModel!!.deliveryTime+" Days"
-        if(response.review!!.size==0) tvReviews.text="(+ "+response.review!!.size +" review )"
-        else tvReviews.text="(+ "+response.review!!.size +" reviews )"
-        CommonUtils.setRoundImage(this,ivShopCover,lvShopCoverDetail,""+response!!.storeModel!!.cover_image)
+        tvTime.text=""+response!!.storeModel!!.deliveryTime+" "+getString(R.string.day)
+        if(response.review!!.size==0) tvReviews.text="(+ "+response.review!!.size +" "+getString(R.string.review)+ " )"
+        else tvReviews.text="(+ "+response.review!!.size +" "+getString(R.string.review)+" )"
+        setRoundImage(this,ivShopCover,lvShopCoverDetail,""+response!!.storeModel!!.cover_image)
 
         // Select Option
         val selectOption = LinearLayoutManager(this)
@@ -210,7 +215,7 @@ class ShopDetailsActivity : BaseActivity(), View.OnClickListener, HomeOptionAdap
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                 }else {
-                    CommonUtils.showLoadingDialog(this)
+                    showLoadingDialog(this)
                     shopViewModel.addToWishApi(prefs.jwtToken!!, intent.getStringExtra("store_id")!!, "" + ParamEnum.STORE.theValue())
                 }
             }
@@ -227,7 +232,7 @@ class ShopDetailsActivity : BaseActivity(), View.OnClickListener, HomeOptionAdap
     }
     override fun onFav(pos: Int,product_id: String) {
         this.pos=pos
-        if(prefs.jwtToken.equals("")) CommonUtils.startActivity(this,LoginActivity::class.java)
+        if(prefs.jwtToken.equals("")) startActivity(this,LoginActivity::class.java)
         else shopViewModel.addToWishApi(prefs.jwtToken!!,product_id,""+ParamEnum.PRODUCT.theValue())
     }
 }

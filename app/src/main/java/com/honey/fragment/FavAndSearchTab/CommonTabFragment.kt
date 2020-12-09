@@ -18,6 +18,8 @@ import com.honey.base.BaseFragment
 import com.honey.model.request.CommonModel
 import com.honey.model.response.success.ProductDetailModel
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.showLoadingDialog
+import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension.observeOnce
@@ -40,7 +42,7 @@ class CommonTabFragment(var pos : Int,var screen: String) : BaseFragment(), Comm
         commonTabViewModel=ViewModelProviders.of(requireActivity()).get(CommonTabViewModel::class.java)
         if(screen.equals("Search"))
         {
-            CommonUtils.showLoadingDialog(requireActivity())
+            showLoadingDialog(requireActivity())
             SearchActivity.setOnSearchKeyListner(this)
             if(pos==0) commonTabViewModel.searchApi(prefs.jwtToken!!,"","","","","","")
             else commonTabViewModel.searchApi(prefs.jwtToken!!,"","","","","","")
@@ -58,16 +60,16 @@ class CommonTabFragment(var pos : Int,var screen: String) : BaseFragment(), Comm
     override fun myObserver() {
         commonTabViewModel.response.observeOnce(requireActivity(), Observer {
         if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it!!)
-        else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(requireActivity(),it.message) })
+        else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(requireActivity(),it.message) })
 
         commonTabViewModel.onSearchResponse.observe(requireActivity(), Observer {
         if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it!!)
-        else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(requireActivity(),it.message) })
+        else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(requireActivity(),it.message) })
 
         commonTabViewModel.onFavResponse.observeOnce(requireActivity(), Observer {
         if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) removeData(it!!)
 
-        else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(requireActivity(),it.message) })
+        else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(requireActivity(),it.message) })
         commonTabViewModel.error.observeOnce(requireActivity(), Observer{ ErrorUtil.handlerGeneralError(requireActivity(), it) })
     }
 

@@ -1,5 +1,6 @@
 package com.honey.activity.Main
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -37,8 +38,14 @@ import com.honey.activity.Webview.WebviewActivity
 import com.honey.firebase.MyFirebaseMessageService
 import com.honey.model.request.CommonModel
 import com.honey.utils.CommonUtils.Companion.PERMISSION_DIALOG_REQ
+import com.honey.utils.CommonUtils.Companion.getDeviceToken
+import com.honey.utils.CommonUtils.Companion.loadFragment
+import com.honey.utils.CommonUtils.Companion.setRoundImage
+import com.honey.utils.CommonUtils.Companion.showSnackBar
+import com.honey.utils.CommonUtils.Companion.startActivity
 import com.honey.utils.ViewExtension.TAG
 import com.honey.utils.ViewExtension.observeOnce
+import com.honey.utils.ViewExtension.setLocale
 import com.honey.webservices.ApiConstant
 import kotlinx.android.synthetic.main.layout_drawer.tvName
 
@@ -60,11 +67,11 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
 
     override fun onResume() {
         super.onResume()
-        Log.e("image","--->"+prefs.image!!)
+        setLocale(this)
         lvProfile.visibility=View.VISIBLE
         lvProfileHome.visibility=View.VISIBLE
-        CommonUtils.setRoundImage(this,ivProfile,lvProfileHome,prefs.image!!)
-        CommonUtils.setRoundImage(this,ivProfileHome,lvProfile,prefs.image!!)
+        setRoundImage(this,ivProfile,lvProfileHome,prefs.image!!)
+        setRoundImage(this,ivProfileHome,lvProfile,prefs.image!!)
         tvName.setText(prefs.name)
         if(prefs.jwtToken.equals("")) btnLogout.visibility=View.GONE
         else btnLogout.visibility=View.VISIBLE
@@ -101,29 +108,29 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
 
         if(intent.getStringExtra("cameFrom").equals(MyFirebaseMessageService::class.simpleName))
         {
-            CommonUtils.loadFragment(this, this.supportFragmentManager, notificationFragment)
+            loadFragment(this, this.supportFragmentManager, notificationFragment)
             clAddress.visibility = View.GONE
             tvTitle.visibility = View.VISIBLE
-            tvTitle.text = "Notifications"
+            tvTitle.text = getString(R.string.notification)
             bottomNavigationView.menu.getItem(3).setChecked(true)
         }else {
-            CommonUtils.loadFragment(this, this.supportFragmentManager, bagFragment)
+            loadFragment(this, this.supportFragmentManager, bagFragment)
             clAddress.visibility = View.GONE
             tvTitle.visibility = View.VISIBLE
-            tvTitle.text = "Cart"
+            tvTitle.text = getString(R.string.cart)
             bottomNavigationView.menu.getItem(1).setChecked(true)
         }
     }
-    else { CommonUtils.loadFragment(this,this.supportFragmentManager,homeFragment) }
+    else { loadFragment(this,this.supportFragmentManager,homeFragment) }
     }
 
     override fun myObserver() {
         mainViewModel.response.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) tvDeliveryAddress.setText(it.default_address!!.address)
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) tvDeliveryAddress.text="Please Add Address" })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) tvDeliveryAddress.text=getString(R.string.please_add_address) })
         mainViewModel.logoutResponse.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) { logoutUser(it) }
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
         mainViewModel.error.observe(this, Observer{ ErrorUtil.handlerGeneralError(this, it) })
     }
 
@@ -133,39 +140,39 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
         prefs.deletePreferences()
         prefs.isFirstTime=true
         prefs.isLanguageFirstTime=true
-        CommonUtils.getDeviceToken(prefs)
-        CommonUtils.setRoundImage(this,ivProfile,null,prefs.image!!)
-        CommonUtils.setRoundImage(this,ivProfileHome,lvProfile,prefs.image!!)
+        getDeviceToken(prefs)
+        setRoundImage(this,ivProfile,null,prefs.image!!)
+        setRoundImage(this,ivProfileHome,lvProfile,prefs.image!!)
         tvName.setText(prefs.name)
-        tvDeliveryAddress.text="Please Add Address"
+        tvDeliveryAddress.text=getString(R.string.please_add_address)
     }
 
     override fun onClick(p0: View?) {
         when(p0!!.id) {
             R.id.btnLogout ->{ mainViewModel.logoutApi(this,prefs.jwtToken!!) }
             R.id.ivDrawer -> { drawerLayout.openDrawer(GravityCompat.START) }
-            R.id.clMyOrders -> { CommonUtils.startActivity(this, OrderActivity::class.java) }
-            R.id.clMyProfile -> { CommonUtils.startActivity(this, MyProfileActivity::class.java) }
-            R.id.clDeliveryAddress -> { CommonUtils.startActivity(this, DeliveryAddressActivity::class.java) }
+            R.id.clMyOrders -> { startActivity(this, OrderActivity::class.java) }
+            R.id.clMyProfile -> { startActivity(this, MyProfileActivity::class.java) }
+            R.id.clDeliveryAddress -> { startActivity(this, DeliveryAddressActivity::class.java) }
             R.id.clContactUs -> {
                 intent = Intent(this, ContactUsActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
             }
-            R.id.clAboutUs -> { intentWebView("About Us",ApiConstant.ABOUT_US) }
-            R.id.ClTerms -> { intentWebView("Terms and Conditions",ApiConstant.TERM_AND_CONDITION) }
-            R.id.ClPrivacyPolicy -> { intentWebView("Privacy Policy",ApiConstant.PRIVACY_POLICY) }
+            R.id.clAboutUs -> { intentWebView(getString(R.string.about_us),ApiConstant.ABOUT_US) }
+            R.id.ClTerms -> { intentWebView(getString(R.string.term_conditions),ApiConstant.TERM_AND_CONDITION) }
+            R.id.ClPrivacyPolicy -> { intentWebView(getString(R.string.privacy_policy),ApiConstant.PRIVACY_POLICY) }
             R.id.ClChangeLanguage -> {
                 val intent = Intent(this, SelectLanguageActivity::class.java)
                 intent.putExtra("cameFrom","Main Screen")
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
             }
-            R.id.clFaq -> { CommonUtils.startActivity(this, FAQsActivity::class.java) }
-            R.id.ivProfile -> { CommonUtils.startActivity(this, MyProfileActivity::class.java) }
+            R.id.clFaq -> { startActivity(this, FAQsActivity::class.java) }
+            R.id.ivProfile -> { startActivity(this, MyProfileActivity::class.java) }
             R.id.clAddress -> {
                 prefs.cameFrom= MainActivity::class.simpleName!!
-                CommonUtils.startActivity(this, SearchLocationActivity::class.java)
+                startActivity(this, SearchLocationActivity::class.java)
             }
         }
     }
@@ -178,6 +185,7 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
         startActivity(intent)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId)
         {
@@ -185,7 +193,7 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
             drawerLayout.closeDrawers()
             clAddress.visibility=View.VISIBLE
             tvTitle.visibility=View.GONE
-            CommonUtils.loadFragment(this,this.supportFragmentManager,homeFragment)
+            loadFragment(this,this.supportFragmentManager,homeFragment)
             return true
             }
 
@@ -193,8 +201,8 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
             drawerLayout.closeDrawers()
             clAddress.visibility=View.GONE
             tvTitle.visibility=View.VISIBLE
-            tvTitle.text="Cart"
-            CommonUtils.loadFragment(this,this.supportFragmentManager,bagFragment)
+            tvTitle.text=getString(R.string.cart)
+            loadFragment(this,this.supportFragmentManager,bagFragment)
             return true
             }
 
@@ -204,9 +212,9 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
             {
                 clAddress.visibility=View.GONE
                 tvTitle.visibility=View.VISIBLE
-                tvTitle.text="Favorites"
+                tvTitle.text=getString(R.string.favorites)
             }
-            CommonUtils.loadFragment(this,this.supportFragmentManager,FavoriteFragment())
+            loadFragment(this,this.supportFragmentManager,FavoriteFragment())
             return true
             }
 
@@ -216,9 +224,9 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
             {
                 clAddress.visibility=View.GONE
                 tvTitle.visibility=View.VISIBLE
-                tvTitle.text="Notifications"
+                tvTitle.text=getString(R.string.notification)
             }
-            CommonUtils.loadFragment(this,this.supportFragmentManager,notificationFragment)
+            loadFragment(this,this.supportFragmentManager,notificationFragment)
             return true
             }
         }
@@ -233,7 +241,7 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
         }
 
         this.doubleBackToExitPressedOnce = true
-        CommonUtils.showSnackBar(this,"Please click Back again to exit")
+        showSnackBar(this,getString(R.string.press_again_to_exit))
         Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
     }
 

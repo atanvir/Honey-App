@@ -12,6 +12,7 @@ import com.honey.model.response.success.CartListModel
 import com.honey.model.response.success.ProductDetailModel
 import com.honey.model.response.success.ResponseBean
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setRoundImage
 import kotlinx.android.synthetic.main.adapter_bag_item.view.*
 import kotlinx.android.synthetic.main.adapter_bag_item.view.ivProductPic
 import kotlinx.android.synthetic.main.adapter_bag_item.view.lvCart
@@ -27,10 +28,10 @@ class OfferProductAdapter(var context: Context, var list: List<ProductDetailMode
     override fun getItemId(position: Int): Long =position.toLong()
     override fun getItemViewType(position: Int):Int=position
     override fun onBindViewHolder(holder: OfferProductAdapter.MyViewHolder, position: Int) {
-        CommonUtils.setRoundImage(context,holder.itemView.ivProductPic,holder.itemView.lvCart,list.get(position).images!!)
+        setRoundImage(context,holder.itemView.ivProductPic,holder.itemView.lvCart,list.get(position).images!!)
         holder.itemView.tvProductName.text=list.get(position).name
         holder.itemView.tvProductDescription.text=list.get(position).categoryId
-        holder.itemView.tvSellingPrice.text="SAR "+list.get(position).mrp
+        holder.itemView.tvSellingPrice.text=context.getString(R.string.sar)+" "+list.get(position).mrp
         holder.itemView.tvQuantity.text="x"+list.get(position).quantity
     }
    inner class  MyViewHolder(viewHolder: View): RecyclerView.ViewHolder(viewHolder) {

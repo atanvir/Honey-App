@@ -23,6 +23,10 @@ import com.honey.model.request.CommonModel
 import com.honey.model.response.success.CartListModel
 import com.honey.model.response.success.ResponseBean
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.getGuestData
+import com.honey.utils.CommonUtils.Companion.showLoadingDialog
+import com.honey.utils.CommonUtils.Companion.showSnackBar
+import com.honey.utils.CommonUtils.Companion.startActivity
 import com.honey.utils.ErrorUtil
 import com.honey.utils.GuestData
 import com.honey.utils.ParamEnum
@@ -55,16 +59,16 @@ class BagFragment : BaseFragment(), View.OnClickListener, BagItemAdapter.setOnBa
     override fun init() {
         guestData()
         bagViewModel=ViewModelProviders.of(requireActivity()).get(BagViewModel::class.java)
-        CommonUtils.showLoadingDialog(requireActivity())
+        showLoadingDialog(requireActivity())
         bagViewModel.cartListApi(prefs.jwtToken!!,cart_id,quantity)
     }
 
     private fun guestData() {
         if(prefs.jwtToken!!.equals(""))
         {
-            cart_id=CommonUtils.getGuestData(""+ParamEnum.PRODUCT_ID.theValue())
-            seller_id=CommonUtils.getGuestData(""+ParamEnum.SELLER_ID.theValue())
-            quantity=CommonUtils.getGuestData(""+ParamEnum.QUANTITY.theValue())
+            cart_id=getGuestData(""+ParamEnum.PRODUCT_ID.theValue())
+            seller_id=getGuestData(""+ParamEnum.SELLER_ID.theValue())
+            quantity=getGuestData(""+ParamEnum.QUANTITY.theValue())
         }
     }
 
@@ -82,22 +86,22 @@ class BagFragment : BaseFragment(), View.OnClickListener, BagItemAdapter.setOnBa
 
         bagViewModel.response.observe(requireActivity(), Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it)
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(activity,it.message)
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity,it.message)
         })
 
         bagViewModel.updateCartResponse.observe(requireActivity(), Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) responseHandler()
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(activity,it.message)
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity,it.message)
         })
 
         bagViewModel.removeCartResponse.observe(requireActivity(), Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) responseHandler()
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(activity,it.message)
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity,it.message)
         })
 
         bagViewModel.removeCouponResponse.observe(requireActivity(), Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) bagViewModel.cartListApi(prefs.jwtToken!!,cart_id,quantity)
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(activity,it.message)
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity,it.message)
         })
 
         bagViewModel.error.observe(requireActivity(),Observer{ ErrorUtil.handlerGeneralError(requireActivity(), it) })
@@ -109,7 +113,7 @@ class BagFragment : BaseFragment(), View.OnClickListener, BagItemAdapter.setOnBa
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setDataToUi(response: CommonModel?) {
-        if(response!!.message.equals("No Item in a cart"))
+        if(response!!.message.equals(getString(R.string.no_item_cart)))
         {
             mainCl.visibility = View.GONE
             clNoItem.visibility=View.VISIBLE
@@ -139,7 +143,7 @@ class BagFragment : BaseFragment(), View.OnClickListener, BagItemAdapter.setOnBa
             if(response.cart_list!!.Cart_amount!!.discounted_amount==0L)  {
                 isCouponApplied=false
                 clCoupon.backgroundTintList=requireActivity().getColorStateList(R.color.app_theme_organe)
-                tvLabelCoupon.text="Apply Coupon"
+                tvLabelCoupon.text=getString(R.string.apply_coupon)
                 prefs.coupon_code=""
                 ivArrowCoupon.setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.bitmap_arrow))
                 clDiscount.visibility=View.GONE }
@@ -147,7 +151,7 @@ class BagFragment : BaseFragment(), View.OnClickListener, BagItemAdapter.setOnBa
                 isCouponApplied=true
                 clCoupon.backgroundTintList=requireActivity().getColorStateList(R.color.green)
                 prefs.coupon_code=response.cart_list.cart_list!!.get(0).couponCode
-                tvLabelCoupon.text="Applied code: "+response.cart_list.cart_list!!.get(0).couponCode
+                tvLabelCoupon.text=getString(R.string.applied_code)+" "+response.cart_list.cart_list!!.get(0).couponCode
                 ivArrowCoupon.setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.remove))
             }
             clShippingCharges.visibility=View.GONE
@@ -155,9 +159,9 @@ class BagFragment : BaseFragment(), View.OnClickListener, BagItemAdapter.setOnBa
             tvTotal.text = "" + response.cart_list!!.Cart_amount!!.total
             tvDiscount.text = "" + response.cart_list!!.Cart_amount!!.discounted_amount
             if (response.cart_list.cart_list!!.size > 1) {
-                tvItems.text = "( " + response.cart_list!!.cart_list!!.size + " items )"
+                tvItems.text = "( " + response.cart_list!!.cart_list!!.size + " "+getString(R.string.items)+" )"
             } else {
-                tvItems.text = "( " + response.cart_list!!.cart_list!!.size + " item )"
+                tvItems.text = "( " + response.cart_list!!.cart_list!!.size + " "+getString(R.string.item)+")"
             }
         }
         else{
@@ -178,8 +182,8 @@ class BagFragment : BaseFragment(), View.OnClickListener, BagItemAdapter.setOnBa
                 Log.e("Longitude",""+cartData!!.longitude)
                 prefs.latitude=""+cartData!!.latitude
                 prefs.longitude= ""+cartData!!.longitude
-                if(prefs.isLogin!!) CommonUtils.startActivity(requireActivity(), PaymentActivity::class.java)
-                else CommonUtils.startActivity(requireActivity(), LoginActivity::class.java) }
+                if(prefs.isLogin!!) startActivity(requireActivity(), PaymentActivity::class.java)
+                else startActivity(requireActivity(), LoginActivity::class.java) }
             R.id.clCoupon ->{
                 val intent=Intent(requireActivity(),CouponActivity::class.java)
                 startActivityForResult(intent,APPLY_COUPON_REQ)
@@ -195,10 +199,10 @@ class BagFragment : BaseFragment(), View.OnClickListener, BagItemAdapter.setOnBa
         {
             GuestData.instance!!.removeData(productId)
             guestData()
-            CommonUtils.showLoadingDialog(requireActivity())
+            showLoadingDialog(requireActivity())
             bagViewModel.cartListApi(prefs.jwtToken!!,cart_id,this.quantity)
         }else {
-            CommonUtils.showLoadingDialog(requireActivity())
+            showLoadingDialog(requireActivity())
             bagViewModel.removeToCartApi(requireActivity(), productId, prefs.jwtToken!!, quantity)
         }
     }
@@ -207,11 +211,11 @@ class BagFragment : BaseFragment(), View.OnClickListener, BagItemAdapter.setOnBa
         {
             GuestData.instance!!.updateQuantity(quantity.toLong(),productId)
             guestData()
-            CommonUtils.showLoadingDialog(requireActivity())
+            showLoadingDialog(requireActivity())
             bagViewModel.cartListApi(prefs.jwtToken!!,cart_id,this.quantity)
         }
         else {
-            CommonUtils.showLoadingDialog(requireActivity())
+            showLoadingDialog(requireActivity())
             bagViewModel.updateCartApi(requireActivity(), productId, prefs.jwtToken!!, quantity)
         }
     }
@@ -222,7 +226,7 @@ class BagFragment : BaseFragment(), View.OnClickListener, BagItemAdapter.setOnBa
             APPLY_COUPON_REQ ->{
              if(resultCode==RESULT_OK)
              {
-                 CommonUtils.showLoadingDialog(requireActivity())
+                 showLoadingDialog(requireActivity())
                  bagViewModel.cartListApi(prefs.jwtToken!!,cart_id,quantity)
              }
 

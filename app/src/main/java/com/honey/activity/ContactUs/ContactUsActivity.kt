@@ -24,6 +24,10 @@ import com.honey.model.request.CommonModel
 import com.honey.model.request.ContactUsModel
 import com.honey.model.request.UserProfileModel
 import com.honey.utils.*
+import com.honey.utils.CommonUtils.Companion.getPickIntent
+import com.honey.utils.CommonUtils.Companion.setRoundImage
+import com.honey.utils.CommonUtils.Companion.setToolbar
+import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.ViewExtension.observeOnce
 import kotlinx.android.synthetic.main.activity_contact_us.*
 import kotlinx.android.synthetic.main.activity_my_profile.*
@@ -49,7 +53,7 @@ class ContactUsActivity : BaseActivity(), View.OnClickListener {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        CommonUtils.setToolbar(this,"Contact Us")
+        setToolbar(this,getString(R.string.contact_us))
     }
 
     override fun init() {
@@ -65,7 +69,7 @@ class ContactUsActivity : BaseActivity(), View.OnClickListener {
     override fun myObserver() {
         contactUsViewModel.response.observe(this, Observer {
         if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkData(it)
-        else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+        else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
         contactUsViewModel.error.observe(this, Observer{ ErrorUtil.handlerGeneralError(this, it) })
     }
 
@@ -105,15 +109,15 @@ class ContactUsActivity : BaseActivity(), View.OnClickListener {
         var ret=true
         if(edReason.text.toString().trim().length==0){
             ret=false
-            CommonUtils.showSnackBar(this,"Please specify reason")
+            showSnackBar(this,getString(R.string.please_specify_reason))
         }
         else if(edQuery.text.toString().trim().length==0){
             ret=false
-            CommonUtils.showSnackBar(this,"Please specify query")
+            showSnackBar(this,getString(R.string.please_specify_query))
         }
         else if(path==null){
             ret=false
-            CommonUtils.showSnackBar(this,"Please upload photo")
+            showSnackBar(this,getString(R.string.please_upload_photo))
         }
         return ret
     }
@@ -140,7 +144,7 @@ class ContactUsActivity : BaseActivity(), View.OnClickListener {
         }
         path = capture_dir + System.currentTimeMillis() + ".jpg"
         val imageFileUri = FileProvider.getUriForFile(applicationContext, BuildConfig.APPLICATION_ID + ".provider", File(path!!))
-        val intent = CommonUtils.getPickIntent(this, imageFileUri)
+        val intent = getPickIntent(this, imageFileUri)
         startActivityForResult(intent, IMAGE_REQ)
     }
 
@@ -155,7 +159,7 @@ class ContactUsActivity : BaseActivity(), View.OnClickListener {
                 {
                     reqestDecline=true
                 }
-                if(reqestDecline) CommonUtils.showSnackBar(this,"Please allow the permission for the security purpose")
+                if(reqestDecline) showSnackBar(this,getString(R.string.please_allow_permission_for_security))
                 else launchIntent()
                 }
             }
@@ -171,11 +175,10 @@ class ContactUsActivity : BaseActivity(), View.OnClickListener {
                ivQueryPhoto.visibility=View.VISIBLE
                if (data != null) {
                     path = FilePath.getPath(this, Uri.parse(data.getDataString()))
-                    path = path
-                    CommonUtils.setRoundImage(this, ivQueryPhoto, null, "" + Uri.parse(data.getDataString()))
+                    setRoundImage(this, ivQueryPhoto, null, "" + Uri.parse(data.getDataString()))
                 }
                else {
-                    CommonUtils.setRoundImage(this, ivQueryPhoto, null, "" + Uri.parse(path))
+                    setRoundImage(this, ivQueryPhoto, null, "" + Uri.parse(path))
                 }
             }
             }

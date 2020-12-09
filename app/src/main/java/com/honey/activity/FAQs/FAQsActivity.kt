@@ -11,6 +11,8 @@ import com.honey.adapter.FAQAdapter
 import com.honey.base.BaseActivity
 import com.honey.model.request.CommonModel
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setToolbar
+import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension.observeOnce
@@ -29,7 +31,7 @@ class FAQsActivity : BaseActivity() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        CommonUtils.setToolbar(this,"FAQs")
+        setToolbar(this,getString(R.string.faqs))
     }
 
     override fun init() {
@@ -43,7 +45,7 @@ class FAQsActivity : BaseActivity() {
     override fun myObserver() {
         faQsViewModel.response.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it)
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
         faQsViewModel.error.observe(this, Observer{ ErrorUtil.handlerGeneralError(this, it) })
     }
 

@@ -21,6 +21,8 @@ import com.honey.model.request.AddressModel
 import com.honey.model.request.CommonModel
 import com.honey.model.response.success.ResponseBean
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setToolbar
+import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension
@@ -54,8 +56,8 @@ class AddNewAddressActivity : BaseActivity(), View.OnClickListener, RadioGroup.O
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        if(intent.getStringExtra("id")!=null) CommonUtils.setToolbar(this,"Update Address")
-        else CommonUtils.setToolbar(this,"Add New Address")
+        if(intent.getStringExtra("id")!=null) setToolbar(this,getString(R.string.update_addres))
+        else setToolbar(this,getString(R.string.add_new_address))
     }
 
     override fun init() {
@@ -114,11 +116,11 @@ class AddNewAddressActivity : BaseActivity(), View.OnClickListener, RadioGroup.O
 
         addNewViewModel.response.observe(this, Observer {
         if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUI(it)
-        else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+        else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
 
         addNewViewModel.editResponse.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUI(it)
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
 
         addNewViewModel.error.observe(this, Observer{ ErrorUtil.handlerGeneralError(this, it) })
     }
@@ -167,20 +169,20 @@ class AddNewAddressActivity : BaseActivity(), View.OnClickListener, RadioGroup.O
         var ret=true
         if(edFullName.text.toString().length==0) {
             ret=false
-            CommonUtils.showSnackBar(this,"Please Enter Full Name")
+            showSnackBar(this,getString(R.string.please_enter_full_name))
         }
         else if(edPhoneNumber.text.toString().length==0 || edPhoneNumber.text.toString().length<9) {
             ret=false
-            if(edPhoneNumber.text.toString().length==0) CommonUtils.showSnackBar(this,"Please Enter Phone Number")
-            else if(edPhoneNumber.text.toString().length<9) CommonUtils.showSnackBar(this,"Please Enter Valid Phone Number")
+            if(edPhoneNumber.text.toString().length==0) showSnackBar(this,getString(R.string.please_enter_phone_number))
+            else if(edPhoneNumber.text.toString().length<9) showSnackBar(this,getString(R.string.please_enter_valid_phone_number))
         }
         else if(edAddress.text.toString().length==0) {
             ret=false
-            CommonUtils.showSnackBar(this,"Please Select Address")
+            showSnackBar(this,getString(R.string.please_select_address))
         }
         else if(addressType==null){
             ret=false
-            CommonUtils.showSnackBar(this,"Please Select Type Of Address")
+            showSnackBar(this,getString(R.string.please_select_type_of_address))
         }
         return ret
     }

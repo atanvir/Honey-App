@@ -19,6 +19,7 @@ import com.honey.model.response.success.ProductDetailModel
 import com.honey.utils.CommonUtils
 import com.honey.utils.CommonUtils.Companion.OFFERS
 import com.honey.utils.CommonUtils.Companion.SHOPS
+import com.honey.utils.CommonUtils.Companion.setRoundImage
 import com.honey.utils.SharedPreferenceUtil
 import com.honey.utils.ViewExtension.TAG
 import com.thekhaeng.pushdownanim.PushDownAnim
@@ -32,11 +33,11 @@ class CommonHomeAdapter(var context: Context, var list: List<CommonShopsItemMode
 {
     val prefs=SharedPreferenceUtil.getInstance(context)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder =
-    if(option.equals("offers",ignoreCase = true)) MyViewHolder(LayoutInflater.from(context).inflate(R.layout.adapter_home_offer,parent,false))
+    if(option.equals(context.getString(R.string.offers),ignoreCase = true)) MyViewHolder(LayoutInflater.from(context).inflate(R.layout.adapter_home_offer,parent,false))
     else  MyViewHolder(LayoutInflater.from(context).inflate(R.layout.adapter_home_shop,parent,false))
     override fun getItemCount(): Int=list.size
     override fun getItemId(position: Int): Long = position.toLong()
-    override fun getItemViewType(position: Int): Int =if(option.equals("offers",ignoreCase = true)) OFFERS else SHOPS
+    override fun getItemViewType(position: Int): Int =if(option.equals(context.getString(R.string.offers),ignoreCase = true)) OFFERS else SHOPS
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         when(holder.itemViewType){
             SHOPS-> {
@@ -46,17 +47,17 @@ class CommonHomeAdapter(var context: Context, var list: List<CommonShopsItemMode
                 holder.itemView.tvRating.text=""+list.get(position).rating
                 holder.itemView.tvReview.text="(+"+list.get(position).ratingCount+")"
                 holder.itemView.tvShopName.text=""+list.get(position).name
-                holder.itemView.tvDeliverTime.text=""+list.get(position).deliveryTime+" Days"
-                CommonUtils.setRoundImage(context,holder.itemView.ivShops,holder.itemView.lottieAnimation,list.get(position).image!!)
+                holder.itemView.tvDeliverTime.text=""+list.get(position).deliveryTime+context.getString(R.string.day)+" "
+                setRoundImage(context,holder.itemView.ivShops,holder.itemView.lottieAnimation,list.get(position).image!!)
             }
 
             OFFERS-> {
-                CommonUtils.setRoundImage(context,holder.itemView.ivOffers,holder.itemView.lvOffers,list.get(position).image!!)
+                setRoundImage(context,holder.itemView.ivOffers,holder.itemView.lvOffers,list.get(position).image!!)
                 holder.itemView.tvOfferTitle.text=list.get(position).name
                 holder.itemView.tvOfferDes.text=list.get(position).description
-                holder.itemView.tvSPOffer.text="SAR "+list.get(position).mrp
+                holder.itemView.tvSPOffer.text=context.getString(R.string.sar)+" "+list.get(position).mrp
                 holder.itemView.tvMRPOffer.paintFlags=holder.itemView.tvMRPOffer.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
-                holder.itemView.tvMRPOffer.text="SAR "+list.get(position).offer_price
+                holder.itemView.tvMRPOffer.text=context.getString(R.string.sar)+" "+list.get(position).offer_price
             }
         }
     }

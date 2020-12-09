@@ -19,6 +19,10 @@ import com.honey.base.BaseActivity
 import com.honey.model.response.success.OrderModel
 import com.honey.model.response.success.ResponseBean
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setRoundImage
+import com.honey.utils.CommonUtils.Companion.setToolbar
+import com.honey.utils.CommonUtils.Companion.showSnackBar
+import com.honey.utils.CommonUtils.Companion.startActivity
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import kotlinx.android.synthetic.main.activity_order_detail.*
@@ -27,7 +31,7 @@ import kotlinx.android.synthetic.main.layout_billing_details.*
 
 class OrderDetailActivity : BaseActivity(), View.OnClickListener {
     private lateinit var orderDetailViewModel: OrderDetailViewModel
-    var orderStatus= arrayListOf("Pending","Confirmed","Ready to ship","Out for delivery","Delivered","Cancelled")
+    var orderStatus= arrayListOf(getString(R.string.pending),"Confirmed","Ready to ship","Out for delivery","Delivered","Cancelled")
     val listStatus=ArrayList<OrderModel>()
     var pos:Int=-1
 
@@ -42,16 +46,16 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        CommonUtils.setToolbar(this,"Order Details")
+        setToolbar(this,"Order Details")
     }
 
     override fun init() {
         if(intent.getStringExtra("cameFrom").equals("upcoming")){
             orderStatus.clear()
-            orderStatus=arrayListOf("Pending","Processed","Shipped")
+            orderStatus=arrayListOf(getString(R.string.pending),getString(R.string.processed),getString(R.string.shipped))
         }else{
             orderStatus.clear()
-            orderStatus=arrayListOf("Delivered","Cancelled")
+            orderStatus=arrayListOf(getString(R.string.deliveried),getString(R.string.cancelled))
             btnCancel.visibility=View.GONE
             tvTrackingId.visibility=View.GONE
             tvTrackingIdLabel.visibility=View.GONE
@@ -73,23 +77,23 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
     override fun myObserver() {
         orderDetailViewModel.response.observe(this, Observer {
             if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it.response)
-            else if (it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this, it.message)
+            else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this, it.message)
         })
 
         orderDetailViewModel.cancelOrderResponse.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) {
-            CommonUtils.startActivity(this,OrderActivity::class.java)
+            startActivity(this,OrderActivity::class.java)
             Toast.makeText(this,it.message,Toast.LENGTH_LONG).show()
             }
 
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
 
 
         orderDetailViewModel.error.observe(this, Observer { ErrorUtil.handlerGeneralError(this, it) })
     }
 
     private fun setDataToUi(data: ResponseBean?) {
-        tvOrderId.text="Order Id : #"+data!!.order_number
+        tvOrderId.text=getString(R.string.order_id)+data!!.order_number
         tvDeliveryStatus.text=data.status
         tvTrackingId.text=data.tracking_id
         tvTrackingUrl.text=data.tracking_url
@@ -98,8 +102,8 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
 
         // Order Summary
         for(i in 0..orderStatus.size-1){
-            if(orderStatus.get(i).equals("Processed").and(data.status.equals("Confirmed")))  pos=i
-            else if(orderStatus.get(i).equals("Shipped").and(data.status.equals("Ready to ship")))  pos=i
+            if(orderStatus.get(i).equals(getString(R.string.processed)).and(data.status.equals("Confirmed")))  pos=i
+            else if(orderStatus.get(i).equals(getString(R.string.shipped)).and(data.status.equals("Ready to ship")))  pos=i
             else if(data.status.equals(orderStatus.get(i))) pos=i
             listStatus.add(OrderModel(orderStatus.get(i),false))
         }
@@ -114,7 +118,7 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
         rvOrdersStatus.scheduleLayoutAnimation()
 
         // Seller Details
-        CommonUtils.setRoundImage(this,ivSeller,null,data.images!!)
+        setRoundImage(this,ivSeller,null,data.images!!)
         tvSellerName.text=data.seller_name
         tvSellerAddress.text=data.seller_address
 
@@ -124,8 +128,8 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
         rvItems.scheduleLayoutAnimation()
 
         // Delivery To
-        tvDeliveryTo.text="Delivery to : "+data.customerName
-        tvDeliveryAddress.text="Address : "+data.customerAddress+"\nMobile No : "+data.customerPhone
+        tvDeliveryTo.text=getString(R.string.delivery_to)+" "+data.customerName
+        tvDeliveryAddress.text=getString(R.string.address_)+data.customerAddress+getString(R.string.mobile_numbers)+" "+data.customerPhone
 
         // Payment Details
         if(data.tax!!.equals("0")) clTextFees.visibility=View.GONE
@@ -136,7 +140,7 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
         tvDiscount.text=""+data.total_discount
         tvShippingCharges.text=data.shipping_charge
         tvTotal.text=data.finalAmount
-        tvPaymentMethod.text=if(data.payment_type.equals("COD",ignoreCase = true)) "Cash On Delivery" else "Online"
+        tvPaymentMethod.text=if(data.payment_type.equals("COD",ignoreCase = true)) getString(R.string.cod) else getString(R.string.online)
 
     }
 
@@ -149,7 +153,7 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
                 startActivity(intent)
             }
 
-            R.id.btnRate ->{ CommonUtils.startActivity(this, RatingActivity::class.java) }
+            R.id.btnRate ->{ startActivity(this, RatingActivity::class.java) }
             R.id.btnCancel ->{ orderDetailViewModel.cancelOrderApi(this,prefs.jwtToken!!,intent.getStringExtra(ParamEnum.ORDER_ID.theValue() as String)!!) }
 
         }

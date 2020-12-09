@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi
 import com.honey.R
 import com.honey.base.BaseActivity
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setToolbar
 import kotlinx.android.synthetic.main.activity_webview.*
 
 class WebviewActivity : BaseActivity() {
@@ -25,7 +26,7 @@ class WebviewActivity : BaseActivity() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        CommonUtils.setToolbar(this,""+intent.getStringExtra("title"))
+        setToolbar(this,""+intent.getStringExtra("title"))
     }
 
     override fun init() {

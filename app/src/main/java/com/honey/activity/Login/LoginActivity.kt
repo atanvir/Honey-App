@@ -10,6 +10,8 @@ import com.honey.R
 import com.honey.activity.OTPVerification.OTPVerificationActivity
 import com.honey.base.BaseActivity
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setToolbar
+import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.thekhaeng.pushdownanim.PushDownAnim
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -25,7 +27,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        CommonUtils.setToolbar(this,"")
+        setToolbar(this,"")
     }
     override fun init() {
         PushDownAnim.setPushDownAnimTo(btnNext).setScale(PushDownAnim.MODE_SCALE, 0.89f)
@@ -59,12 +61,12 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         if(edPhoneNumber.text.toString().length==0)
         {
             ret=false
-            CommonUtils.showSnackBar(this,"Please enter phone number")
+            showSnackBar(this,getString(R.string.please_enter_phone_number))
         }
         else if(edPhoneNumber.text.toString().length<9)
         {
             ret=false
-            CommonUtils.showSnackBar(this,"Please enter valid phone number")
+            showSnackBar(this,getString(R.string.please_enter_phone_number))
         }
         return ret
     }

@@ -14,6 +14,8 @@ import com.honey.base.BaseActivity
 import com.honey.model.request.CommonListModel
 import com.honey.model.request.CommonModel
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setToolbar
+import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension.observeOnce
@@ -33,7 +35,7 @@ class CouponActivity : BaseActivity(), View.OnClickListener, CouponAdapter.setOn
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        CommonUtils.setToolbar(this,"Apply Coupon")
+        setToolbar(this,getString(R.string.apply_coupon))
     }
 
     override fun init() {
@@ -49,11 +51,11 @@ class CouponActivity : BaseActivity(), View.OnClickListener, CouponAdapter.setOn
     override fun myObserver() {
         couponViewModel.response.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUI(it)
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
 
         couponViewModel.applyResponse.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkResponse(it)
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
 
         couponViewModel.error.observe(this, Observer{ ErrorUtil.handlerGeneralError(this, it) })
     }
@@ -74,7 +76,7 @@ class CouponActivity : BaseActivity(), View.OnClickListener, CouponAdapter.setOn
         {
             R.id.btnApply -> {
             if(!edCoupon.text.toString().equals("")) couponViewModel.applyCouponApi(this,prefs.jwtToken!!,edCoupon.text.toString())
-            else CommonUtils.showSnackBar(this,"Please enter Coupon code first")
+            else showSnackBar(this,getString(R.string.please_enter_coupon_code_first))
             }
         }
    }

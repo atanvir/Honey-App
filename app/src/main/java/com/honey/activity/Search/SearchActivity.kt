@@ -15,6 +15,7 @@ import com.honey.activity.Filter.FilterActivity
 import com.honey.adapter.FrgamentPagerAdapter
 import com.honey.base.BaseActivity
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setToolbar
 import com.honey.utils.ParamEnum
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.fragment_home.ivFilter
@@ -46,7 +47,7 @@ class SearchActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSele
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        CommonUtils.setToolbar(this,"Search Honey")
+        setToolbar(this,getString(R.string.search_honey))
     }
 
     override fun init() {
@@ -86,8 +87,8 @@ class SearchActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSele
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
-        if(tab?.position==0) editText.setHint("Honey Name")
-        else editText.setHint("Store Name")
+        if(tab?.position==0) editText.setHint(getString(R.string.honey_name))
+        else editText.setHint(getString(R.string.store_name))
     }
 
     override fun afterTextChanged(s: Editable?) {

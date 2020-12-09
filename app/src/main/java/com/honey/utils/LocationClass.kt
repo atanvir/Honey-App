@@ -23,6 +23,10 @@ import com.google.android.material.internal.ContextUtils.getActivity
 import com.honey.base.BaseActivity
 import com.honey.utils.CommonUtils.Companion.PERMISSION
 import com.honey.utils.CommonUtils.Companion.PERMISSION_DIALOG_REQ
+import com.honey.utils.CommonUtils.Companion.isGPlayServicesOK
+import com.honey.utils.CommonUtils.Companion.isOnline
+import com.honey.utils.CommonUtils.Companion.showSnackBar
+import com.honey.utils.CommonUtils.Companion.showSnackBarGreen
 
 class LocationClass(var context: Context) : BaseActivity(), GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
     val fragmentActivity = (context as Activity) as FragmentActivity
@@ -78,10 +82,10 @@ class LocationClass(var context: Context) : BaseActivity(), GoogleApiClient.OnCo
 
 
     fun startLocationFunctioning() {
-        if (!CommonUtils.isOnline(context = context)) {
+        if (!isOnline(context = context)) {
             Toast.makeText(context as Activity, "Internet not available.", Toast.LENGTH_SHORT).show()
         } else {
-            if (CommonUtils.isGPlayServicesOK(context as Activity)) {
+            if (isGPlayServicesOK(context as Activity)) {
                 buildGoogleApiClient()
             }
         }
@@ -149,7 +153,7 @@ class LocationClass(var context: Context) : BaseActivity(), GoogleApiClient.OnCo
             PERMISSION_DIALOG_REQ -> {
             if (resultCode == Activity.RESULT_OK) { loadCurrentLoc() }
             else if (resultCode == Activity.RESULT_CANCELED) {
-                CommonUtils.showSnackBarGreen(context as Activity,"Please turn on gps for the security purpose")
+                showSnackBarGreen(context as Activity,"Please turn on gps for the security purpose")
                 setUpLocationSettingsTaskStuff()
             }
             }
@@ -169,7 +173,7 @@ class LocationClass(var context: Context) : BaseActivity(), GoogleApiClient.OnCo
                     }
                 }
                 if (permissionDenied) {
-                    CommonUtils.showSnackBar(context as Activity, "Please Allow permission for the security purpose")
+                    showSnackBar(context as Activity, "Please Allow permission for the security purpose")
                 }
                 else startLocationFunctioning()
             }

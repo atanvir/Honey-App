@@ -20,6 +20,7 @@ import com.honey.activity.ProductDetail.ProductDetailActivity
 import com.honey.model.request.GuestDataModel
 import com.honey.model.response.success.CommonProductItemModel
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setRoundImage
 import com.honey.utils.GuestData
 import com.honey.utils.SharedPreferenceUtil
 import com.thekhaeng.pushdownanim.PushDownAnim
@@ -37,7 +38,7 @@ class ProductAdapter(var context: Context, var list: List<CommonProductItemModel
 
     override fun onBindViewHolder(holder: ProductAdapter.MyViewHolder, position: Int) {
         holder.itemView.tvMrpVertical.paintFlags = holder.itemView.tvMrpVertical.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
-        CommonUtils.setRoundImage(context, holder.itemView.ivShopVerical, holder.itemView.lvProductPicVertical, "" + list!!.get(position).images)
+        setRoundImage(context, holder.itemView.ivShopVerical, holder.itemView.lvProductPicVertical, "" + list!!.get(position).images)
         holder.itemView.tvDiscountVertical.text=""+Math.round(list!!.get(position).discount!!.toFloat())+"%"
         if(Math.round(list!!.get(position).discount!!.toFloat())<=0.0)
         {
@@ -45,10 +46,10 @@ class ProductAdapter(var context: Context, var list: List<CommonProductItemModel
             holder.itemView.tvMrpVertical.visibility=View.INVISIBLE
         }
         holder.itemView.tvRating.text=" "+list!!.get(position).rating
-        if(list!!.get(position).review!!.size>0)  holder.itemView.tvReviewss.text="( +"+list!!.get(position).review!!.size+" reviews )"
-        else holder.itemView.tvReviewss.text="( +"+list!!.get(position).review!!.size+" review )"
-        holder.itemView.tSpVertical.text ="SAR "+list!!.get(position).sp
-        holder.itemView.tvMrpVertical.text ="SAR "+list!!.get(position).mrp
+        if(list!!.get(position).review!!.size>0)  holder.itemView.tvReviewss.text="( +"+list!!.get(position).review!!.size+" "+context.getString(R.string.reviews)+" )"
+        else holder.itemView.tvReviewss.text="( +"+list!!.get(position).review!!.size+" "+context.getString(R.string.review)+" )"
+        holder.itemView.tSpVertical.text =context.getString(R.string.sar)+" "+list!!.get(position).sp
+        holder.itemView.tvMrpVertical.text =context.getString(R.string.sar)+" "+list!!.get(position).mrp
         holder.itemView.tvProductNameVertical.text=""+list!!.get(position).name
         holder.itemView.tvCategoryVertical.text=""+list!!.get(position).categoryId
         holder.itemView.lvFavVertical.visibility=View.GONE

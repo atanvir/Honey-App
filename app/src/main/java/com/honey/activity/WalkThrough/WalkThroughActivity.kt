@@ -7,6 +7,8 @@ import com.honey.R
 import com.honey.activity.Main.MainActivity
 import com.honey.adapter.WalkThrowAdapter
 import com.honey.base.BaseActivity
+import com.honey.utils.CommonUtils
+import com.honey.utils.ViewExtension.setLocale
 import com.thekhaeng.pushdownanim.PushDownAnim
 import com.thekhaeng.pushdownanim.PushDownAnim.MODE_SCALE
 import kotlinx.android.synthetic.main.activity_walk_through.*
@@ -25,7 +27,8 @@ class WalkThroughActivity : BaseActivity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        prefs.isFirstTime=true
+        setLocale(this)
+        prefs.isFirstTime= true
     }
 
     override fun init() {
@@ -48,7 +51,7 @@ class WalkThroughActivity : BaseActivity(), View.OnClickListener {
       when(v?.id)
       {
         R.id.ivNext -> {
-            var intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
         }

@@ -10,6 +10,8 @@ import com.e.carty.webservices.ApiInterface
 import com.honey.base.BaseViewModel
 import com.honey.model.request.CommonModel
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.dismissLoadingDialog
+import com.honey.utils.CommonUtils.Companion.showLoadingDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -20,7 +22,7 @@ class HomeViewModel:BaseViewModel(){
 
 
     fun homeProductApi(context: Context,token: String,latitude:Double,longitude:Double){
-        CommonUtils.showLoadingDialog(context as Activity)
+        showLoadingDialog(context as Activity)
         apiInterface.homeProducts(token=token,latitude=latitude,longitude = longitude).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onSuccess(it) }, { onFailure(it) })
     }
 
@@ -33,18 +35,18 @@ class HomeViewModel:BaseViewModel(){
     }
 
     private fun onFavSuccess(response: CommonModel) {
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
         this.onFavResponse.value=response
     }
 
 
 
     fun onSuccess(response: CommonModel){
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
         this.response.value=response
     }
     fun onFailure(it : Throwable){
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
         error.value=it
     }
 

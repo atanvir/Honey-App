@@ -23,7 +23,7 @@
         android:layout_marginStart="18dp"
         android:layout_marginTop="32dp"
         android:lineSpacingExtra="6.3sp"
-        android:text="One Time Password"
+        android:text="@string/one_time_password"
         android:textColor="@color/black"
         android:textSize="31.4dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,7 +81,7 @@
             style="@style/WalkThroughTitleDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="I don't receive a code!"
+            android:text="@string/i_don_t_receive_a_code"
             android:textColor="@color/black"
             android:textSize="16dp" />
 
@@ -90,7 +90,7 @@
             style="@style/WalkThroughTitleDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="  Please resend"
+            android:text="@string/please_resend"
             android:textColor="@color/app_theme_organe"
             android:textSize="16dp" />
 
@@ -105,7 +105,7 @@
         android:backgroundTint="@color/app_theme_organe"
         android:elevation="20dp"
         android:padding="20dp"
-        android:src="@drawable/group_17750"
+        android:src="@drawable/bitmap_arrow_walkthrough"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

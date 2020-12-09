@@ -17,6 +17,7 @@ import com.honey.activity.ProductDetail.ProductDetailActivity
 import com.honey.activity.ShopDetail.ShopDetailsActivity
 import com.honey.model.response.success.ProductDetailModel
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setRoundImage
 import com.honey.utils.ParamEnum
 import kotlinx.android.synthetic.main.adapter_common_product.view.*
 import kotlinx.android.synthetic.main.adapter_common_stores.view.*
@@ -47,8 +48,8 @@ class CommonTabAdapter(var context: Context,var screen: String,var positions: In
                 holder.itemView.ivDelete.visibility=View.VISIBLE
             }
 
-            if(holder.itemViewType==0) holder.itemView.tvCount.text="Saved\n"+list.size+" Products!"
-            else holder.itemView.tvCountStore.text="Saved\n"+(list.size-1)+" Stores!"
+            if(holder.itemViewType==0) holder.itemView.tvCount.text=context.getString(R.string.saved)+list.size+" "+context.getString(R.string.product)
+            else holder.itemView.tvCountStore.text=context.getString(R.string.saved)+(list.size-1)+" "+context.getString(R.string.store)
         }
         else{
             if(holder.itemViewType==0) {
@@ -58,7 +59,7 @@ class CommonTabAdapter(var context: Context,var screen: String,var positions: In
                     holder.itemView.ivHeartProduct.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.bitmap_fav_in))
 
                 }
-                holder.itemView.tvCount.text=""+list.size+" Products!"
+                holder.itemView.tvCount.text=""+list.size+" "+context.getString(R.string.product)
                 }
             else {
                 if(list.get(position).favourite.equals("no")) {
@@ -66,15 +67,15 @@ class CommonTabAdapter(var context: Context,var screen: String,var positions: In
                 }else{
                     holder.itemView.ivHeartStore.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.bitmap_fav_in))
                 }
-                holder.itemView.tvCountStore.text=""+(list.size-1)+" Stores!"
+                holder.itemView.tvCountStore.text=""+(list.size-1)+" "+context.getString(R.string.store)
             }
         }
 
         if(holder.itemViewType==1) {
-            CommonUtils.setRoundImage(context,holder.itemView.ivStorePic,holder.itemView.lvIvStore, list.get(position).images!!)
+            setRoundImage(context,holder.itemView.ivStorePic,holder.itemView.lvIvStore, list.get(position).images!!)
             holder.itemView.tvRating.setText(""+list.get(position).rating)
             holder.itemView.tvStoreName.setText(""+list.get(position).name)
-            holder.itemView.tvDeliveryTime.setText(""+list.get(position).delivery_time+" Days")
+            holder.itemView.tvDeliveryTime.setText(""+list.get(position).delivery_time+" "+context.getString(R.string.days))
             // Store
             // Options RecycleView
             val layoutManager = LinearLayoutManager(context)
@@ -91,7 +92,7 @@ class CommonTabAdapter(var context: Context,var screen: String,var positions: In
             }
         }
         else {
-            CommonUtils.setRoundImage(context,holder.itemView.ivProduct,holder.itemView.lvProduct, list.get(position).images!!)
+            setRoundImage(context,holder.itemView.ivProduct,holder.itemView.lvProduct, list.get(position).images!!)
             holder.itemView.tvPercentage.setText(Math.round(list.get(position).discount!!.toDouble()).toString()+"%")
 
             if(Math.round(list.get(position).discount!!.toFloat())<=0.0)
@@ -99,9 +100,9 @@ class CommonTabAdapter(var context: Context,var screen: String,var positions: In
                 holder.itemView.tvPercentage.visibility=View.INVISIBLE
                 holder.itemView.tvMRP.visibility=View.INVISIBLE
             }
-            holder.itemView.tvSellingPrice.setText("SAR "+list.get(position).sp!!)
+            holder.itemView.tvSellingPrice.setText(context.getString(R.string.sar)+" "+list.get(position).sp!!)
             holder.itemView.tvMRP.paintFlags=holder.itemView.tvMRP.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
-            holder.itemView.tvMRP.setText("SAR "+list.get(position).mrp!!)
+            holder.itemView.tvMRP.setText(context.getString(R.string.sar)+" "+list.get(position).mrp!!)
             holder.itemView.tvProduct.setText(list.get(position).name!!)
             if(list.get(position).categoryId!=null){
             holder.itemView.tvCategoryProduct.setText(list.get(position).categoryId!!)}

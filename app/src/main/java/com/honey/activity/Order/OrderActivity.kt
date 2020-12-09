@@ -8,6 +8,7 @@ import com.honey.R
 import com.honey.adapter.FrgamentPagerAdapter
 import com.honey.base.BaseActivity
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setToolbar
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class OrderActivity : BaseActivity() {
@@ -22,7 +23,7 @@ class OrderActivity : BaseActivity() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        CommonUtils.setToolbar(this,"My Orders")
+        setToolbar(this,getString(R.string.my_order))
     }
 
     override fun init() {

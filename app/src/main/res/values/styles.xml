@@ -22,6 +22,7 @@
     <style name="WalkThroughTitleView" parent="@android:style/TextAppearance.Widget.TextView">
         <item name="android:textColor">@color/light_black</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:textAlignment">viewStart</item>
         <item name="android:fontFamily">@font/angkor</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/heading_text_size_large</item>
@@ -39,8 +40,8 @@
     <style name="WalkThroughTitleDescription" parent="@android:style/TextAppearance.Widget.TextView">
         <item name="android:textColor">@color/light_grey</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:textAlignment">viewStart</item>
         <item name="android:fontFamily">@font/angkor</item>
-        <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/text_size_normal</item>
     </style>
 

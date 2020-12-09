@@ -16,6 +16,9 @@ import com.honey.model.response.success.CommonShopsItemModel
 import com.honey.model.response.success.ProductDetailModel
 import com.honey.model.response.success.ResponseBean
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setToolbar
+import com.honey.utils.CommonUtils.Companion.showSnackBar
+import com.honey.utils.CommonUtils.Companion.startActivity
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import kotlinx.android.synthetic.main.activity_filtered_shops.*
@@ -36,6 +39,31 @@ class FilteredShopActivity : BaseActivity(), CommonHomeAdapter.setOnShopClickLis
         setAdapter()
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    override fun onResume() {
+        super.onResume()
+        setToolbar(this,getString(R.string.filtered_shops))
+    }
+
+
+    override fun init() {
+        filteredShopViewModel=ViewModelProviders.of(this).get(FilteredShopViewModel::class.java)
+    }
+
+    override fun initControl() {
+        edFindShop.setOnClickListener(this)
+    }
+
+    override fun myObserver() {
+
+        filteredShopViewModel.onFavResponse.observe(this, Observer {
+            if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkFavData(it)
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message)
+        })
+
+        filteredShopViewModel.error.observe(this,Observer{ ErrorUtil.handlerGeneralError(this, it) })
+    }
+
     private fun setAdapter() {
         dataList=ArrayList()
         val data=intent.getParcelableArrayListExtra<ProductDetailModel>("data")
@@ -51,33 +79,10 @@ class FilteredShopActivity : BaseActivity(), CommonHomeAdapter.setOnShopClickLis
         rvFilterShops.scheduleLayoutAnimation()
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun onResume() {
-        super.onResume()
-        CommonUtils.setToolbar(this,"Filtered Shops")
-    }
-
-    override fun init() {
-        filteredShopViewModel=ViewModelProviders.of(this).get(FilteredShopViewModel::class.java)
-    }
-
-    override fun initControl() {
-        edFindShop.setOnClickListener(this)
-    }
-
-    override fun myObserver() {
-
-        filteredShopViewModel.onFavResponse.observe(this, Observer {
-            if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkFavData(it)
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message)
-        })
-
-        filteredShopViewModel.error.observe(this,Observer{ ErrorUtil.handlerGeneralError(this, it) })
-    }
 
     private fun checkFavData(response: CommonModel?) {
-        if(response!!.message.equals("Store added to wishlist successfully")) dataList!!.get(pos!!).favourite="yes"
-        else if(response.message.equals("Store removed from wishlist successfully")) dataList!!.get(pos!!).favourite="no"
+        if(response!!.message.equals(getString(R.string.store_added))) dataList!!.get(pos!!).favourite="yes"
+        else if(response.message.equals(getString(R.string.store_removed))) dataList!!.get(pos!!).favourite="no"
         rvFilterShops.adapter!!.notifyItemChanged(pos!!)
     }
 
@@ -89,7 +94,7 @@ class FilteredShopActivity : BaseActivity(), CommonHomeAdapter.setOnShopClickLis
     override fun onClick(v: View?) {
         when(v!!.id)
         {
-            R.id.edFindShop -> { CommonUtils.startActivity(this, SearchActivity::class.java)}
+            R.id.edFindShop -> { startActivity(this, SearchActivity::class.java) }
         }
     }
 

@@ -16,7 +16,9 @@ import com.honey.firebase.MyFirebaseMessageService
 import com.honey.firebase.NotificationHelper
 import com.honey.utils.CommonUtils
 import com.honey.utils.CommonUtils.Companion.DELAY_FOR_NEXT_SCREEN
+import com.honey.utils.CommonUtils.Companion.getDeviceToken
 import com.honey.utils.GuestData
+import com.honey.utils.ViewExtension.setLocale
 import kotlinx.android.synthetic.main.activity_splash.*
 
 
@@ -32,9 +34,9 @@ class SplashActivity: BaseActivity()
 
     override fun onResume() {
         super.onResume()
-        CommonUtils.getDeviceToken(prefs)
+        getDeviceToken(prefs)
         Log.e("allData","-->>"+GuestData.instance!!.allData)
-
+        setLocale(this)
     }
 
 

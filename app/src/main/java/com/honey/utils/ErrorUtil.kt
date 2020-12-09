@@ -6,6 +6,8 @@ import android.util.Log
 import com.google.gson.Gson
 import com.honey.activity.Main.MainActivity
 import com.honey.model.response.failure.ErrorBean
+import com.honey.utils.CommonUtils.Companion.getGsonInstance
+import com.honey.utils.CommonUtils.Companion.showSnackBar
 import retrofit2.HttpException
 
 import java.net.ConnectException
@@ -17,10 +19,10 @@ object ErrorUtil {
         throwable.printStackTrace()
         if (context == null) return
         when (throwable) {
-            is ConnectException -> CommonUtils.showSnackBar(context,"Network Error")
-            is SocketTimeoutException -> CommonUtils.showSnackBar(context,"Socket Time Out Exception")
-            is UnknownHostException -> CommonUtils.showSnackBar(context,"No Internet Connection")
-            is InternalError -> CommonUtils.showSnackBar(context,"Internal Server Error")
+            is ConnectException -> showSnackBar(context,"Network Error")
+            is SocketTimeoutException -> showSnackBar(context,"Socket Time Out Exception")
+            is UnknownHostException -> showSnackBar(context,"No Internet Connection")
+            is InternalError -> showSnackBar(context,"Internal Server Error")
             is HttpException -> {
                 try {
                     when (throwable.code()) {
@@ -38,7 +40,7 @@ object ErrorUtil {
 
                 }
             } else -> {
-            CommonUtils.showSnackBar(context,"Something went wrong")
+            showSnackBar(context,"Something went wrong")
 
         }
         }
@@ -54,13 +56,13 @@ object ErrorUtil {
 
     fun displayError(context: Context, exception: HttpException) {
         try {
-            val errorBody = CommonUtils.getGsonInstance().
+            val errorBody = getGsonInstance().
             fromJson(exception.response()?.errorBody()?.charStream(), ErrorBean::class.java)
             Log.e("ErrorMessage", errorBody.message)
-            CommonUtils.showSnackBar(context,errorBody.message)
+            showSnackBar(context,errorBody.message)
         } catch (e: Exception) {
             Log.e("MyExceptions", e.message!!)
-            CommonUtils.showSnackBar(context,""+exception.message)
+            showSnackBar(context,""+exception.message)
         }
     }
 }

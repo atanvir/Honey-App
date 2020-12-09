@@ -45,6 +45,10 @@ import com.honey.utils.CommonUtils.Companion.NOT_SERVE_THIS_AREA
 import com.honey.utils.CommonUtils.Companion.PERMISSION
 import com.honey.utils.CommonUtils.Companion.PERMISSION_DIALOG_REQ
 import com.honey.utils.CommonUtils.Companion.PLACE_REQ_CODE
+import com.honey.utils.CommonUtils.Companion.isGPlayServicesOK
+import com.honey.utils.CommonUtils.Companion.isOnline
+import com.honey.utils.CommonUtils.Companion.showSnackBar
+import com.honey.utils.CommonUtils.Companion.showSnackBarGreen
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension
 import com.honey.utils.ViewExtension.observeOnce
@@ -91,7 +95,7 @@ class SelectLocationActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnC
         selectLocationViewModel.currentAddressSuccess.observe(this, Observer {
             tvAddress.setText(""+it)
         })
-        selectLocationViewModel.error.observe(this, Observer { CommonUtils.showSnackBar(this,it.message) })
+        selectLocationViewModel.error.observe(this, Observer { showSnackBar(this,it.message) })
 
     }
 
@@ -100,8 +104,7 @@ class SelectLocationActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnC
         initControl()
         val sydney = LatLng(mLastLocation!!.latitude, mLastLocation!!.longitude)
         mMap?.apply {
-            marker=addMarker(
-            MarkerOptions().position(sydney).title("Marker in Sydney").icon(BitmapDescriptorFactory.fromResource(R.drawable.map_location)))
+            marker=addMarker(MarkerOptions().position(sydney).title("Your Location").icon(BitmapDescriptorFactory.fromResource(R.drawable.map_location)))
             mMap!!.moveCamera(CameraUpdateFactory.newLatLng(sydney))
             mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney,21.0f))
         }
@@ -110,10 +113,10 @@ class SelectLocationActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnC
             override fun handleMessage(msg: Message) {
                 super.handleMessage(msg)
                 if (msg.what == GETTING_ADDRESS) {
-                    marker!!.setTitle("Getting address....")
+                    marker!!.setTitle(getString(R.string.getting_address))
                     marker!!.showInfoWindow()
                 } else if (msg.what == NOT_SERVE_THIS_AREA) {
-                    marker!!.setTitle("Sorry we do not serve here yet…")
+                    marker!!.setTitle(getString(R.string.sorry_not_server_here))
                     marker!!.showInfoWindow()
                 } else if (msg.what == HIDE_INFO_WINDOW) {
                     marker!!.hideInfoWindow()
@@ -135,7 +138,7 @@ class SelectLocationActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnC
         {
             R.id.btnConfirm ->{
                 if(!tvAddress.text.toString().equals("")) fireIntent()
-                else Toast.makeText(this,"Sorry we were getting your address , Please Try Again!",Toast.LENGTH_LONG).show()
+                else Toast.makeText(this,getString(R.string.didnot_get_address_yet),Toast.LENGTH_LONG).show()
             }
 
             R.id.edFind ->{
@@ -189,7 +192,7 @@ class SelectLocationActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnC
             }
 
         }else{
-            Toast.makeText(this,"Sorry we were getting your address , Please Try Again!",Toast.LENGTH_LONG).show()
+            Toast.makeText(this,getString(R.string.didnot_get_address_yet),Toast.LENGTH_LONG).show()
         }
     }
 
@@ -214,7 +217,7 @@ class SelectLocationActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnC
             PERMISSION_DIALOG_REQ -> {
                 if (resultCode == Activity.RESULT_OK) { loadCurrentLoc() }
                 else if (resultCode == Activity.RESULT_CANCELED) {
-                    CommonUtils.showSnackBarGreen(this,"Please turn on gps for the security purpose")
+                    showSnackBarGreen(this,getString(R.string.please_turn_gps))
                     setUpLocationSettingsTaskStuff()
                 }
             }
@@ -238,7 +241,7 @@ class SelectLocationActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnC
 
                 }
 
-                if(permissionDenied) CommonUtils.showSnackBar(this,"Please Allow permission for the security purpose")
+                if(permissionDenied) showSnackBar(this,getString(R.string.please_allow_permission_for_security))
                 else startLocationFunctioning()
             }
         }
@@ -246,10 +249,10 @@ class SelectLocationActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnC
 
 
     fun startLocationFunctioning() {
-        if (!CommonUtils.isOnline(this)) {
-            Toast.makeText(this, "Internet not available.", Toast.LENGTH_SHORT).show()
+        if (!isOnline(this)) {
+            Toast.makeText(this, getString(R.string.internet_not_available), Toast.LENGTH_SHORT).show()
         } else {
-            if (CommonUtils.isGPlayServicesOK(this)) {
+            if (isGPlayServicesOK(this)) {
                 buildGoogleApiClient()
             }
         }
@@ -355,7 +358,4 @@ class SelectLocationActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnC
         setResult(Activity.RESULT_CANCELED)
         finish()
     }
-
-
-
 }

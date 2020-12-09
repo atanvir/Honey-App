@@ -19,6 +19,9 @@ import com.honey.base.BaseActivity
 import com.honey.model.request.CommonModel
 import com.honey.model.response.success.ResponseBean
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setToolbar
+import com.honey.utils.CommonUtils.Companion.showSnackBar
+import com.honey.utils.CommonUtils.Companion.startActivity
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension.observeOnce
@@ -41,7 +44,7 @@ class SearchLocationActivity : BaseActivity(), View.OnClickListener, AddressAdap
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        CommonUtils.setToolbar(this,"Search Location")
+        setToolbar(this,getString(R.string.search_location))
     }
 
     override fun init() {
@@ -60,11 +63,11 @@ class SearchLocationActivity : BaseActivity(), View.OnClickListener, AddressAdap
 
         searchViewModel.response.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it.user_address!!)
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
 
         searchViewModel.removeAddressResponse.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) removeData(it)
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
 
         searchViewModel.error.observe(this, Observer{ ErrorUtil.handlerGeneralError(this, it) })
     }
@@ -89,7 +92,7 @@ class SearchLocationActivity : BaseActivity(), View.OnClickListener, AddressAdap
     override fun onClick(p0: View?) {
         when(p0!!.id)
         {
-            R.id.tvAddress ->{ CommonUtils.startActivity(this, AddNewAddressActivity::class.java) }
+            R.id.tvAddress ->{ startActivity(this, AddNewAddressActivity::class.java) }
             R.id.tvCurrentLocation ->{
                 val intent = Intent(this, SelectLocationActivity::class.java)
                 intent.putExtra("cameFrom",SearchLocationActivity::class.simpleName)

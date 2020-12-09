@@ -9,6 +9,8 @@ import androidx.lifecycle.Observer
 import com.honey.base.BaseViewModel
 import com.honey.model.request.CommonModel
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.dismissLoadingDialog
+import com.honey.utils.CommonUtils.Companion.showLoadingDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -19,13 +21,13 @@ class CommonTabViewModel : BaseViewModel(){
     var error = MutableLiveData<Throwable>()
 
     fun favListApi(context: Context, token: String,type: String){
-        CommonUtils.showLoadingDialog(context as Activity)
+        showLoadingDialog(context as Activity)
         apiInterface.favList(token=token,type=type).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onSuccess(it) }, { onFailure(it) })
     }
 
     fun addtowishApi(context: Context,token: String,id:String,type: String)
     {
-        CommonUtils.showLoadingDialog(context as Activity)
+        showLoadingDialog(context as Activity)
         apiInterface.addtowish(token=token,id = id,type=type).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onFavSuccess(it) }, { onFailure(it) })
     }
      fun searchApi(token: String,search_key:String,type:String,sort_by:String,price_low:String,price_high:String,rating:String)
@@ -37,21 +39,21 @@ class CommonTabViewModel : BaseViewModel(){
 
     private fun onFavSuccess(response: CommonModel) {
         this.onFavResponse.value=response
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
     }
 
     private fun onSearchSuccess(response: CommonModel) {
         this.onSearchResponse.value=response
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
     }
 
 
     fun onSuccess(response: CommonModel){
         this.response.value=response
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
     }
     fun onFailure(it : Throwable){
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
         error.value=it
     }
 

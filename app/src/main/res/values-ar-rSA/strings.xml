@@ -229,7 +229,8 @@
     <string name="free_delivery">Free Delivery</string>
     <string name="nearest">Nearest</string>
     <string name="delivery_time">Delivery time</string>
-    <string name="login_first">Please login first</string>
+    <string name="login_first" >Please login first</string>
     <string name="cannot_connect_to_playstore">Can\'t connect to Google Play Services</string>
+
 
 </resources>

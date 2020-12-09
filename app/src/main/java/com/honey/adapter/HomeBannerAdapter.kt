@@ -16,8 +16,8 @@ class HomeBannerAdapter(val context: Context, val data: List<BannerModel>) : Pag
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view=LayoutInflater.from(context!!).inflate(R.layout.adapter_home_banner,container,false)
-        CommonUtils.setRoundImage(context,view.findViewById(R.id.ivBanner),view.findViewById(R.id.lvBanners),data.get(position).image!!)
-        var viewPager:ViewPager= container as ViewPager
+        setRoundImage(context,view.findViewById(R.id.ivBanner),view.findViewById(R.id.lvBanners),data.get(position).image!!)
+        val viewPager:ViewPager= container as ViewPager
         viewPager.addView(view,0)
         return view
     }

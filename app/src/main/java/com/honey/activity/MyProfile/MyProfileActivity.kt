@@ -21,6 +21,10 @@ import com.honey.base.BaseActivity
 import com.honey.model.request.CommonModel
 import com.honey.model.request.UserProfileModel
 import com.honey.utils.*
+import com.honey.utils.CommonUtils.Companion.getPickIntent
+import com.honey.utils.CommonUtils.Companion.setNormalImage
+import com.honey.utils.CommonUtils.Companion.setToolbar
+import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.ViewExtension.observeOnce
 import id.zelory.compressor.Compressor
 import kotlinx.android.synthetic.main.activity_login.*
@@ -54,7 +58,7 @@ class MyProfileActivity : BaseActivity(), View.OnClickListener {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        CommonUtils.setToolbar(this,"")
+        setToolbar(this,"")
     }
 
     override fun init() {
@@ -70,9 +74,9 @@ class MyProfileActivity : BaseActivity(), View.OnClickListener {
 
     override fun myObserver() {
         profileViewModel.response.observe(this, Observer {   if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUI(it)
-        else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+        else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
         profileViewModel.editProfileResponse.observe(this, Observer {   if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) saveData(it)
-        else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+        else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
         profileViewModel.error.observe(this, Observer{ ErrorUtil.handlerGeneralError(this, it) })
     }
 
@@ -87,7 +91,7 @@ class MyProfileActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun setDataToUI(it: CommonModel) {
-        CommonUtils.setNormalImage(this,ivProfile,lvProfile,it.user_profile!!.image)
+        setNormalImage(this,ivProfile,lvProfile,it.user_profile!!.image)
 
         if(it.user_profile.name!=null) {
             tvName.setText("" + it.user_profile.name)
@@ -150,7 +154,7 @@ class MyProfileActivity : BaseActivity(), View.OnClickListener {
         if( edPhoneNumber.text.toString().length<9)
         {
             ret=false
-            if(edPhoneNumber.text.toString().length<9) CommonUtils.showSnackBar(this,"Please enter valid phone number")
+            if(edPhoneNumber.text.toString().length<9) showSnackBar(this,getString(R.string.please_enter_valid_phone_number))
         }
         return ret
     }
@@ -168,7 +172,7 @@ class MyProfileActivity : BaseActivity(), View.OnClickListener {
                     }
                 }
                     
-                    if(reqestDecline) CommonUtils.showSnackBar(this,"Please allow the permission for the security purpose")
+                    if(reqestDecline) showSnackBar(this,getString(R.string.please_allow_permission_for_security))
                     else launchIntent()
             }
         }
@@ -182,7 +186,7 @@ class MyProfileActivity : BaseActivity(), View.OnClickListener {
         }
         path = capture_dir + System.currentTimeMillis() + ".jpg"
         val imageFileUri = FileProvider.getUriForFile(applicationContext, BuildConfig.APPLICATION_ID + ".provider", File(path!!))
-        val intent = CommonUtils.getPickIntent(this, imageFileUri)
+        val intent = getPickIntent(this, imageFileUri)
         startActivityForResult(intent, IMAGE_REQ)
     }
 
@@ -194,10 +198,9 @@ class MyProfileActivity : BaseActivity(), View.OnClickListener {
             if(resultCode== Activity.RESULT_OK) {
                 if (data != null) {
                     path = FilePath.getPath(this, Uri.parse(data.getDataString()))
-                    path = path
-                    CommonUtils.setNormalImage(this, ivProfile, lvProfile, "" + Uri.parse(data.getDataString()))
+                    setNormalImage(this, ivProfile, lvProfile, "" + Uri.parse(data.getDataString()))
                 } else {
-                    CommonUtils.setNormalImage(this, ivProfile, lvProfile, "" + Uri.parse(path))
+                    setNormalImage(this, ivProfile, lvProfile, "" + Uri.parse(path))
                 }
             }
             }

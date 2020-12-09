@@ -17,6 +17,8 @@ import com.honey.base.BaseActivity
 import com.honey.model.request.CommonModel
 import com.honey.model.response.success.ResponseBean
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setToolbar
+import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import com.thekhaeng.pushdownanim.PushDownAnim
@@ -40,7 +42,7 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
       super.onResume()
-      CommonUtils.setToolbar(this,"Payment")
+      setToolbar(this,getString(R.string.payment))
     }
 
     override fun init() {
@@ -106,13 +108,13 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
 
         paymentViewModel.response.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) { fireIntent()}
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message)})
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message)})
         paymentViewModel.error.observe(this, Observer{ ErrorUtil.handlerGeneralError(this, it) })
     }
     private fun fireIntent() {
         finish()
         val intent = Intent(this, MainActivity::class.java)
-        Toast.makeText(this,"Order successfully placed!",Toast.LENGTH_LONG).show()
+        Toast.makeText(this,getString(R.string.order_successfully_placed),Toast.LENGTH_LONG).show()
         startActivity(intent)
     }
     private fun setDataToUI(it: CommonModel?) {
@@ -168,11 +170,11 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
         if(address_id==null)
         {
             ret=false
-            CommonUtils.showSnackBar(this,"Please add address first")
+            showSnackBar(this,getString(R.string.please_add_address_first))
         }else if(payment_type.equals(""))
         {
             ret=false
-            CommonUtils.showSnackBar(this,"Please select payment option")
+            showSnackBar(this,getString(R.string.please_select_payment_option))
         }
 
         return ret

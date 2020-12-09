@@ -10,6 +10,8 @@ import com.e.carty.webservices.ApiInterface
 import com.honey.base.BaseViewModel
 import com.honey.model.request.CommonModel
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.dismissLoadingDialog
+import com.honey.utils.CommonUtils.Companion.showLoadingDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -28,17 +30,17 @@ class BagViewModel : BaseViewModel()
     }
 
     fun removeToCartApi(context: Context, productId: String,token:String,quantity: Int){
-        CommonUtils.showLoadingDialog(context as Activity)
+        showLoadingDialog(context as Activity)
         apiInterface.removetocart(productId=productId,token = token).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onRemoveSuccess(it) }, { onFailure(it) })
     }
 
     fun updateCartApi(context: Context, productId: String,token:String,quantity: Int){
-        CommonUtils.showLoadingDialog(context as Activity)
+        showLoadingDialog(context as Activity)
         apiInterface.updatecart(productId=productId,token = token,quantity=quantity).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onUpdateSuccess(it) }, { onFailure(it) })
     }
 
     fun removeCouponApi(context: Context, token: String){
-        CommonUtils.showLoadingDialog(context as Activity)
+        showLoadingDialog(context as Activity)
         apiInterface.removeCoupon(token = token).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onRemoveCouponSuccess(it) }, { onFailure(it) })
     }
 
@@ -56,10 +58,10 @@ class BagViewModel : BaseViewModel()
 
     fun onSuccess(response: CommonModel){
         this.response.value=response
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
     }
     fun onFailure(it : Throwable){
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
         error.value=it
     }
 

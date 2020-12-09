@@ -23,6 +23,8 @@ import com.honey.model.request.CommonListModel
 import com.honey.model.request.CommonModel
 import com.honey.model.response.success.ProductDetailModel
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setToolbar
+import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension.TAG
@@ -40,8 +42,8 @@ import kotlinx.android.synthetic.main.activity_home_filter.tvRange
 import kotlinx.android.synthetic.main.layout_billing_details.*
 
 class HomeFilterActivity: BaseActivity(), View.OnClickListener, FilterItemAdapter.setOnFilterItemClickListner, FilterRatingAdapter.setOnItemClickListner {
-    val honeyType= arrayListOf("Natural")
-    val days = arrayListOf("1 Day","2 Days","3 Days","4 Days","5 Days","6 Days","7 Days","8 Days","9 Days","10 Days")
+    var honeyType:ArrayList<String>?=null
+    var days:ArrayList<String>?=null
     val ratingList= arrayListOf("5","4","3","2","1")
     private lateinit var filterViewModel: HomeFilterViewModel
     var type: String?=""
@@ -62,10 +64,12 @@ class HomeFilterActivity: BaseActivity(), View.OnClickListener, FilterItemAdapte
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        CommonUtils.setToolbar(this,"Filter")
+        setToolbar(this,getString(R.string.filter))
     }
 
     override fun init() {
+        honeyType=arrayListOf(getString(R.string.natural))
+        days=arrayListOf(getString(com.honey.R.string.one_daya),getString(R.string.two_days),getString(R.string.three_days),getString(R.string.four_days),getString(R.string.five_days),getString(R.string.six_day),getString(R.string.seven_days),getString(R.string.eight_days),getString(R.string.nine_days),getString(R.string.ten_days))
         filterViewModel= ViewModelProviders.of(this).get(HomeFilterViewModel::class.java)
         filterViewModel.categoryListApi(this)
     }
@@ -79,15 +83,15 @@ class HomeFilterActivity: BaseActivity(), View.OnClickListener, FilterItemAdapte
         seekBarWithChart.onRangeChanged = { leftPinValue, rightPinValue ->
             to=leftPinValue
             from=rightPinValue
-            tvRange.setText(leftPinValue+" km"+" - "+rightPinValue+" km")
+            tvRange.setText(leftPinValue+" "+getString(R.string.km)+" - "+rightPinValue+" "+getString(R.string.km))
         }
         filterViewModel.response.observe(this, Observer {
         if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUI(it)
-        else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+        else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
 
         filterViewModel.filterResponse.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) fireIntent(it)
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message)
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message)
         })
         filterViewModel.error.observe(this, Observer{ ErrorUtil.handlerGeneralError(this, it) })
 
@@ -109,20 +113,20 @@ class HomeFilterActivity: BaseActivity(), View.OnClickListener, FilterItemAdapte
 
     private fun setDataToUI(it: CommonModel?) {
         clMain.visibility=View.VISIBLE
-        honeyType.clear()
+        honeyType!!.clear()
         for (i in 1..(it!!.categorylist!!.size-1)) {
-            honeyType.add(it.categorylist!!.get(i).name!!)
+            honeyType!!.add(it.categorylist!!.get(i).name!!)
         }
         val type= GridLayoutManager(this,2)
         type.orientation= GridLayoutManager.VERTICAL
         rvType.layoutManager=type
-        rvType.adapter= FilterItemAdapter(this,honeyType,"Honey Type",this.type!!,this)
+        rvType.adapter= FilterItemAdapter(this,honeyType!!,"Honey Type",this.type!!,this)
         rvType.scheduleLayoutAnimation()
 
         val sort= GridLayoutManager(this,3)
         type.orientation= GridLayoutManager.VERTICAL
         rvDeliveryDate.layoutManager=sort
-        rvDeliveryDate.adapter= FilterItemAdapter(this,this.days,"Delivery Day",sort_by!!,this)
+        rvDeliveryDate.adapter= FilterItemAdapter(this,this.days!!,"Delivery Day",sort_by!!,this)
         rvDeliveryDate.scheduleLayoutAnimation()
 
         val layoutManger= LinearLayoutManager(this)

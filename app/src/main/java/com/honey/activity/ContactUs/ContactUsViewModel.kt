@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import com.honey.base.BaseViewModel
 import com.honey.model.request.CommonModel
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.dismissLoadingDialog
+import com.honey.utils.CommonUtils.Companion.showLoadingDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MultipartBody
@@ -17,17 +19,17 @@ class ContactUsViewModel : BaseViewModel(){
 
     fun contactUsApi(context: Context,data :Map<String,RequestBody>,image: MultipartBody.Part)
     {
-        CommonUtils.showLoadingDialog(context as Activity)
+        showLoadingDialog(context as Activity)
         apiInterface.contactUs(image=image,data=data).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onSuccess(it) }, { onFailure(it) })
     }
 
     fun onSuccess(response: CommonModel){
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
         this.response.value=response
     }
 
     fun onFailure(it : Throwable){
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
         error.value=it
     }
 }

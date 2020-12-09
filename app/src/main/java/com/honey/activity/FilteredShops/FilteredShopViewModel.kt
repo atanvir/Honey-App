@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.honey.base.BaseViewModel
 import com.honey.model.request.CommonModel
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.dismissLoadingDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -19,13 +20,13 @@ class FilteredShopViewModel : BaseViewModel(){
     }
 
     private fun onFavSuccess(response: CommonModel) {
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
         this.onFavResponse.value=response
     }
 
 
     fun onFailure(it : Throwable){
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
         error.value=it
     }
 

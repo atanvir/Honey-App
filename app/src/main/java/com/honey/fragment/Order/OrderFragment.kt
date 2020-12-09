@@ -14,6 +14,8 @@ import com.honey.base.BaseFragment
 import com.honey.model.request.CommonListModel
 import com.honey.model.request.CommonModel
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.showSnackBar
+import com.honey.utils.CommonUtils.Companion.showSnackBarGreen
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension.TAG
@@ -43,22 +45,22 @@ class OrderFragment(var pos:Int) : BaseFragment() {
     override fun myObserver() {
         orderViewModel.upcomingResponse.observe(requireActivity(), Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) upcomingOrderData(it)
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(requireActivity(),it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(requireActivity(),it.message) })
 
         orderViewModel.reOrderResponse.observe(requireActivity(), Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) refreshOrder(it)
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(requireActivity(),it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(requireActivity(),it.message) })
 
         orderViewModel.pastResponse.observe(requireActivity(), Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) pastOrderData(it)
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(requireActivity(),it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(requireActivity(),it.message) })
 
         orderViewModel.error.observe(requireActivity(), Observer{ ErrorUtil.handlerGeneralError(requireActivity(), it) })
     }
 
     private fun refreshOrder(it: CommonListModel?) {
         Log.e(TAG(this),it!!.message!!)
-        CommonUtils.showSnackBarGreen(requireActivity(), it.message!!)
+        showSnackBarGreen(requireActivity(), it.message!!)
         if(pos==0) orderViewModel.upcomingOrderApi(requireActivity(),prefs.jwtToken!!)
         else orderViewModel.pastOrdersApi(requireActivity(),prefs.jwtToken!!)
     }

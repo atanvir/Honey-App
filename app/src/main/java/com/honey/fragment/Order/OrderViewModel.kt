@@ -8,6 +8,8 @@ import com.honey.base.BaseViewModel
 import com.honey.model.request.CommonListModel
 import com.honey.model.request.CommonModel
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.dismissLoadingDialog
+import com.honey.utils.CommonUtils.Companion.showLoadingDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -19,20 +21,20 @@ import io.reactivex.schedulers.Schedulers
 
     fun upcomingOrderApi(context: Context, token:String)
     {
-        CommonUtils.showLoadingDialog(context as Activity)
+        showLoadingDialog(context as Activity)
         apiInterface.upcomingOrder(token=token).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onUpcomingSuccess(it) }, { onFailure(it) })
     }
 
 
     fun pastOrdersApi(context: Context, token:String)
     {
-        CommonUtils.showLoadingDialog(context as Activity)
+        showLoadingDialog(context as Activity)
         apiInterface.pastOrder(token=token).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onPastSuccess(it) }, { onFailure(it) })
     }
 
 
     fun reorderApi(context: Context, token: String, order_id: String) {
-        CommonUtils.showLoadingDialog(context as Activity)
+        showLoadingDialog(context as Activity)
         apiInterface.reorder(token=token,order_id = order_id).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onReOrderSuccess(it) }, { onFailure(it) })
     }
 
@@ -42,19 +44,19 @@ import io.reactivex.schedulers.Schedulers
 
 
     fun onUpcomingSuccess(response: CommonListModel){
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
         this.upcomingResponse.value=response
     }
 
 
 
     fun onPastSuccess(response: CommonListModel){
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
         this.pastResponse.value=response
     }
 
     fun onFailure(it : Throwable){
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
         error.value=it
     }
 

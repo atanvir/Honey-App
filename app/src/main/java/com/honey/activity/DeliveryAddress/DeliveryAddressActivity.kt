@@ -17,6 +17,8 @@ import com.honey.base.BaseActivity
 import com.honey.model.request.CommonModel
 import com.honey.model.response.success.ResponseBean
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setToolbar
+import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension.observeOnce
@@ -38,7 +40,7 @@ class DeliveryAddressActivity : BaseActivity(), View.OnClickListener, AddressAda
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        CommonUtils.setToolbar(this,"Delivery Address")
+        setToolbar(this,getString(R.string.delivery_address))
     }
 
 
@@ -55,11 +57,11 @@ class DeliveryAddressActivity : BaseActivity(), View.OnClickListener, AddressAda
 
         deliveryViewModel.response.observe(this, Observer {
         if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUI(it)
-        else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+        else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
 
         deliveryViewModel.removeAddressResponse.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) removeData(it)
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
 
         deliveryViewModel.error.observe(this, Observer{ ErrorUtil.handlerGeneralError(this, it) })
 

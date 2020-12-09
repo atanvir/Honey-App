@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.honey.R
 import com.honey.model.response.success.ResponseBean
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.getRandomColor
 import com.honey.utils.ParamEnum
 import com.thekhaeng.pushdownanim.PushDownAnim
 import kotlinx.android.synthetic.main.activity_walk_through.*
@@ -25,15 +26,15 @@ class CouponAdapter(var context: Context, var list: List<ResponseBean>,var listn
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(holder: CouponAdapter.MyViewHolder, position: Int) {
-        holder.itemView.ivOffer.backgroundTintList=ColorStateList.valueOf(CommonUtils.getRandomColor())
-        holder.itemView.tvCode.text="TAKE " + getDiscountType(list.get(position).discount!!, list.get(position).discount_type!!) + " OFF" +
-                                        "\n  USE COUPON CODE \n" + list.get(position).coupon_code!!
+        holder.itemView.ivOffer.backgroundTintList=ColorStateList.valueOf(getRandomColor())
+        holder.itemView.tvCode.text=context.getString(R.string.take)+" " + getDiscountType(list.get(position).discount!!, list.get(position).discount_type!!) + context.getString(R.string.off) +
+                                        context.getString(R.string.coupon_code) + list.get(position).coupon_code!!
 
-        holder.itemView.tvExpireOn.text="* Valid till:"+list.get(position).expiry_date
+        holder.itemView.tvExpireOn.text=context.getString(R.string.valid_till)+list.get(position).expiry_date
     }
 
     private fun getDiscountType(discount: String, type: String): String? {
-        return if (type.equals(ParamEnum.PRICE.theValue() as String, ignoreCase = true)) "SAR $discount" else "$discount%"
+        return if (type.equals(ParamEnum.PRICE.theValue() as String, ignoreCase = true)) context.getString(R.string.sar)+" $discount" else "$discount%"
     }
 
 

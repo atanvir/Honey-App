@@ -13,6 +13,9 @@ import com.honey.activity.Rating.RatingActivity
 import com.honey.fragment.Order.OrderViewModel
 import com.honey.model.response.success.ResponseBean
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.getDispatchTime
+import com.honey.utils.CommonUtils.Companion.getTime
+import com.honey.utils.CommonUtils.Companion.setRoundImage
 import com.honey.utils.ParamEnum
 import com.honey.utils.SharedPreferenceUtil
 import kotlinx.android.synthetic.main.adapter_history.view.*
@@ -34,28 +37,28 @@ class CommonOrderAdapter(var context: Context,var pos:Int,var list:List<Response
        {
            0 ->{
                // Upcoming Orders
-               CommonUtils.setRoundImage(context,holder.itemView.ivSellerPhoto,holder.itemView.la, list.get(position).images!!)
-               if(list.get(position).item_count==1L) holder.itemView.tvItemsCount.text=""+list.get(position).item_count+" Item"
-               else holder.itemView.tvItemsCount.text=""+list.get(position).item_count+" Items"
+               setRoundImage(context,holder.itemView.ivSellerPhoto,holder.itemView.la, list.get(position).images!!)
+               if(list.get(position).item_count==1L) holder.itemView.tvItemsCount.text=""+list.get(position).item_count+" "+context.getString(R.string.item)
+               else holder.itemView.tvItemsCount.text=""+list.get(position).item_count+" "+context.getString(R.string.items)
                holder.itemView.tvSellerNames.text=list.get(position).seller_name
-               holder.itemView.tvAmount.text="SAR "+list.get(position).amount
+               holder.itemView.tvAmount.text=context.getString(R.string.sar)+" "+list.get(position).amount
                holder.itemView.tvStatus.text=list.get(position).status
-               holder.itemView.tvOrderDate.text=CommonUtils.getTime(list.get(position).order_date!!)
-               if(CommonUtils.getDispatchTime(list.get(position).dispatch_at!!)!!.split(" ".toRegex()).size>1){
-                   holder.itemView.tvDispatchTime.text = CommonUtils.getDispatchTime(list.get(position).dispatch_at!!)!!.split(" ".toRegex())[0]
-                   holder.itemView.tvNoOfDays.text = CommonUtils.getDispatchTime(list.get(position).dispatch_at!!)!!.split(" ".toRegex())[1]
+               holder.itemView.tvOrderDate.text=getTime(list.get(position).order_date!!,context=context)
+               if(getDispatchTime(list.get(position).dispatch_at!!,context=context)!!.split(" ".toRegex()).size>1){
+                   holder.itemView.tvDispatchTime.text = getDispatchTime(list.get(position).dispatch_at!!,context=context)!!.split(" ".toRegex())[0]
+                   holder.itemView.tvNoOfDays.text = getDispatchTime(list.get(position).dispatch_at!!,context=context)!!.split(" ".toRegex())[1]
                }
            }
            1 -> {
                // Past Orders
                holder.itemView.tvDate.text = list.get(position).order_date
-               if (list.get(position).item_count==1L) holder.itemView.tvItems.text = ""+list.get(position).item_count + " Item"
-               else holder.itemView.tvItems.text = ""+list.get(position).item_count + " Items"
-               CommonUtils.setRoundImage(context, holder.itemView.ivSeller, holder.itemView.lv, list.get(position).images!!)
+               if (list.get(position).item_count==1L) holder.itemView.tvItems.text = ""+list.get(position).item_count + " "+context.getString(R.string.item)
+               else holder.itemView.tvItems.text = ""+list.get(position).item_count + " "+context.getString(R.string.items)
+               setRoundImage(context, holder.itemView.ivSeller, holder.itemView.lv, list.get(position).images!!)
                holder.itemView.tvSellerName.text = list.get(position).seller_name
-               holder.itemView.tvSellingPrice.text = "SAR " + list.get(position).amount
+               holder.itemView.tvSellingPrice.text = context.getString(R.string.sar)+" " + list.get(position).amount
                holder.itemView.tvOrderStaus.text = list.get(position).status
-               if (list.get(position).status.equals("Delivered", ignoreCase = true)){
+               if (list.get(position).status.equals(context.getString(R.string.deliveried), ignoreCase = true)){
                    holder.itemView.btnRate.visibility=View.VISIBLE
                    holder.itemView.tvOrderStaus.setCompoundDrawablesRelativeWithIntrinsicBounds(ContextCompat.getDrawable(context,R.drawable.drawable_green_dot),null,null,null)
                    holder.itemView.tvOrderStaus.setTextColor(ContextCompat.getColor(context,R.color.green))

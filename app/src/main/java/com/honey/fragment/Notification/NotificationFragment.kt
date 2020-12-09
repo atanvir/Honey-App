@@ -11,6 +11,7 @@ import com.honey.adapter.NotificationAdapter
 import com.honey.base.BaseFragment
 import com.honey.model.request.CommonModel
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import kotlinx.android.synthetic.main.fragment_notification.*
@@ -38,7 +39,7 @@ class NotificationFragment : BaseFragment() {
     override fun myObserver() {
         notifiactionViewModel.response.observe(requireActivity(), Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUI(it)
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(requireActivity(),it.message) })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(requireActivity(),it.message) })
         notifiactionViewModel.error.observe(requireActivity(), Observer{ ErrorUtil.handlerGeneralError(requireActivity(), it) })
     }
 

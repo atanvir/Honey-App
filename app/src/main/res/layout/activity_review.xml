@@ -30,7 +30,7 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/drawable_stroke_round_corners"
         android:drawablePadding="16dp"
-        android:hint="Write your review..."
+        android:hint="@string/write_your_review"
         android:imeOptions="actionDone"
         android:paddingStart="60dp"
         android:paddingEnd="12dp"

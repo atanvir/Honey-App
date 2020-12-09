@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.*
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
+import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
@@ -79,7 +80,7 @@ class CommonUtils {
         var customProgressBar: CustomProgressBar? = null
         var noInternetDailog:NoInternetConnectionDailog? =null
 
-        fun loadFragment(context: Context,activity: FragmentManager, fragment: Fragment) {
+        fun loadFragment(context: Context, activity: FragmentManager, fragment: Fragment) {
             val prefs=SharedPreferenceUtil.getInstance(context)
             if(fragment is FavoriteFragment && prefs.jwtToken!!.equals(""))
             {
@@ -106,7 +107,7 @@ class CommonUtils {
            val toolbar =activity.findViewById<Toolbar>(R.id.toolbar)
             tvTitle.visibility= View.VISIBLE
             tvTitle.text=title
-            ivBack.setOnClickListener(object : View.OnClickListener{
+            ivBack.setOnClickListener(object : View.OnClickListener {
                 override fun onClick(p0: View?) {
                     activity.onBackPressed()
                 }
@@ -171,7 +172,10 @@ class CommonUtils {
        }
 
        fun showLoadingDialog(activity: Activity?) {
-            if (customProgressBar == null) customProgressBar = CustomProgressBar.show(activity, true)
+            if (customProgressBar == null) customProgressBar = CustomProgressBar.show(
+                activity,
+                true
+            )
             try {
                 customProgressBar!!.setCancelable(false)
                 customProgressBar!!.show()
@@ -181,7 +185,10 @@ class CommonUtils {
         }
 
         fun showNoInternetDialog(activity: Activity?) {
-            if (noInternetDailog == null) noInternetDailog = NoInternetConnectionDailog.show(activity!!, true)
+            if (noInternetDailog == null) noInternetDailog = NoInternetConnectionDailog.show(
+                activity!!,
+                true
+            )
             try {
                 noInternetDailog!!.setCancelable(false)
                 noInternetDailog!!.show()
@@ -230,7 +237,10 @@ class CommonUtils {
 
         fun printHashKey(pContext: Context) {
             try {
-                val info = pContext.packageManager.getPackageInfo(pContext.packageName, PackageManager.GET_SIGNATURES)
+                val info = pContext.packageManager.getPackageInfo(
+                    pContext.packageName,
+                    PackageManager.GET_SIGNATURES
+                )
                 for (signature in info.signatures) {
                     val md = MessageDigest.getInstance("SHA")
                     md.update(signature.toByteArray())
@@ -244,31 +254,63 @@ class CommonUtils {
             }
         }
 
-        fun setRoundImage(context: Context?, imageView: ImageView?, lottie: LottieAnimationView?, url: String) {
+        fun setRoundImage(
+            context: Context?,
+            imageView: ImageView?,
+            lottie: LottieAnimationView?,
+            url: String
+        ) {
             if (lottie != null) {
                 lottie.visibility = View.VISIBLE
             }
             Glide.with(context!!).load(url).listener(object : RequestListener<Drawable?> {
-                override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable?>, isFirstResource: Boolean): Boolean {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any,
+                    target: Target<Drawable?>,
+                    isFirstResource: Boolean
+                ): Boolean {
                     if (lottie != null) lottie.visibility = View.GONE
                     return false
                 }
 
-                override fun onResourceReady(resource: Drawable?, model: Any, target: Target<Drawable?>, dataSource: DataSource, isFirstResource: Boolean): Boolean {
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any,
+                    target: Target<Drawable?>,
+                    dataSource: DataSource,
+                    isFirstResource: Boolean
+                ): Boolean {
                     if (lottie != null) lottie.visibility = View.GONE
                     return false
                 }
             }).apply(RequestOptions.bitmapTransform(RoundedCorners(14))).into(imageView!!)
         }
 
-        fun setNormalImage(context: Context?, userIv: ImageView?, lottie: LottieAnimationView?, url: String?) {
+        fun setNormalImage(
+            context: Context?,
+            userIv: ImageView?,
+            lottie: LottieAnimationView?,
+            url: String?
+        ) {
             Glide.with(context!!).load(url).listener(object : RequestListener<Drawable?> {
-                override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable?>, isFirstResource: Boolean): Boolean {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any,
+                    target: Target<Drawable?>,
+                    isFirstResource: Boolean
+                ): Boolean {
                     lottie!!.visibility = View.GONE
                     return false
                 }
 
-                override fun onResourceReady(resource: Drawable?, model: Any, target: Target<Drawable?>, dataSource: DataSource, isFirstResource: Boolean): Boolean {
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any,
+                    target: Target<Drawable?>,
+                    dataSource: DataSource,
+                    isFirstResource: Boolean
+                ): Boolean {
                     lottie!!.visibility = View.GONE
                     return false
                 }
@@ -278,39 +320,65 @@ class CommonUtils {
         fun getDeviceToken(prefs: SharedPreferenceUtil): String {
             var token:String?=null
             FirebaseMessaging.getInstance().getToken().addOnCompleteListener(OnCompleteListener<String?> { task ->
-                    if (!task.isSuccessful) {
-                        Log.w("TAG", "Fetching FCM registration token failed", task.exception)
-                        return@OnCompleteListener
-                    }
-                     token= task.result
-                     Log.e("token",""+token)
-                     prefs.device_token=token
-             })
+                if (!task.isSuccessful) {
+                    Log.w("TAG", "Fetching FCM registration token failed", task.exception)
+                    return@OnCompleteListener
+                }
+                token = task.result
+                Log.e("token", "" + token)
+                prefs.device_token = token
+            })
 
             return token.toString()
         }
 
         fun showSnackBar(context: Context?, msg: String?) {
             var snackbar: Snackbar? = null
-            snackbar = if (context is MainActivity) Snackbar.make((context as Activity).findViewById(R.id.viewSnackbar), msg!!, Snackbar.LENGTH_LONG)
-            else Snackbar.make((context as Activity).findViewById(android.R.id.content), msg!!, Snackbar.LENGTH_LONG)
+            snackbar = if (context is MainActivity) Snackbar.make(
+                (context as Activity).findViewById(
+                    R.id.viewSnackbar
+                ), msg!!, Snackbar.LENGTH_LONG
+            )
+            else Snackbar.make(
+                (context as Activity).findViewById(android.R.id.content),
+                msg!!,
+                Snackbar.LENGTH_LONG
+            )
             val snackBarView = snackbar.view
-            snackBarView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.holo_red_dark))
+            snackBarView.setBackgroundColor(
+                ContextCompat.getColor(
+                    context,
+                    android.R.color.holo_red_dark
+                )
+            )
             val tv = snackBarView.findViewById<View>(R.id.snackbar_text) as TextView
             snackBarView.minimumHeight = 20
             tv.textSize = 14f
             tv.setTextColor(ContextCompat.getColor(context, R.color.white))
-            if(msg.equals("Login Token Expire")) loginIntent(context,msg)
-            else if(msg.equals("The token field is required.")) loginIntent(context,"Please login first")
+            if(msg.equals("Login Token Expire")) loginIntent(context, msg)
+            else if(msg.equals("The token field is required.")) loginIntent(context, context.getString(R.string.login_first))
             else snackbar.show()
         }
 
         fun showSnackBarGreen(context: Context?, msg: String?) {
             var snackbar: Snackbar? = null
-            snackbar = if (context is MainActivity) Snackbar.make((context as Activity).findViewById(R.id.viewSnackbar), msg!!, Snackbar.LENGTH_LONG)
-            else Snackbar.make((context as Activity).findViewById(android.R.id.content), msg!!, Snackbar.LENGTH_LONG)
+            snackbar = if (context is MainActivity) Snackbar.make(
+                (context as Activity).findViewById(
+                    R.id.viewSnackbar
+                ), msg!!, Snackbar.LENGTH_LONG
+            )
+            else Snackbar.make(
+                (context as Activity).findViewById(android.R.id.content),
+                msg!!,
+                Snackbar.LENGTH_LONG
+            )
             val snackBarView = snackbar.view
-            snackBarView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.holo_green_dark))
+            snackBarView.setBackgroundColor(
+                ContextCompat.getColor(
+                    context,
+                    android.R.color.holo_green_dark
+                )
+            )
             val tv = snackBarView.findViewById<View>(R.id.snackbar_text) as TextView
             snackBarView.minimumHeight = 20
             tv.textSize = 14f
@@ -327,13 +395,18 @@ class CommonUtils {
             var intent= Intent(context, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(intent)
-            Toast.makeText(context,msg,Toast.LENGTH_LONG).show()
+            Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
         }
 
         fun getPickIntent(context: Context, cameraOutputUri: Uri?): Intent? {
             val intents=ArrayList<Intent>()
             if (true) {
-                intents.add(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI))
+                intents.add(
+                    Intent(
+                        Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                    )
+                )
             }
             if (true) {
                 setCameraIntents(context, intents, cameraOutputUri)
@@ -341,7 +414,10 @@ class CommonUtils {
             if (intents.isEmpty()) return null
             val result = Intent.createChooser(intents.removeAt(0), null)
             if (!intents.isEmpty()) {
-                result.putExtra(Intent.EXTRA_INITIAL_INTENTS, intents.toArray(arrayOf<Parcelable>()))
+                result.putExtra(
+                    Intent.EXTRA_INITIAL_INTENTS,
+                    intents.toArray(arrayOf<Parcelable>())
+                )
             }
             return result
         }
@@ -353,7 +429,10 @@ class CommonUtils {
             for (res in listCam) {
                 val packageName: String = res.activityInfo.packageName
                 val intent = Intent(captureIntent)
-                intent.component = ComponentName(res.activityInfo.packageName, res.activityInfo.name)
+                intent.component = ComponentName(
+                    res.activityInfo.packageName,
+                    res.activityInfo.name
+                )
                 intent.setPackage(packageName)
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, output)
                 intent.putExtra("uri", output)
@@ -362,14 +441,20 @@ class CommonUtils {
         }
 
         fun isGPlayServicesOK(activity: Activity?): Boolean {
-            val isAvailable = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(activity)
+            val isAvailable = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(
+                activity
+            )
             if (isAvailable == ConnectionResult.SUCCESS) {
                 return true
             } else if (GoogleApiAvailability.getInstance().isUserResolvableError(isAvailable)) {
-                val dialog = GoogleApiAvailability.getInstance().getErrorDialog(activity, isAvailable, 1001)
+                val dialog = GoogleApiAvailability.getInstance().getErrorDialog(
+                    activity,
+                    isAvailable,
+                    1001
+                )
                 dialog.show()
             } else {
-                Toast.makeText(activity, "Can't connect to Google Play Services", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, activity!!.applicationContext.getString(R.string.cannot_connect_to_playstore), Toast.LENGTH_SHORT).show()
             }
             return false
         }
@@ -380,36 +465,36 @@ class CommonUtils {
                 return gson!!
         }
 
-        fun getValue(selectedText: String): String {
+        fun getValue(selectedText: String,context:Context): String {
             var value=""
             value=when(selectedText)
             {
-                "popular" -> "Popular"
-                "free_delivery" ->  "Free Delivery"
-                "nearest" -> "Nearest"
-                "delivery_time" -> "Delivery time"
-                "price_range" ->  "Price Range"
+                "popular" -> context.getString(R.string.popular)
+                "free_delivery" -> context.getString(R.string.free_delivery)
+                "nearest" -> context.getString(R.string.nearest)
+                "delivery_time" -> context.getString(R.string.delivery_time)
+                "price_range" -> context.getString(R.string.price_range)
                 else -> ""
             }
 
             return value
         }
 
-        fun getKey(key: String): String {
+        fun getKey(key: String,context:Context): String {
             var value=""
             value=when(key)
             {
-                "Popular" -> "popular"
-                "Free Delivery" -> "free_delivery"
-                "Nearest" -> "nearest"
-                "Delivery time" -> "delivery_time"
-                "Price Range" -> "price_range"
+                context.getString(R.string.popular) -> "popular"
+                context.getString(R.string.free_delivery) -> "free_delivery"
+                context.getString(R.string.nearest) -> "nearest"
+                context.getString(R.string.delivery_time) -> "delivery_time"
+                context.getString(R.string.price_range) -> "price_range"
                 else -> ""
             }
             return value
         }
 
-        fun getTimeAgo(dt: String): String? {
+        fun getTimeAgo(dt: String,context: Context): String? {
             var time = ""
             val server_format1 = "2019-04-04 13:27:36" //server comes format ?
             val myFormat = "yyyy-MM-dd HH:mm:ss" //In which you need put here
@@ -427,7 +512,9 @@ class CommonUtils {
                 val date1 = completeDate[0]
                 val month = completeDate[1]
                 val year = completeDate[2]
-                val days_in_months = GregorianCalendar(year.toInt(), month.toInt(), date1.toInt()).getActualMaximum(Calendar.DAY_OF_MONTH)
+                val days_in_months = GregorianCalendar(year.toInt(), month.toInt(), date1.toInt()).getActualMaximum(
+                    Calendar.DAY_OF_MONTH
+                )
                 val secounds: Long = 1000 // 1 secound
                 val min = 60 * secounds // 1 min
                 val hour: Long = 3600000 // 1 hour
@@ -438,14 +525,14 @@ class CommonUtils {
                 val hourdifference = differenceDate / hour
                 val mindifference = differenceDate / min
                 val secoundsDiffer = differenceDate / secounds
-                time = if (monthdifference > 0) if (monthdifference == 1L) "$monthdifference month ago" else "$monthdifference months ago" else if (daysDifference > 0) if (daysDifference == 1L) "$daysDifference day ago" else "$daysDifference days ago" else if (hourdifference > 0) if (hourdifference == 1L) "$hourdifference hour ago" else "$hourdifference hours ago" else if (mindifference > 0) if (mindifference == 1L) "$mindifference min ago" else "$mindifference mins ago" else if (secoundsDiffer > 0) "$secoundsDiffer secs ago" else "now"
+                time = if (monthdifference > 0) if (monthdifference == 1L) "$monthdifference "+context.getString(R.string.month_ago) else "$monthdifference "+context.getString(R.string.months_ago) else if (daysDifference > 0) if (daysDifference == 1L) "$daysDifference "+context.getString(R.string.day_ago) else "$daysDifference "+context.getString(R.string.days_ago) else if (hourdifference > 0) if (hourdifference == 1L) "$hourdifference "+context.getString(R.string.hour_ago) else "$hourdifference "+context.getString(R.string.hours_ago) else if (mindifference > 0) if (mindifference == 1L) "$mindifference "+context.getString(R.string.min_ago) else "$mindifference "+context.getString(R.string.mins_ago) else if (secoundsDiffer > 0) "$secoundsDiffer "+context.getString(R.string.secs_ago) else context.getString(R.string.now)
             } catch (e: ParseException) {
                 e.printStackTrace()
             }
             return time
         }
 
-        fun getTime(dt: String): String? {
+        fun getTime(dt: String,context:Context): String? {
             var time = ""
             val myFormat = "dd/MM/yyy" //In which you need put here
             val sdf = SimpleDateFormat(myFormat, Locale.US)
@@ -462,7 +549,9 @@ class CommonUtils {
                 val date1 = completeDate[0]
                 val month = completeDate[1]
                 val year = completeDate[2]
-                val days_in_months = GregorianCalendar(year.toInt(), month.toInt(), date1.toInt()).getActualMaximum(Calendar.DAY_OF_MONTH)
+                val days_in_months = GregorianCalendar(year.toInt(), month.toInt(), date1.toInt()).getActualMaximum(
+                    Calendar.DAY_OF_MONTH
+                )
                 val secounds: Long = 1000 // 1 secound
                 val min = 60 * secounds // 1 min
                 val hour: Long = 3600000 // 1 hour
@@ -473,14 +562,14 @@ class CommonUtils {
                 val hourdifference = differenceDate / hour
                 val mindifference = differenceDate / min
                 val secoundsDiffer = differenceDate / secounds
-                time = if (monthdifference > 0) if (monthdifference == 1L) "$monthdifference month ago" else "$monthdifference months ago" else if (daysDifference > 0) if (daysDifference == 1L) "$daysDifference day ago" else "$daysDifference days ago" else if (hourdifference > 0) if (hourdifference == 1L) "$hourdifference hour ago" else "$hourdifference hours ago" else if (mindifference > 0) if (mindifference == 1L) "$mindifference min ago" else "$mindifference mins ago" else if (secoundsDiffer > 0) "$secoundsDiffer secs ago" else "now"
+                time = if (monthdifference > 0) if (monthdifference == 1L) "$monthdifference "+context.getString(R.string.month_ago) else "$monthdifference "+context.getString(R.string.months_ago) else if (daysDifference > 0) if (daysDifference == 1L) "$daysDifference "+context.getString(R.string.day_ago) else "$daysDifference "+context.getString(R.string.days_ago) else if (hourdifference > 0) if (hourdifference == 1L) "$hourdifference "+context.getString(R.string.hour_ago) else "$hourdifference "+context.getString(R.string.hours_ago) else if (mindifference > 0) if (mindifference == 1L) "$mindifference "+context.getString(R.string.min_ago) else "$mindifference "+context.getString(R.string.mins_ago) else if (secoundsDiffer > 0) "$secoundsDiffer "+context.getString(R.string.secs_ago) else context.getString(R.string.now)
             } catch (e: ParseException) {
                 e.printStackTrace()
             }
             return time
         }
 
-        fun getDispatchTime(dt: String): String? {
+        fun getDispatchTime(dt: String,context:Context): String? {
             var time = ""
             val myFormat = "dd/MM/yyy" //In which you need put here
             val sdf = SimpleDateFormat(myFormat, Locale.US)
@@ -497,7 +586,9 @@ class CommonUtils {
                 val date1 = completeDate[0]
                 val month = completeDate[1]
                 val year = completeDate[2]
-                val days_in_months = GregorianCalendar(year.toInt(), month.toInt(), date1.toInt()).getActualMaximum(Calendar.DAY_OF_MONTH)
+                val days_in_months = GregorianCalendar(year.toInt(), month.toInt(), date1.toInt()).getActualMaximum(
+                    Calendar.DAY_OF_MONTH
+                )
                 val secounds: Long = 1000 // 1 secound
                 val min = 60 * secounds // 1 min
                 val hour: Long = 3600000 // 1 hour
@@ -508,7 +599,7 @@ class CommonUtils {
                 val hourdifference = differenceDate / hour
                 val mindifference = differenceDate / min
                 val secoundsDiffer = differenceDate / secounds
-                time = if (monthdifference > 0) if (monthdifference == 1L) "$monthdifference month ago" else "$monthdifference months ago" else if (daysDifference > 0) if (daysDifference == 1L) "$daysDifference day ago" else "$daysDifference days ago" else if (hourdifference > 0) if (hourdifference == 1L) "$hourdifference hour ago" else "$hourdifference hours ago" else if (mindifference > 0) if (mindifference == 1L) "$mindifference min ago" else "$mindifference mins ago" else if (secoundsDiffer > 0) "$secoundsDiffer secs ago" else "now"
+                time = if (monthdifference > 0) if (monthdifference == 1L) "$monthdifference "+context.getString(R.string.month_ago) else "$monthdifference "+context.getString(R.string.months_ago) else if (daysDifference > 0) if (daysDifference == 1L) "$daysDifference "+context.getString(R.string.day_ago) else "$daysDifference "+context.getString(R.string.days_ago) else if (hourdifference > 0) if (hourdifference == 1L) "$hourdifference "+context.getString(R.string.hour_ago) else "$hourdifference "+context.getString(R.string.hours_ago) else if (mindifference > 0) if (mindifference == 1L) "$mindifference "+context.getString(R.string.min_ago) else "$mindifference "+context.getString(R.string.mins_ago) else if (secoundsDiffer > 0) "$secoundsDiffer "+context.getString(R.string.secs_ago) else context.getString(R.string.now)
             } catch (e: ParseException) {
                 e.printStackTrace()
             }
@@ -516,7 +607,7 @@ class CommonUtils {
         }
 
         fun getGuestData(key: String): String {
-        return TextUtils.join(",",getData(key))
+        return TextUtils.join(",", getData(key))
         }
 
         private fun getData(key: String): List<String> {
@@ -525,9 +616,21 @@ class CommonUtils {
             {
                 for(i in 0..(GuestData.instance!!.allData!!.size-1))
                 {
-                    if(key.equals(ParamEnum.PRODUCT_ID.theValue())) list.add(GuestData!!.instance!!.allData!!.get(i).product_id)
-                    else if(key.equals(ParamEnum.SELLER_ID.theValue())) list.add(GuestData!!.instance!!.allData!!.get(i).store_id)
-                    else if(key.equals(ParamEnum.QUANTITY.theValue())) list.add(""+GuestData!!.instance!!.allData!!.get(i).quanutity)
+                    if(key.equals(ParamEnum.PRODUCT_ID.theValue())) list.add(
+                        GuestData!!.instance!!.allData!!.get(
+                            i
+                        ).product_id
+                    )
+                    else if(key.equals(ParamEnum.SELLER_ID.theValue())) list.add(
+                        GuestData!!.instance!!.allData!!.get(
+                            i
+                        ).store_id
+                    )
+                    else if(key.equals(ParamEnum.QUANTITY.theValue())) list.add(
+                        "" + GuestData!!.instance!!.allData!!.get(
+                            i
+                        ).quanutity
+                    )
                 }
             }
             return list
@@ -537,6 +640,8 @@ class CommonUtils {
             val rnd = Random()
             return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
         }
+
+
 
     }
 }

@@ -16,6 +16,9 @@ import com.honey.base.BaseActivity
 import com.honey.model.request.CommonListModel
 import com.honey.model.request.ReviewModel
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setRoundImage
+import com.honey.utils.CommonUtils.Companion.setToolbar
+import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension.observeOnce
@@ -34,8 +37,8 @@ class ReviewActivity : BaseActivity(), TextView.OnEditorActionListener {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        CommonUtils.setToolbar(this,"Reviews")
-        CommonUtils.setRoundImage(this,ciPic,lottieAnim,prefs.image!!)
+        setToolbar(this,getString(R.string.reviews))
+        setRoundImage(this,ciPic,lottieAnim,prefs.image!!)
     }
 
     override fun init() {
@@ -50,13 +53,13 @@ class ReviewActivity : BaseActivity(), TextView.OnEditorActionListener {
     override fun myObserver() {
         reviewViewModel.response.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUI(it)
-            else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+            else if(it.status!!.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
         reviewViewModel.reviewResponse.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) {
                 finish()
                 Toast.makeText(this,it.message,Toast.LENGTH_LONG).show()
             }
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) { CommonUtils.showSnackBar(this,it.message)} })
+            else if(it.status.equals(ParamEnum.FAILURE.theValue())) { showSnackBar(this,it.message)} })
         reviewViewModel.error.observe(this, Observer{ ErrorUtil.handlerGeneralError(this, it) })
     }
 

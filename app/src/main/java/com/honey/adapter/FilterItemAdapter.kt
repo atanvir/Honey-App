@@ -10,6 +10,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.honey.R
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.getKey
+import com.honey.utils.CommonUtils.Companion.getValue
 import kotlinx.android.synthetic.main.adapter_filter.view.*
 
 class FilterItemAdapter(var context: Context, var list: ArrayList<String>,var type: String,var selectedText: String,var listner:setOnFilterItemClickListner) : RecyclerView.Adapter<FilterItemAdapter.MyViewHolder>() {
@@ -34,7 +36,7 @@ class FilterItemAdapter(var context: Context, var list: ArrayList<String>,var ty
 
     private fun checkValue(selectedText: String, type: String): String {
         var value=""
-        if(type.equals("Sort By")) value=CommonUtils.getValue(selectedText)
+        if(type.equals("Sort By")) value=getValue(selectedText=selectedText,context = context)
         else value=selectedText
         return value
     }
@@ -58,7 +60,7 @@ class FilterItemAdapter(var context: Context, var list: ArrayList<String>,var ty
 
         private fun checkKey(type: String,key: String): String {
             var keyName=""
-            if(type.equals("Sort By")) keyName=CommonUtils.getKey(key)
+            if(type.equals("Sort By")) keyName=getKey(key=key,context=context)
             else keyName=key
             return keyName
         }

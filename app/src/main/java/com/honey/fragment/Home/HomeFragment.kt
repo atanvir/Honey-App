@@ -40,6 +40,10 @@ import com.honey.model.response.success.ResponseBean
 import com.honey.utils.CommonUtils
 import com.honey.utils.CommonUtils.Companion.PERMISSION
 import com.honey.utils.CommonUtils.Companion.PERMISSION_DIALOG_REQ
+import com.honey.utils.CommonUtils.Companion.isGPlayServicesOK
+import com.honey.utils.CommonUtils.Companion.isOnline
+import com.honey.utils.CommonUtils.Companion.showSnackBar
+import com.honey.utils.CommonUtils.Companion.showSnackBarGreen
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension.TAG
@@ -75,10 +79,10 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
     }
 
     fun startLocationFunctioning() {
-        if (!CommonUtils.isOnline(requireActivity())) {
-            Toast.makeText(requireActivity(), "Internet not available.", Toast.LENGTH_SHORT).show()
+        if (!isOnline(requireActivity())) {
+            Toast.makeText(requireActivity(), getString(R.string.internet_not_available), Toast.LENGTH_SHORT).show()
         } else {
-            if (CommonUtils.isGPlayServicesOK(requireActivity())) {
+            if (isGPlayServicesOK(requireActivity())) {
                 buildGoogleApiClient()
             }
         }
@@ -191,7 +195,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
                         break
                     }
                 }
-                if (permissionDenied) CommonUtils.showSnackBar(requireActivity(), "Please Allow permission for the security purpose")
+                if (permissionDenied) showSnackBar(requireActivity(), getString(R.string.please_allow_permission_for_security))
                 else startLocationFunctioning()
             }
         }
@@ -200,7 +204,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
     override fun init() {
         // Options RecycleView
 //        val options = arrayListOf("ALL", "LATEST", "POPULAR", "OFFERS", "DISTANCE")
-        val options = arrayListOf("ALL", "LATEST", "POPULAR", "DISTANCE")
+        val options = arrayListOf(getString(R.string.all), getString(R.string.latest), getString(R.string.popular_caps), getString(R.string.distance_caps))
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation=LinearLayoutManager.HORIZONTAL
         rvOptions.layoutManager=layoutManager
@@ -223,22 +227,20 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
 
         homeViewModel.response.observe(requireActivity(), Observer {
             if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it.response)
-            else if (it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(activity, it.message)
+            else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity, it.message)
         })
 
         homeViewModel.onFavResponse.observe(requireActivity(), Observer {
             if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkFavData(it)
-            else if (it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(activity, it.message)
+            else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity, it.message)
         })
 
         homeViewModel.error.observe(requireActivity(), Observer { ErrorUtil.handlerGeneralError(requireActivity(), it) })
     }
 
     private fun checkFavData(response: CommonModel?) {
-       if(response!!.message.equals("Store added to wishlist successfully")) homeDataList!!.get(pos!!).favourite="yes"
-       else if(response.message.equals("Store removed from wishlist successfully")) homeDataList!!.get(
-           pos!!
-       ).favourite="no"
+       if(response!!.message.equals(getString(R.string.store_added_to_wishlist))) homeDataList!!.get(pos!!).favourite="yes"
+       else if(response.message.equals(getString(R.string.store_removed_from_wishlist))) homeDataList!!.get(pos!!).favourite="no"
         rvFeaturedShops.adapter!!.notifyItemChanged(pos!!)
     }
     private fun setDataToUi(data: ResponseBean?) {
@@ -267,9 +269,9 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
         // Shops
         homeDataList=data!!.allstores
         Collections.shuffle(homeDataList)
-        val label=if(homeDataList!!.size>0) "ALL SHOPS" else "ALL SHOP"
+        val label=if(homeDataList!!.size>0) getString(R.string.all_shops) else getString(R.string.all_shop)
         tvLabel.text=label
-        val homeAdapter=CommonHomeAdapter(requireContext(), homeDataList!!,"ALL",this)
+        val homeAdapter=CommonHomeAdapter(requireContext(), homeDataList!!,getString(R.string.all),this)
         rvFeaturedShops.adapter=homeAdapter
         homeAdapter.notifyDataSetChanged()
         rvFeaturedShops.scheduleLayoutAnimation()
@@ -298,7 +300,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
             "offers" -> { homeDataList = homeData!!.offers }
             "distance" -> { homeDataList = homeData!!.distance }
         }
-        val label=if(option.equals("OFFERS",ignoreCase = true)) if(homeDataList!!.size>0) "$option " else "OFFER" else if(option.equals("DISTANCE",ignoreCase = true)) if(homeDataList!!.size>0) "NEAR BY SHOPS" else "NEAR BY SHOP"  else if(homeDataList!!.size>0) "$option SHOPS" else "$option SHOP"
+        val label=if(option.equals(getString(R.string.offers),ignoreCase = true)) if(homeDataList!!.size>0) "$option " else getString(R.string.offer) else if(option.equals(getString(R.string.distance_caps),ignoreCase = true)) if(homeDataList!!.size>0) getString(R.string.near_by_shops) else getString(R.string.near_by_shop)  else if(homeDataList!!.size>0) "$option "+getString(R.string.shops_cap) else "$option "+getString(R.string.shop_cap)
         tvLabel.text=label
         Collections.shuffle(homeDataList)
         Log.e(TAG(this), "" + homeDataList!!.size)
@@ -339,7 +341,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
             PERMISSION_DIALOG_REQ -> {
                 if (resultCode == Activity.RESULT_OK) { loadCurrentLoc() }
                 else if (resultCode == Activity.RESULT_CANCELED) {
-                    CommonUtils.showSnackBarGreen(requireActivity(),"Please turn on gps for the security purpose")
+                    showSnackBarGreen(requireActivity(),getString(R.string.please_turn_gps))
                     setUpLocationSettingsTaskStuff()
                 }
             }

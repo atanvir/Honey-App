@@ -7,6 +7,8 @@ import com.e.carty.webservices.ApiClient
 import com.honey.base.BaseViewModel
 import com.honey.model.request.CommonModel
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.dismissLoadingDialog
+import com.honey.utils.CommonUtils.Companion.showLoadingDialog
 import com.honey.utils.ParamEnum
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -20,12 +22,12 @@ class PaymentViewModel : BaseViewModel(){
     var error = MutableLiveData<Throwable>()
 
     fun defaultAddressApi(context: Context, token:String){
-        CommonUtils.showLoadingDialog(context as Activity)
+        showLoadingDialog(context as Activity)
         apiInterface.defaultAddress(token=token).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onDefaultAddrressSuccess(it) }, { onFailure(it) })
     }
 
     fun placeOrderApi(context: Context, token:String, paymentType: String, transcation_id: String, coupon_code: String,shipping_charges:String, address_id: String) {
-        CommonUtils.showLoadingDialog(context as Activity)
+        showLoadingDialog(context as Activity)
         apiInterface.placeOrder(token=token,paymentType=paymentType,transcation_id=transcation_id,coupon_code=coupon_code,shipping_charges = shipping_charges,address_id=address_id).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onSuccess(it) }, { onFailure(it) })
 
     }
@@ -42,18 +44,18 @@ class PaymentViewModel : BaseViewModel(){
 
 
     fun onDefaultAddrressSuccess(response: CommonModel){
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
         this.defaultAddressResponse.value=response
     }
 
     fun onFailure(it : Throwable){
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
         error.value=it
     }
 
 
     private fun onSuccess(response: CommonModel) {
-        CommonUtils.dismissLoadingDialog()
+        dismissLoadingDialog()
         this.response.value=response
 
     }

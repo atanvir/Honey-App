@@ -17,6 +17,8 @@ import com.honey.adapter.FilterRatingAdapter
 import com.honey.base.BaseActivity
 import com.honey.model.request.CommonModel
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setToolbar
+import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension.observeOnce
@@ -25,8 +27,8 @@ import kotlinx.android.synthetic.main.activity_filter.*
 import kotlinx.android.synthetic.main.layout_main_toolbar.*
 
 class FilterActivity : BaseActivity(), View.OnClickListener, FilterRatingAdapter.setOnItemClickListner, FilterItemAdapter.setOnFilterItemClickListner {
-    val honeyType= arrayListOf("Natural","Arabian","KSA","Dark","Acacia","Black Forest")
-    val sort = arrayListOf("Popular","Free Delivery","Nearest","Delivery time","Price Range")
+    var honeyType:ArrayList<String>?=null
+    var sort:ArrayList<String>?=null
     val ratingList= arrayListOf("5","4","3","2","1")
     private lateinit var filterViewModel:FilterViewModel
     var type: String?=""
@@ -46,16 +48,18 @@ class FilterActivity : BaseActivity(), View.OnClickListener, FilterRatingAdapter
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        CommonUtils.setToolbar(this,"Filter")
+        setToolbar(this,getString(R.string.filter))
         type=intent.getStringExtra(""+ParamEnum.TYPE.theValue())
         sort_by=intent.getStringExtra(""+ParamEnum.SORT_BY.theValue())
         price_low=intent.getStringExtra(""+ParamEnum.PRICE_LOW.theValue())
         price_high=intent.getStringExtra(""+ParamEnum.PRICE_HIGH.theValue())
         rating=intent.getStringExtra(""+ParamEnum.RATING.theValue())
-        tvRange.setText("SAR "+price_low+" - "+"SAR "+price_high)
+        tvRange.setText(getString(R.string.sar)+" "+ price_low+" - "+getString(R.string.sar)+" "+ price_high)
     }
 
     override fun init() {
+        honeyType=arrayListOf(getString(R.string.natural),getString(R.string.arabian),getString(R.string.ksa),getString(R.string.dark),getString(R.string.acacia),getString(R.string.black_forest))
+        sort=arrayListOf(getString(R.string.popular),getString(R.string.free_delivery),getString(R.string.nearest),getString(R.string.delivery_time),getString(R.string.price_range))
         filterViewModel=ViewModelProviders.of(this).get(FilterViewModel::class.java)
         filterViewModel.categoryListApi(this)
     }
@@ -67,34 +71,34 @@ class FilterActivity : BaseActivity(), View.OnClickListener, FilterRatingAdapter
 
     override fun myObserver() {
         seekBarWithChart.onRangeChanged = { leftPinValue, rightPinValue ->
-            tvRange.setText("SAR "+leftPinValue+" - "+"SAR "+rightPinValue)
+            tvRange.setText(getString(R.string.sar)+" "+ leftPinValue+" - "+getString(R.string.sar)+ " "+rightPinValue)
             price_low=leftPinValue
             price_high=rightPinValue
         }
 
         filterViewModel.response.observe(this, Observer {
         if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUI(it)
-        else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+        else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
 
         filterViewModel.error.observe(this, Observer{ ErrorUtil.handlerGeneralError(this, it) })
     }
 
     private fun setDataToUI(it: CommonModel?) {
         clMain.visibility=View.VISIBLE
-        honeyType.clear()
+        honeyType!!.clear()
         for (i in 1..(it!!.categorylist!!.size-1)) {
-           honeyType.add(it.categorylist!!.get(i).name!!)
+           honeyType!!.add(it.categorylist!!.get(i).name!!)
         }
         val type=GridLayoutManager(this,2)
         type.orientation=GridLayoutManager.VERTICAL
         rvType.layoutManager=type
-        rvType.adapter=FilterItemAdapter(this,honeyType,"Honey Type",this.type!!,this)
+        rvType.adapter=FilterItemAdapter(this,honeyType!!,"Honey Type",this.type!!,this)
         rvType.scheduleLayoutAnimation()
 
         val sort=GridLayoutManager(this,2)
         type.orientation=GridLayoutManager.VERTICAL
         rvSort.layoutManager=sort
-        rvSort.adapter=FilterItemAdapter(this,this.sort,"Sort By",sort_by!!,this)
+        rvSort.adapter=FilterItemAdapter(this,this.sort!!,"Sort By",sort_by!!,this)
         rvSort.scheduleLayoutAnimation()
 
         val layoutManger=LinearLayoutManager(this)

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.PagerAdapter
+import com.honey.R
 import com.honey.fragment.Order.OrderFragment
 import com.honey.fragment.FavAndSearchTab.CommonTabFragment
 
@@ -27,17 +28,17 @@ class FrgamentPagerAdapter(var context: Context,var screen: String,fm: FragmentM
 
     override fun getPageTitle(position: Int): CharSequence? {
         if(screen.equals("Search")) {
-            if (position == 0) return "Honey Product"
-            else return "Honey Stores"
+            if (position == 0) return context.getString(R.string.honey_products)
+            else return context.getString(R.string.honey_stores)
         }else if(screen.equals("Order"))
         {
-            if (position == 0) return "Upcoming"
-            else return "History"
+            if (position == 0) return context.getString(R.string.upcoming)
+            else return context.getString(R.string.history)
         }
         else
         {
-            if (position == 0) return "Honey Products"
-            else return "Stores"
+            if (position == 0) return context.getString(R.string.honey_products)
+            else return context.getString(R.string.stores)
         }
     }
 

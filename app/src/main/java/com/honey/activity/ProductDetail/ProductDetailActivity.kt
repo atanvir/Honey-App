@@ -23,6 +23,9 @@ import com.honey.base.BaseActivity
 import com.honey.model.request.GuestDataModel
 import com.honey.model.response.success.ResponseBean
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setRoundImage
+import com.honey.utils.CommonUtils.Companion.setToolbar
+import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.ErrorUtil
 import com.honey.utils.GuestData
 import com.honey.utils.ParamEnum
@@ -45,7 +48,7 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        CommonUtils.setToolbar(this, "")
+        setToolbar(this, "")
     }
     override fun init() {
         PushDownAnim.setPushDownAnimTo(tvReview).setScale(PushDownAnim.MODE_SCALE, 0.89f)
@@ -61,17 +64,17 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
     override fun myObserver() {
         productViewModel.response.observe(this, Observer {
             if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it.response)
-            else if (it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this, it.message)
+            else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this, it.message)
         })
 
         productViewModel.removeCartResponse.observe(this, Observer {
             if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) responseHandler()
-            else if (it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this, it.message)
+            else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this, it.message)
         })
 
         productViewModel.updateCartResponse.observe(this, Observer {
             if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) responseHandler()
-            else if (it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this, it.message)
+            else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this, it.message)
         })
 
         productViewModel.addCartResponse.observe(this, Observer {
@@ -131,18 +134,18 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
          }
         }
 
-        CommonUtils.setRoundImage(this, ivProductPic, lvProductDetail, response!!.images!!)
+        setRoundImage(this, ivProductPic, lvProductDetail, response!!.images!!)
         tvName.text=response.name
         tvRating.text = "" + response.rating
-        if(response.review!!.size==0) tvReviews.text="(+ 0 review)"
-        else tvReviews.text="(+"+response.review!!.size+" reviews)"
-        tvSellingPrice.text ="SAR "+response.sp
+        if(response.review!!.size==0) tvReviews.text="(+ 0 "+getString(R.string.review)+")"
+        else tvReviews.text="(+"+response.review!!.size+" "+getString(R.string.review)+")"
+        tvSellingPrice.text =getString(R.string.sar)+" "+response.sp
         tvDesc.text=response.description
         readMore(this,tvDesc,3)
         stockQuantity=response.quantity
 
         if(response.quantity!!<1){
-            btnAddtoCart.text="Out Of Stock!"
+            btnAddtoCart.text=getString(R.string.out_of_stock)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 btnAddtoCart.backgroundTintList=getColorStateList(R.color.green)
             }
@@ -223,7 +226,7 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
                      else productViewModel.updateCartApi(this, intent.getStringExtra("product_id")!!, prefs.jwtToken!!, quantity!!)
                  }
              } else {
-                 CommonUtils.showSnackBar(this, "Out of Stock!")
+                 showSnackBar(this, getString(R.string.out_of_stock))
              }
          }
 
@@ -249,7 +252,7 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
         var ret=false
         if(stockQuantity!! >= (quantity!! + 1).toLong()) {ret=true}
         else {ret=false
-            CommonUtils.showSnackBar(this, "Out of Stock!")}
+            showSnackBar(this, getString(R.string.out_of_stock))}
 
      return ret
     }

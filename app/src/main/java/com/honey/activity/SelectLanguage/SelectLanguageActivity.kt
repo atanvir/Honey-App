@@ -6,6 +6,8 @@ import android.view.View
 import com.honey.R
 import com.honey.activity.WalkThrough.WalkThroughActivity
 import com.honey.base.BaseActivity
+import com.honey.utils.ViewExtension
+import com.honey.utils.ViewExtension.setLocale
 import com.thekhaeng.pushdownanim.PushDownAnim
 import kotlinx.android.synthetic.main.activity_select_language.*
 
@@ -22,6 +24,7 @@ class SelectLanguageActivity : BaseActivity(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         prefs.isLanguageFirstTime=true
+        setLocale(this)
     }
 
     override fun init() {
@@ -55,9 +58,13 @@ class SelectLanguageActivity : BaseActivity(), View.OnClickListener {
             R.id.btnEnglish ->{
                 ivArabics.visibility-View.GONE
                 ivEnglish.visibility=View.VISIBLE
+                prefs.selectedLanguage="en"
             }
 
             R.id.btnArabic ->{
+                ivArabics.visibility-View.VISIBLE
+                ivEnglish.visibility=View.GONE
+                prefs.selectedLanguage="ar"
             }
         }
 

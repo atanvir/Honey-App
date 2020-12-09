@@ -27,6 +27,11 @@ import com.honey.base.BaseActivity
 import com.honey.model.request.CommonModel
 import com.honey.model.response.success.ResponseBean
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.dismissLoadingDialog
+import com.honey.utils.CommonUtils.Companion.getGuestData
+import com.honey.utils.CommonUtils.Companion.setToolbar
+import com.honey.utils.CommonUtils.Companion.showLoadingDialog
+import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.ErrorUtil
 import com.honey.utils.GuestData
 import com.honey.utils.ParamEnum
@@ -56,8 +61,8 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        CommonUtils.setToolbar(this,"")
-        tvLabel.text="Please type the  verification code sent to\n" + intent.getStringExtra("country_code")+" "+intent.getStringExtra("phone_number")
+        setToolbar(this,"")
+        tvLabel.text= getString(R.string.type_verification_code)+ intent.getStringExtra("country_code")+" "+intent.getStringExtra("phone_number")
     }
 
     override fun init() {
@@ -65,9 +70,9 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
         otpViewModel= ViewModelProviders.of(this).get(OTPVerificationViewModel::class.java)
         if(prefs.jwtToken!!.equals(""))
         {
-            product_id=CommonUtils.getGuestData(""+ParamEnum.PRODUCT_ID.theValue())
-            seller_id=CommonUtils.getGuestData(""+ParamEnum.SELLER_ID.theValue())
-            quantity=CommonUtils.getGuestData(""+ParamEnum.QUANTITY.theValue())
+            product_id=getGuestData(""+ParamEnum.PRODUCT_ID.theValue())
+            seller_id=getGuestData(""+ParamEnum.SELLER_ID.theValue())
+            quantity=getGuestData(""+ParamEnum.QUANTITY.theValue())
         }
     }
 
@@ -80,15 +85,15 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
 
     override fun myObserver() {
         otpViewModel.response.observe(this, Observer {   if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkData(it.signup!!)
-        else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+        else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
         otpViewModel.verifyResponse.observe(this, Observer {   if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkData(it!!)
-        else if(it.status.equals(ParamEnum.FAILURE.theValue())) CommonUtils.showSnackBar(this,it.message) })
+        else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
         otpViewModel.error.observe(this, Observer{ ErrorUtil.handlerGeneralError(this, it) })
     }
 
 
     private fun sendOtp() {
-        CommonUtils.showLoadingDialog(this)
+        showLoadingDialog(this)
         val options = PhoneAuthOptions.newBuilder(mAuth!!)
             .setPhoneNumber(intent.getStringExtra("country_code") + intent.getStringExtra("phone_number"))
             .setTimeout(60L, TimeUnit.SECONDS).setActivity(this).setCallbacks(mCallback!!).build()
@@ -97,12 +102,12 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
 
 
     private fun checkData(response: CommonModel) {
-        if(response.message.equals("Phone Number does not exist"))
+        if(response.message.equals(getString(R.string.phone_number_not_exist)))
         {
             otpViewModel.signupApi(intent.getStringExtra("phone_number")!!,intent.getStringExtra("country_code")!!,prefs.device_token!!,product_id,seller_id,quantity)
 
-        }else if(response.message.equals("Login successfully.")){
-            CommonUtils.dismissLoadingDialog()
+        }else if(response.message.equals(getString(R.string.login_successfully))){
+            dismissLoadingDialog()
             prefs.isLogin=true
             prefs.jwtToken=response.signup!!.token!!
             prefs.phone_code=response.signup.user!!.phoneCode
@@ -111,7 +116,7 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
             prefs.image=response.signup.user!!.image
             prefs.name=response.signup.user!!.name
             prefs.email=response.signup.user!!.email
-            Toast.makeText(this,"Login Successful",Toast.LENGTH_LONG).show()
+            Toast.makeText(this,getString(R.string.login_successful),Toast.LENGTH_LONG).show()
             GuestData.instance!!.removeAllData()
             val intent= Intent(this, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -145,16 +150,16 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
         {
             R.id.ivNext -> {
                 if(verificationCode.equals(""))
-                { CommonUtils.showSnackBar(this,"Please wait for the otp") }
+                { showSnackBar(this,getString(R.string.wait_for_otp)) }
                 else if (otp_view.otp!!.length == 0 || otp_view.otp!!.length < 6) {
-                    if (otp_view.otp!!.length == 0) CommonUtils.showSnackBar(this, "Please enter otp")
-                    else if (otp_view.otp!!.length < 6) CommonUtils.showSnackBar(this, "Please enter valid otp")
+                    if (otp_view.otp!!.length == 0) showSnackBar(this, getString(R.string.please_enter_otp))
+                    else if (otp_view.otp!!.length < 6) showSnackBar(this, getString(R.string.please_enter_valid_otp))
                 } else { signInWithPhoneAuthCredential(PhoneAuthProvider.getCredential(verificationCode, otp_view.otp!!)) }
                }
 
             R.id.btnOk -> {
                 GuestData.instance!!.removeAllData()
-                Toast.makeText(this,"Login Successful",Toast.LENGTH_LONG).show()
+                Toast.makeText(this,getString(R.string.login_successful),Toast.LENGTH_LONG).show()
                 dialog!!.dismiss()
                 val intent= Intent(this, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -162,7 +167,7 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
             }
 
             R.id.tvResend ->{
-                CommonUtils.showLoadingDialog(this)
+                showLoadingDialog(this)
                 sendOtp()
             }
         }
@@ -172,18 +177,18 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
     private var mCallback:PhoneAuthProvider.OnVerificationStateChangedCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
         override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-            CommonUtils.dismissLoadingDialog()
+            dismissLoadingDialog()
             otp_view.setOTP(""+credential.smsCode!!)
             signInWithPhoneAuthCredential(credential)
         }
 
         override fun onVerificationFailed(e: FirebaseException) {
-            CommonUtils.dismissLoadingDialog()
-            CommonUtils.showSnackBar(this@OTPVerificationActivity,e.message)
+            dismissLoadingDialog()
+            showSnackBar(this@OTPVerificationActivity,e.message)
         }
 
         override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
-            CommonUtils.dismissLoadingDialog()
+            dismissLoadingDialog()
             Log.d("OTPVerificationActivity", "onCodeSent:$verificationId")
             verificationCode = verificationId
             mResendToken = token
@@ -191,14 +196,14 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
     }
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
-        CommonUtils.showLoadingDialog(this)
+        showLoadingDialog(this)
         mAuth!!.signInWithCredential(credential).addOnCompleteListener(this)
     }
 
 
     override fun onCancel(p0: DialogInterface?) {
         p0!!.dismiss()
-        Toast.makeText(this,"Login Successful",Toast.LENGTH_LONG).show()
+        Toast.makeText(this,getString(R.string.login_successful),Toast.LENGTH_LONG).show()
         GuestData.instance!!.removeAllData()
         val intent= Intent(this, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -210,8 +215,8 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
             otpViewModel.verfiyPhoneApi(intent.getStringExtra("phone_number")!!,prefs.device_token!!,product_id,seller_id,quantity)
         } else {
             if (task.exception is FirebaseAuthInvalidCredentialsException) {
-                CommonUtils.dismissLoadingDialog()
-                CommonUtils.showSnackBar(this,task!!.exception!!.message)
+                dismissLoadingDialog()
+                showSnackBar(this,task!!.exception!!.message)
             }
         }
     }

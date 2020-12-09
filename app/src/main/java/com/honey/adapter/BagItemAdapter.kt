@@ -10,6 +10,7 @@ import com.honey.activity.Main.MainActivity
 import com.honey.activity.OrderDetail.OrderDetailActivity
 import com.honey.model.response.success.CartListModel
 import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.setRoundImage
 import kotlinx.android.synthetic.main.adapter_bag_item.view.*
 
 class BagItemAdapter(var context: Context,var list: List<CartListModel>,var listner: setOnBagClickListner?): RecyclerView.Adapter<BagItemAdapter.MyViewHolder>()
@@ -19,10 +20,10 @@ class BagItemAdapter(var context: Context,var list: List<CartListModel>,var list
     override fun getItemId(position: Int): Long =position.toLong()
     override fun getItemViewType(position: Int):Int=position
     override fun onBindViewHolder(holder: BagItemAdapter.MyViewHolder, position: Int) {
-        CommonUtils.setRoundImage(context, holder.itemView.ivProductPic, holder.itemView.lvCart, list.get(position).image!!)
+        setRoundImage(context, holder.itemView.ivProductPic, holder.itemView.lvCart, list.get(position).image!!)
         holder.itemView.tvProductName.text=list.get(position).name!!
         holder.itemView.tvProductDescription.text=list.get(position).category_id!!
-        holder.itemView.tvSellingPrice.text ="SAR "+list.get(position).sp!!
+        holder.itemView.tvSellingPrice.text =context.getString(R.string.sar)+" "+list.get(position).sp!!
         if (list.get(position).discountCoupon.equals("0")) holder.itemView.tvCoupon.visibility = View.GONE
         else holder.itemView.tvCoupon.visibility = View.VISIBLE
 
