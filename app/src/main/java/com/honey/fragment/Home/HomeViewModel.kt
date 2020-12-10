@@ -17,16 +17,19 @@ import io.reactivex.schedulers.Schedulers
 
 class HomeViewModel:BaseViewModel(){
     var response = MutableLiveData<CommonModel>()
+    var notificationResponse = MutableLiveData<CommonModel>()
     var error = MutableLiveData<Throwable>()
     var onFavResponse=MutableLiveData<CommonModel>()
 
 
     fun homeProductApi(context: Context,token: String,latitude:Double,longitude:Double){
         showLoadingDialog(context as Activity)
-        apiInterface.homeProducts(token=token,latitude=latitude,longitude = longitude).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onSuccess(it) }, { onFailure(it) })
+        apiInterface.homeProducts(token=token,latitude=latitude,longitude = longitude).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onSuccess(it,token=token) }, { onFailure(it) })
     }
 
-
+    fun notificationCountApi(token:String){
+        apiInterface.notificationToken(token=token).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onNotificationSuccess(it) }, { onFailure(it) })
+    }
 
     fun addToWishApi(token: String,id: String,type: String)
     {
@@ -34,16 +37,19 @@ class HomeViewModel:BaseViewModel(){
 
     }
 
+    fun onNotificationSuccess(response: CommonModel){
+        dismissLoadingDialog()
+        this.notificationResponse.value=response
+    }
+
     private fun onFavSuccess(response: CommonModel) {
         dismissLoadingDialog()
         this.onFavResponse.value=response
     }
 
-
-
-    fun onSuccess(response: CommonModel){
-        dismissLoadingDialog()
+    fun onSuccess(response: CommonModel,token:String){
         this.response.value=response
+        notificationCountApi(token=token)
     }
     fun onFailure(it : Throwable){
         dismissLoadingDialog()

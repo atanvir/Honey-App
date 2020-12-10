@@ -1,6 +1,7 @@
 package com.honey.activity.OrderDetail
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -26,12 +27,11 @@ import com.honey.utils.CommonUtils.Companion.startActivity
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import kotlinx.android.synthetic.main.activity_order_detail.*
-import kotlinx.android.synthetic.main.activity_order_detail.rvOrdersStatus
 import kotlinx.android.synthetic.main.layout_billing_details.*
 
 class OrderDetailActivity : BaseActivity(), View.OnClickListener {
     private lateinit var orderDetailViewModel: OrderDetailViewModel
-    var orderStatus= arrayListOf(getString(R.string.pending),"Confirmed","Ready to ship","Out for delivery","Delivered","Cancelled")
+    var orderStatus: ArrayList<String>?=null
     val listStatus=ArrayList<OrderModel>()
     var pos:Int=-1
 
@@ -46,16 +46,17 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
-        setToolbar(this,"Order Details")
+        setToolbar(this, getString(R.string.order_details))
     }
 
     override fun init() {
+        orderStatus= arrayListOf(getString(R.string.pending))
         if(intent.getStringExtra("cameFrom").equals("upcoming")){
-            orderStatus.clear()
-            orderStatus=arrayListOf(getString(R.string.pending),getString(R.string.processed),getString(R.string.shipped))
+            orderStatus!!.clear()
+            orderStatus=arrayListOf(getString(R.string.pending), getString(R.string.processed), getString(R.string.shipped))
         }else{
-            orderStatus.clear()
-            orderStatus=arrayListOf(getString(R.string.deliveried),getString(R.string.cancelled))
+            orderStatus!!.clear()
+            orderStatus=arrayListOf(getString(R.string.out_for_delivery),getString(R.string.deliveried), getString(R.string.cancelled))
             btnCancel.visibility=View.GONE
             tvTrackingId.visibility=View.GONE
             tvTrackingIdLabel.visibility=View.GONE
@@ -65,13 +66,14 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
         btnRate.visibility=View.GONE
         btnReOrder.visibility=View.GONE
         orderDetailViewModel= ViewModelProviders.of(this).get(OrderDetailViewModel::class.java);
-        orderDetailViewModel.orderDetail(this,prefs.jwtToken!!,intent.getStringExtra(ParamEnum.ORDER_ID.theValue() as String)!!)
+        orderDetailViewModel.orderDetail(this, prefs.jwtToken!!, intent.getStringExtra(ParamEnum.ORDER_ID.theValue() as String)!!)
     }
 
     override fun initControl() {
         btnRate.setOnClickListener(this)
         btnReOrder.setOnClickListener(this)
         btnCancel.setOnClickListener(this)
+        tvTrackingUrl.setOnClickListener(this)
     }
 
     override fun myObserver() {
@@ -81,12 +83,11 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
         })
 
         orderDetailViewModel.cancelOrderResponse.observe(this, Observer {
-            if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) {
-            startActivity(this,OrderActivity::class.java)
-            Toast.makeText(this,it.message,Toast.LENGTH_LONG).show()
-            }
-
-            else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
+            if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) {
+                startActivity(this, OrderActivity::class.java)
+                Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+            } else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this, it.message)
+        })
 
 
         orderDetailViewModel.error.observe(this, Observer { ErrorUtil.handlerGeneralError(this, it) })
@@ -96,17 +97,18 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
         tvOrderId.text=getString(R.string.order_id)+data!!.order_number
         tvDeliveryStatus.text=data.status
         tvTrackingId.text=data.tracking_id
-        tvTrackingUrl.text=data.tracking_url
+        tvTrackingUrl.tag=data.tracking_url
         tvOrderOnDate.text=data.dispatch_at
         tvDeliverOnDate.text=data.order_date
 
         // Order Summary
-        for(i in 0..orderStatus.size-1){
-            if(orderStatus.get(i).equals(getString(R.string.processed)).and(data.status.equals("Confirmed")))  pos=i
-            else if(orderStatus.get(i).equals(getString(R.string.shipped)).and(data.status.equals("Ready to ship")))  pos=i
-            else if(data.status.equals(orderStatus.get(i))) pos=i
-            listStatus.add(OrderModel(orderStatus.get(i),false))
+        for(i in 0..orderStatus!!.size-1){
+            if(orderStatus!!.get(i).equals(getString(R.string.processed)).and(data.status.equals("Confirmed")))  pos=i
+            else if(orderStatus!!.get(i).equals(getString(R.string.shipped)).and(data.status.equals("Ready to ship")))  pos=i
+            else if(data.status.equals(orderStatus!!.get(i))) pos=i
+            listStatus.add(OrderModel(orderStatus!!.get(i), false))
         }
+
 
         for(i in 0..pos)
         {
@@ -114,17 +116,17 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
         }
 
         rvOrdersStatus.layoutManager=LinearLayoutManager(this)
-        rvOrdersStatus.adapter= OrderStatusAdapter(this,listStatus)
+        rvOrdersStatus.adapter= OrderStatusAdapter(this, listStatus)
         rvOrdersStatus.scheduleLayoutAnimation()
 
         // Seller Details
-        setRoundImage(this,ivSeller,null,data.images!!)
+        setRoundImage(this, ivSeller, null, data.images!!)
         tvSellerName.text=data.seller_name
         tvSellerAddress.text=data.seller_address
 
         // Order Items
         rvItems.layoutManager=LinearLayoutManager(this)
-        rvItems.adapter= BagItemAdapter(this,data.orderItems!!,null)
+        rvItems.adapter= BagItemAdapter(this, data.orderItems!!, null)
         rvItems.scheduleLayoutAnimation()
 
         // Delivery To
@@ -140,21 +142,30 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
         tvDiscount.text=""+data.total_discount
         tvShippingCharges.text=data.shipping_charge
         tvTotal.text=data.finalAmount
-        tvPaymentMethod.text=if(data.payment_type.equals("COD",ignoreCase = true)) getString(R.string.cod) else getString(R.string.online)
-
+        tvPaymentMethod.text=if(data.payment_type.equals("COD", ignoreCase = true)) getString(R.string.cod) else getString(
+            R.string.online)
     }
 
     override fun onClick(p0: View?) {
         when(p0!!.id)
         {
-            R.id.btnReOrder ->{
-                val intent=Intent(this, MainActivity::class.java)
-                intent.putExtra("cameFrom","Re-Order")
+            R.id.btnReOrder -> {
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("cameFrom", "Re-Order")
                 startActivity(intent)
             }
+            R.id.tvTrackingUrl -> {
+                if(tvTrackingUrl.tag.toString().equals("")){
+                    showSnackBar(this,getString(R.string.tracking_url_not_found))
+                }else {
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(tvTrackingUrl.tag.toString())
+                    startActivity(intent)
+                }
+            }
 
-            R.id.btnRate ->{ startActivity(this, RatingActivity::class.java) }
-            R.id.btnCancel ->{ orderDetailViewModel.cancelOrderApi(this,prefs.jwtToken!!,intent.getStringExtra(ParamEnum.ORDER_ID.theValue() as String)!!) }
+            R.id.btnRate -> { startActivity(this, RatingActivity::class.java) }
+            R.id.btnCancel -> { orderDetailViewModel.cancelOrderApi(this, prefs.jwtToken!!, intent.getStringExtra(ParamEnum.ORDER_ID.theValue() as String)!!) }
 
         }
     }

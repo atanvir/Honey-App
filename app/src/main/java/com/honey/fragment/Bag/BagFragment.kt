@@ -146,7 +146,8 @@ class BagFragment : BaseFragment(), View.OnClickListener, BagItemAdapter.setOnBa
                 tvLabelCoupon.text=getString(R.string.apply_coupon)
                 prefs.coupon_code=""
                 ivArrowCoupon.setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.bitmap_arrow))
-                clDiscount.visibility=View.GONE }
+                clDiscount.visibility=View.GONE
+            }
             else { clDiscount.visibility=View.VISIBLE
                 isCouponApplied=true
                 clCoupon.backgroundTintList=requireActivity().getColorStateList(R.color.green)

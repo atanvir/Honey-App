@@ -25,7 +25,6 @@ class SpecificationAdapter(var context: Context,var list: List<AttributeModel>?)
         holder.itemView.tvName.text=list!!.get(position).labal
         holder.itemView.tvDesc.text=list!!.get(position).text
         readMore(context,holder.itemView.tvDesc, 2)
-        readMore(context,holder.itemView.tvName, 2)
     }
 
     inner class MyViewHolder(view : View) :RecyclerView.ViewHolder(view)

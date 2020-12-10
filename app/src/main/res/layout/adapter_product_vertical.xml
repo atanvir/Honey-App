@@ -46,8 +46,10 @@
                 android:layout_marginStart="8dp"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
+                android:src="@drawable/user_menu"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvProductNameVertical" />
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <com.airbnb.lottie.LottieAnimationView
@@ -98,6 +100,7 @@
                 android:foregroundGravity="center"
                 android:gravity="center"
                 android:singleLine="true"
+                android:text="Blah"
                 android:textAlignment="viewStart"
                 android:textSize="15dp"
                 app:layout_constraintEnd_toStartOf="@+id/ivFavVertical"
@@ -115,6 +118,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/drawable_round_circle_corners"
                 android:backgroundTint="@color/soft_green"
+                android:textAlignment="center"
                 android:textColor="@color/app_theme_color"
                 android:textSize="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -126,7 +130,6 @@
                 style="@style/WalkThroughTitleView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:textColor="@color/app_theme_organe"
                 android:textSize="12dp"
                 app:layout_constraintStart_toStartOf="@+id/tvRating"
@@ -160,22 +163,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
+                android:layout_marginEnd="3dp"
                 android:drawableStart="@drawable/star"
                 android:textColor="@color/black"
                 android:textSize="10dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@+id/tvReviewss"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/ivShopVerical"
                 app:layout_constraintStart_toStartOf="@+id/tvCategoryVertical"
                 app:layout_constraintTop_toBottomOf="@+id/tvCategoryVertical" />
 
             <TextView
                 android:id="@+id/tvReviewss"
                 style="@style/WalkThroughTitleView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
                 android:layout_marginTop="3dp"
-                android:text=" ()"
+                android:text="()"
                 android:textColor="@color/cool_grey"
                 android:textSize="10dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@+id/ivFavVertical"
                 app:layout_constraintStart_toEndOf="@+id/tvRating"
                 app:layout_constraintTop_toBottomOf="@+id/tvCategoryVertical" />
 
@@ -185,8 +194,8 @@
                 android:layout_height="11.9dp"
                 android:layout_marginStart="13dp"
                 android:elevation="12dp"
-                android:visibility="gone"
                 android:src="@drawable/cart_bag"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/btnAddCardVertical"
                 app:layout_constraintStart_toStartOf="@+id/btnAddCardVertical"
                 app:layout_constraintTop_toTopOf="@+id/btnAddCardVertical" />
@@ -196,7 +205,6 @@
                 style="@style/WalkThroughTitleDescription"
                 android:layout_width="0dp"
                 android:layout_height="37dp"
-                android:visibility="gone"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/drawable_round_circle_corners"
@@ -208,6 +216,7 @@
                 android:singleLine="true"
                 android:text="ADD TO CART"
                 android:textColor="@android:color/white"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ivFavVertical"
                 app:layout_constraintStart_toStartOf="@+id/tSpVertical"

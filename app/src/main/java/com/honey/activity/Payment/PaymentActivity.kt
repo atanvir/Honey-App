@@ -69,12 +69,14 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
         PushDownAnim.setPushDownAnimTo(tvAddress).setScale(PushDownAnim.MODE_SCALE, 0.89f)
         PushDownAnim.setPushDownAnimTo(btnConfirmOrder).setScale(PushDownAnim.MODE_SCALE, 0.89f)
     }
+
     override fun myObserver() {
         paymentViewModel.defaultAddressResponse.observe(this, Observer {
         if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) {
             setDataToUI(it)
         }
         else if(it.status.equals(ParamEnum.FAILURE.theValue())) {
+            CommonUtils.dismissLoadingDialog()
             tvShippingCharges.visibility=View.GONE
             cvDefaultAddress.visibility=View.GONE
             tvAddress.visibility=View.VISIBLE

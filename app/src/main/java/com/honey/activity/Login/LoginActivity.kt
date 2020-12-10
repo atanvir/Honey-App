@@ -12,6 +12,7 @@ import com.honey.base.BaseActivity
 import com.honey.utils.CommonUtils
 import com.honey.utils.CommonUtils.Companion.setToolbar
 import com.honey.utils.CommonUtils.Companion.showSnackBar
+import com.honey.utils.ParamEnum
 import com.thekhaeng.pushdownanim.PushDownAnim
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -27,6 +28,12 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
+        if(prefs.jwtToken!!.equals(""))
+        {
+            Log.e("product_id",CommonUtils.getGuestData("" + ParamEnum.PRODUCT_ID.theValue()))
+            Log.e("seller_id",CommonUtils.getGuestData("" + ParamEnum.SELLER_ID.theValue()))
+            Log.e("quantity",CommonUtils.getGuestData("" + ParamEnum.QUANTITY.theValue()))
+        }
         setToolbar(this,"")
     }
     override fun init() {

@@ -37,6 +37,7 @@ class PaymentViewModel : BaseViewModel(){
     }
 
     private fun onDistaceSuccess(response: CommonModel) {
+        dismissLoadingDialog()
         this.directionResponse.value=response
     }
 
@@ -44,7 +45,6 @@ class PaymentViewModel : BaseViewModel(){
 
 
     fun onDefaultAddrressSuccess(response: CommonModel){
-        dismissLoadingDialog()
         this.defaultAddressResponse.value=response
     }
 

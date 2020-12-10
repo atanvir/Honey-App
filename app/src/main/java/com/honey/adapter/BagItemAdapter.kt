@@ -24,9 +24,6 @@ class BagItemAdapter(var context: Context,var list: List<CartListModel>,var list
         holder.itemView.tvProductName.text=list.get(position).name!!
         holder.itemView.tvProductDescription.text=list.get(position).category_id!!
         holder.itemView.tvSellingPrice.text =context.getString(R.string.sar)+" "+list.get(position).sp!!
-        if (list.get(position).discountCoupon.equals("0")) holder.itemView.tvCoupon.visibility = View.GONE
-        else holder.itemView.tvCoupon.visibility = View.VISIBLE
-
         if(context is OrderDetailActivity)
         {
             // Order Details Items

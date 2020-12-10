@@ -12,6 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.honey.R
@@ -19,7 +21,6 @@ import com.honey.activity.Login.LoginActivity
 import com.honey.activity.ProductDetail.ProductDetailActivity
 import com.honey.model.request.GuestDataModel
 import com.honey.model.response.success.CommonProductItemModel
-import com.honey.utils.CommonUtils
 import com.honey.utils.CommonUtils.Companion.setRoundImage
 import com.honey.utils.GuestData
 import com.honey.utils.SharedPreferenceUtil
@@ -55,18 +56,18 @@ class ProductAdapter(var context: Context, var list: List<CommonProductItemModel
         holder.itemView.lvFavVertical.visibility=View.GONE
         holder.itemView.btnAddCardVertical.isEnabled=true
         holder.itemView.ivFavVertical.isEnabled=true
-        if(list!!.get(position).favourite.equals("yes")) holder.itemView.ivHeart.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.bitmap_fav_in))
-        else holder.itemView.ivHeart.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.bitmap_fav_out))
+        if(list!!.get(position).favourite.equals("yes")) holder.itemView.ivHeart.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.bitmap_fav_in))
+        else holder.itemView.ivHeart.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.bitmap_fav_out))
     }
 
     inner class  MyViewHolder(viewHolder: View): RecyclerView.ViewHolder(viewHolder), View.OnClickListener {
         init {
-            PushDownAnim.setPushDownAnimTo(viewHolder.clMain).setScale(PushDownAnim.MODE_SCALE, 0.89f)
+            PushDownAnim.setPushDownAnimTo(viewHolder.clMain).setScale(PushDownAnim.MODE_SCALE,
+                0.89f)
             viewHolder.clMain.setOnClickListener(this)
             viewHolder.btnAddCardVertical!!.setOnClickListener(this)
             viewHolder.ivFavVertical!!.setOnClickListener(this)
             }
-
 
         override fun onClick(v: View?) {
             when (v!!.id) {
@@ -80,12 +81,11 @@ class ProductAdapter(var context: Context, var list: List<CommonProductItemModel
                 }
 
                 R.id.ivFavVertical -> {
-                    if(prefs.jwtToken.equals(""))
-                    {
-                         val intent = Intent(context, LoginActivity::class.java)
+                    if (prefs.jwtToken.equals("")) {
+                        val intent = Intent(context, LoginActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         context.startActivity(intent)
-                    }else {
+                    } else {
                         Handler().post(Runnable {
                             if (!list!!.get(adapterPosition).favourite.equals("yes")) {
                                 itemView.lvFavVertical.visibility = View.VISIBLE
@@ -104,10 +104,10 @@ class ProductAdapter(var context: Context, var list: List<CommonProductItemModel
 //                    itemView.lvFavVertical.getLayoutParams().width = 120
 //                    itemView.lvFavVertical.getLayoutParams().height = 120
 //                    itemView.lvFavVertical.requestLayout()
-                    itemView.btnAddCardVertical.isEnabled=false
+                    itemView.btnAddCardVertical.isEnabled = false
                     itemView.lvFavVertical.setAnimation("loader.json")
                     itemView.lvFavVertical.visibility = View.VISIBLE
-                    if(prefs.jwtToken!!.equals("")) saveGuestData(adapterPosition)
+                    if (prefs.jwtToken!!.equals("")) saveGuestData(adapterPosition)
                     else listner.onCart(adapterPosition, list!!.get(adapterPosition).id!!, list!!.get(adapterPosition).sellerId!!)
                 }
             }
@@ -146,7 +146,7 @@ class ProductAdapter(var context: Context, var list: List<CommonProductItemModel
         tvYes.setOnClickListener {
             dialog.dismiss()
             GuestData.instance!!.removeAllData()
-            GuestData.instance!!.addData(GuestDataModel(list!!.get(position).id!!,list!!.get(position).sellerId!!,1))
+            GuestData.instance!!.addData(GuestDataModel(list!!.get(position).id!!, list!!.get(position).sellerId!!, 1))
             list!!.get(position).havecart="yes"
             notifyItemChanged(position)
         }
@@ -161,6 +161,6 @@ class ProductAdapter(var context: Context, var list: List<CommonProductItemModel
     }
     interface onProductClickListner {
         fun onCart(pos: Int, product_id: String, seller_id: String)
-        fun onFav(pos:Int,product_id:String)
+        fun onFav(pos: Int, product_id: String)
     }
 }

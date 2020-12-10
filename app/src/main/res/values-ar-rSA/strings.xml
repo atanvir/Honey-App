@@ -231,6 +231,11 @@
     <string name="delivery_time">Delivery time</string>
     <string name="login_first" >Please login first</string>
     <string name="cannot_connect_to_playstore">Can\'t connect to Google Play Services</string>
+    <string name="click_here" ><u>Click Here</u></string>
+    <string name="min_price">*Min price : </string>
+    <string name="order_details">Order Details</string>
+    <string name="tracking_url_not_found">Tracking Url Not Found</string>
+    <string name="out_for_delivery">Out for delivery</string>
 
 
 </resources>

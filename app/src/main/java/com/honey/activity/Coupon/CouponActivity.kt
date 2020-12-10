@@ -21,6 +21,7 @@ import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension.observeOnce
 import com.thekhaeng.pushdownanim.PushDownAnim
 import kotlinx.android.synthetic.main.activity_coupon.*
+import java.util.*
 
 class CouponActivity : BaseActivity(), View.OnClickListener, CouponAdapter.setOnCouponCodeClickListner {
     private lateinit var couponViewModel: CouponViewModel
@@ -67,6 +68,7 @@ class CouponActivity : BaseActivity(), View.OnClickListener, CouponAdapter.setOn
 
     private fun setDataToUI(it: CommonListModel?) {
     rvCoupon.layoutManager=LinearLayoutManager(this)
+    Collections.shuffle(it!!.response!!)
     rvCoupon.adapter=CouponAdapter(this,it!!.response!!,this)
     rvCoupon.scheduleLayoutAnimation()
     }

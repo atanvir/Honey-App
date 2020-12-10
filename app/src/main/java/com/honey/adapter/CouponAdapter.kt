@@ -31,6 +31,7 @@ class CouponAdapter(var context: Context, var list: List<ResponseBean>,var listn
                                         context.getString(R.string.coupon_code) + list.get(position).coupon_code!!
 
         holder.itemView.tvExpireOn.text=context.getString(R.string.valid_till)+list.get(position).expiry_date
+        holder.itemView.tvMinPrice.text=context.getString(R.string.min_price)+" "+context.getString(R.string.sar)+" "+list.get(position).min_price
     }
 
     private fun getDiscountType(discount: String, type: String): String? {

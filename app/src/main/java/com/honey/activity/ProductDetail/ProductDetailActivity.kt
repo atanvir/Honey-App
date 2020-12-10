@@ -3,6 +3,7 @@ package com.honey.activity.ProductDetail
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
@@ -31,7 +32,14 @@ import com.honey.utils.GuestData
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension.readMore
 import com.thekhaeng.pushdownanim.PushDownAnim
+import kotlinx.android.synthetic.main.activity_offer_detail.*
 import kotlinx.android.synthetic.main.activity_product_detail.*
+import kotlinx.android.synthetic.main.activity_product_detail.btnAddtoCart
+import kotlinx.android.synthetic.main.activity_product_detail.ivCart
+import kotlinx.android.synthetic.main.activity_product_detail.tvDesc
+import kotlinx.android.synthetic.main.activity_product_detail.tvMRP
+import kotlinx.android.synthetic.main.activity_product_detail.tvName
+import kotlinx.android.synthetic.main.activity_product_detail.tvSellingPrice
 
 class ProductDetailActivity : BaseActivity(), View.OnClickListener {
     private lateinit var productViewModel: ProductDetailViewModel
@@ -52,6 +60,7 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
     }
     override fun init() {
         PushDownAnim.setPushDownAnimTo(tvReview).setScale(PushDownAnim.MODE_SCALE, 0.89f)
+        tvMRP.paintFlags=tvMRP.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
         productViewModel = ViewModelProviders.of(this).get(ProductDetailViewModel::class.java)
         productViewModel.productDetailApi(this, "" + intent.getStringExtra("product_id"), prefs.jwtToken!!)
     }
@@ -117,9 +126,7 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
         }
 
         val tvNo = dialog.findViewById<TextView>(R.id.tvNo)
-        tvNo.setOnClickListener {
-            dialog.dismiss()
-        }
+        tvNo.setOnClickListener { dialog.dismiss() }
         dialog.show()
     }
     private fun setDataToUi(response: ResponseBean?) {
@@ -140,6 +147,8 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
         if(response.review!!.size==0) tvReviews.text="(+ 0 "+getString(R.string.review)+")"
         else tvReviews.text="(+"+response.review!!.size+" "+getString(R.string.review)+")"
         tvSellingPrice.text =getString(R.string.sar)+" "+response.sp
+        if(response.mrp.equals("0")){ tvMRP.visibility=View.GONE }
+        tvMRP.text =getString(R.string.sar)+" "+response.mrp
         tvDesc.text=response.description
         readMore(this,tvDesc,3)
         stockQuantity=response.quantity
@@ -147,7 +156,7 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
         if(response.quantity!!<1){
             btnAddtoCart.text=getString(R.string.out_of_stock)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                btnAddtoCart.backgroundTintList=getColorStateList(R.color.green)
+                btnAddtoCart.backgroundTintList=getColorStateList(R.color.red)
             }
         }
 

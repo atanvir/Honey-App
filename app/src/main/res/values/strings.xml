@@ -116,8 +116,8 @@
     <string name="cod">Cash On Delivery</string>
     <string name="online">Online</string>
     <string name="order_id_new">Order Id :</string>
-    <string name="tracking_url">Tracking Url</string>
-    <string name="tracking_id">Tracking Id</string>
+    <string name="tracking_url">Tracking Url :</string>
+    <string name="tracking_id">Tracking Id :</string>
     <string name="expected_delivery">Expected Delivery</string>
     <string name="order_on">Order on</string>
     <string name="order_summary">Order Summary</string>
@@ -231,5 +231,9 @@
     <string name="delivery_time">Delivery time</string>
     <string name="login_first">Please login first</string>
     <string name="cannot_connect_to_playstore">Can\'t connect to Google Play Services</string>
-
+    <string name="click_here" ><u>Click Here</u></string>
+    <string name="min_price">*Min price : </string>
+    <string name="order_details">Order Details</string>
+    <string name="tracking_url_not_found">Tracking Url Not Found</string>
+    <string name="out_for_delivery">Out for delivery</string>
 </resources>

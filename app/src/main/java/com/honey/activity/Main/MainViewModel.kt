@@ -19,6 +19,8 @@ class MainViewModel : BaseViewModel(){
         apiInterface.defaultAddress(token=token).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onSuccess(it) }, { onFailure(it) })
     }
 
+
+
     fun logoutApi(context: Context,token: String)
     {
         showLoadingDialog(context as Activity)

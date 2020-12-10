@@ -146,7 +146,7 @@ class ShopDetailsActivity : BaseActivity(), View.OnClickListener, HomeOptionAdap
         tvShopName.text=response!!.storeModel!!.name
         tvAddress.text=response!!.storeModel!!.address
         tvRating.text=""+response!!.storeModel!!.rating
-        tvTime.text=""+response!!.storeModel!!.deliveryTime+" "+getString(R.string.day)
+        tvTime.text=""+response!!.storeModel!!.deliveryTime+" "+getString(R.string.days)
         if(response.review!!.size==0) tvReviews.text="(+ "+response.review!!.size +" "+getString(R.string.review)+ " )"
         else tvReviews.text="(+ "+response.review!!.size +" "+getString(R.string.review)+" )"
         setRoundImage(this,ivShopCover,lvShopCoverDetail,""+response!!.storeModel!!.cover_image)

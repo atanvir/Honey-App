@@ -16,6 +16,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -54,7 +55,7 @@ import kotlinx.android.synthetic.main.fragment_home.tabLayout
 import me.kungfucat.viewpagertransformers.DepthPageTransformer
 import java.util.*
 
-class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onOptionClickListner, CommonHomeAdapter.setOnShopClickListner, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, OnSuccessListener<Location> {
+class HomeFragment(var tvBadges:TextView) : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onOptionClickListner, CommonHomeAdapter.setOnShopClickListner, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, OnSuccessListener<Location> {
     private lateinit var homeViewModel: HomeViewModel
     private var homeData: ResponseBean?=null
     private var homeDataList :List<CommonShopsItemModel>?=null
@@ -230,12 +231,23 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
             else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity, it.message)
         })
 
+        homeViewModel.notificationResponse.observe(requireActivity(), Observer {
+            if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkNotificationBadge(it.response)
+            else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity, it.message)
+        })
+
         homeViewModel.onFavResponse.observe(requireActivity(), Observer {
             if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkFavData(it)
             else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity, it.message)
         })
 
         homeViewModel.error.observe(requireActivity(), Observer { ErrorUtil.handlerGeneralError(requireActivity(), it) })
+    }
+
+    private fun checkNotificationBadge(response: ResponseBean?) {
+        if(response!!.count.equals("0")) tvBadges.visibility=View.GONE
+        else tvBadges.visibility=View.VISIBLE
+        tvBadges.text=response!!.count
     }
 
     private fun checkFavData(response: CommonModel?) {
@@ -275,6 +287,8 @@ class HomeFragment : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onO
         rvFeaturedShops.adapter=homeAdapter
         homeAdapter.notifyDataSetChanged()
         rvFeaturedShops.scheduleLayoutAnimation()
+
+
     }
 
     override fun onClick(p0: View?) {

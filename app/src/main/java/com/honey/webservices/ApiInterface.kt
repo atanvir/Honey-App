@@ -52,8 +52,8 @@ interface ApiInterface {
     @POST(ApiConstant.VERIFY_PHONE) fun verfiyPhone(@Field("phone") phone: String,
                                                     @Field("deviceToken") deviceToken: String,
                                                     @Field("deviceType") deviceType: String= ParamEnum.ANDROID.theValue() as String,
-                                                    @Field("product_id") product_id: String,
-                                                    @Field("seller_id") seller_id: String,
+                                                    @Field("cartids") product_id: String,
+                                                    @Field("sellers") seller_id: String,
                                                     @Field("quantity") quantity: String): Observable<CommonModel>
 
     @FormUrlEncoded
@@ -61,8 +61,8 @@ interface ApiInterface {
                                         @Field("phone_code") phone_code: String,
                                         @Field("deviceToken") deviceToken: String,
                                         @Field("deviceType") deviceType: String= ParamEnum.ANDROID.theValue() as String,
-                                        @Field("product_id") product_id: String,
-                                        @Field("seller_id") seller_id: String,
+                                        @Field("cartids") product_id: String,
+                                        @Field("sellers") seller_id: String,
                                         @Field("quantity") quantity: String): Observable<CommonModel>
 
     @FormUrlEncoded
@@ -230,5 +230,9 @@ interface ApiInterface {
     @POST(ApiConstant.OFFER_DETAIL)
     fun offerDetailApi(@Field("token") token: String,
                        @Field("offer_id") offerId: String): Observable<CommonModel>
+
+    @FormUrlEncoded
+    @POST(ApiConstant.NOTIFICATION_COUNT)
+    fun notificationToken(@Field("token")token: String): Observable<CommonModel>
 
 }

@@ -26,15 +26,12 @@ import com.honey.activity.Main.MainActivity
 import com.honey.base.BaseActivity
 import com.honey.model.request.CommonModel
 import com.honey.model.response.success.ResponseBean
-import com.honey.utils.CommonUtils
+import com.honey.utils.*
 import com.honey.utils.CommonUtils.Companion.dismissLoadingDialog
 import com.honey.utils.CommonUtils.Companion.getGuestData
 import com.honey.utils.CommonUtils.Companion.setToolbar
 import com.honey.utils.CommonUtils.Companion.showLoadingDialog
 import com.honey.utils.CommonUtils.Companion.showSnackBar
-import com.honey.utils.ErrorUtil
-import com.honey.utils.GuestData
-import com.honey.utils.ParamEnum
 import kotlinx.android.synthetic.main.activity_otp_verification.*
 import kotlinx.android.synthetic.main.dialog_verified.*
 import java.util.concurrent.TimeUnit
@@ -94,9 +91,7 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
 
     private fun sendOtp() {
         showLoadingDialog(this)
-        val options = PhoneAuthOptions.newBuilder(mAuth!!)
-            .setPhoneNumber(intent.getStringExtra("country_code") + intent.getStringExtra("phone_number"))
-            .setTimeout(60L, TimeUnit.SECONDS).setActivity(this).setCallbacks(mCallback!!).build()
+        val options = PhoneAuthOptions.newBuilder(mAuth!!).setPhoneNumber(intent.getStringExtra("country_code") + intent.getStringExtra("phone_number")).setTimeout(60L, TimeUnit.SECONDS).setActivity(this).setCallbacks(mCallback!!).build()
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
 
@@ -104,6 +99,9 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
     private fun checkData(response: CommonModel) {
         if(response.message.equals(getString(R.string.phone_number_not_exist)))
         {
+            Log.e(ViewExtension.TAG(this),"product_id : "+product_id)
+            Log.e(ViewExtension.TAG(this),"seller_id : "+seller_id)
+            Log.e(ViewExtension.TAG(this),"quantity : "+quantity)
             otpViewModel.signupApi(intent.getStringExtra("phone_number")!!,intent.getStringExtra("country_code")!!,prefs.device_token!!,product_id,seller_id,quantity)
 
         }else if(response.message.equals(getString(R.string.login_successfully))){
@@ -212,10 +210,14 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
 
     override fun onComplete(task: Task<AuthResult>) {
         if (task.isSuccessful) {
+            Log.e(ViewExtension.TAG(this),"product_id : "+product_id)
+            Log.e(ViewExtension.TAG(this),"seller_id : "+seller_id)
+            Log.e(ViewExtension.TAG(this),"quantity : "+quantity)
             otpViewModel.verfiyPhoneApi(intent.getStringExtra("phone_number")!!,prefs.device_token!!,product_id,seller_id,quantity)
         } else {
             if (task.exception is FirebaseAuthInvalidCredentialsException) {
                 dismissLoadingDialog()
+                Log.e(ViewExtension.TAG(this),""+task!!.exception!!.message)
                 showSnackBar(this,task!!.exception!!.message)
             }
         }

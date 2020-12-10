@@ -47,7 +47,7 @@ class CommonHomeAdapter(var context: Context, var list: List<CommonShopsItemMode
                 holder.itemView.tvRating.text=""+list.get(position).rating
                 holder.itemView.tvReview.text="(+"+list.get(position).ratingCount+")"
                 holder.itemView.tvShopName.text=""+list.get(position).name
-                holder.itemView.tvDeliverTime.text=""+list.get(position).deliveryTime+context.getString(R.string.day)+" "
+                holder.itemView.tvDeliverTime.text=""+list.get(position).deliveryTime+" "+context.getString(R.string.days)
                 setRoundImage(context,holder.itemView.ivShops,holder.itemView.lottieAnimation,list.get(position).image!!)
             }
 

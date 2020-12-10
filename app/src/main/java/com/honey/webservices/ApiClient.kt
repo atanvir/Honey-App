@@ -33,7 +33,7 @@ object ApiClient {
         okHttpClientBuilder.connectTimeout(connectTimeoutInSec, TimeUnit.SECONDS)
         okHttpClientBuilder.readTimeout(readTimeoutInSec, TimeUnit.SECONDS)
         okHttpClientBuilder.writeTimeout(writeTimeoutInSec, TimeUnit.SECONDS)
-//        okHttpClientBuilder.addInterceptor(object : Interceptor {
+//      okHttpClientBuilder.addInterceptor(object : Interceptor {
 //            @Throws(IOException::class)
 //            override fun intercept(chain: Interceptor.Chain): Response {
 //                val original: Request = chain.request()

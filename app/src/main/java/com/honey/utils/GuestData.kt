@@ -62,7 +62,6 @@ class GuestData private constructor() {
                 }
             }
         }
-
         return quanutity
     }
 

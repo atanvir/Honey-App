@@ -254,33 +254,17 @@ class CommonUtils {
             }
         }
 
-        fun setRoundImage(
-            context: Context?,
-            imageView: ImageView?,
-            lottie: LottieAnimationView?,
-            url: String
-        ) {
+        fun setRoundImage(context: Context?, imageView: ImageView?, lottie: LottieAnimationView?, url: String) {
             if (lottie != null) {
                 lottie.visibility = View.VISIBLE
             }
             Glide.with(context!!).load(url).listener(object : RequestListener<Drawable?> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any,
-                    target: Target<Drawable?>,
-                    isFirstResource: Boolean
-                ): Boolean {
+                override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable?>, isFirstResource: Boolean): Boolean {
                     if (lottie != null) lottie.visibility = View.GONE
                     return false
                 }
 
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any,
-                    target: Target<Drawable?>,
-                    dataSource: DataSource,
-                    isFirstResource: Boolean
-                ): Boolean {
+                override fun onResourceReady(resource: Drawable?, model: Any, target: Target<Drawable?>, dataSource: DataSource, isFirstResource: Boolean): Boolean {
                     if (lottie != null) lottie.visibility = View.GONE
                     return false
                 }
@@ -294,12 +278,7 @@ class CommonUtils {
             url: String?
         ) {
             Glide.with(context!!).load(url).listener(object : RequestListener<Drawable?> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any,
-                    target: Target<Drawable?>,
-                    isFirstResource: Boolean
-                ): Boolean {
+                override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable?>, isFirstResource: Boolean): Boolean {
                     lottie!!.visibility = View.GONE
                     return false
                 }
@@ -447,14 +426,10 @@ class CommonUtils {
             if (isAvailable == ConnectionResult.SUCCESS) {
                 return true
             } else if (GoogleApiAvailability.getInstance().isUserResolvableError(isAvailable)) {
-                val dialog = GoogleApiAvailability.getInstance().getErrorDialog(
-                    activity,
-                    isAvailable,
-                    1001
-                )
+                val dialog = GoogleApiAvailability.getInstance().getErrorDialog(activity, isAvailable, 1001)
                 dialog.show()
             } else {
-                Toast.makeText(activity, activity!!.applicationContext.getString(R.string.cannot_connect_to_playstore), Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, activity!!.getApplicationContext().getString(R.string.cannot_connect_to_playstore), Toast.LENGTH_SHORT).show()
             }
             return false
         }
@@ -627,9 +602,7 @@ class CommonUtils {
                         ).store_id
                     )
                     else if(key.equals(ParamEnum.QUANTITY.theValue())) list.add(
-                        "" + GuestData!!.instance!!.allData!!.get(
-                            i
-                        ).quanutity
+                        "" + GuestData!!.instance!!.allData!!.get(i).quanutity
                     )
                 }
             }

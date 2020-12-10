@@ -10,6 +10,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.honey.activity.Main.MainActivity
+import com.honey.activity.Order.OrderActivity
 import com.honey.utils.SharedPreferenceUtil
 import java.util.*
 
@@ -28,7 +29,7 @@ class MyFirebaseMessageService : FirebaseMessagingService(){
     }
 
     private fun handleMessage(title: String?, body: String?) {
-        val intent = Intent(getApplicationContext(), MainActivity::class.java)
+        val intent = Intent(getApplicationContext(), OrderActivity::class.java)
         intent.putExtra("cameFrom", MyFirebaseMessageService::class.java.simpleName)
         showNotificationMessage(getApplicationContext(), title, body, intent, Random().nextInt())
         playNotificationSound()

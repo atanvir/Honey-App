@@ -6,6 +6,10 @@ import java.util.stream.IntStream
 
 class ResponseBean {
 
+    @SerializedName("count")
+    @Expose
+    var count:String?=null
+
     @SerializedName("legs")
     @Expose
     var legs:List<DirectionModel>?=null
