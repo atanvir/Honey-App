@@ -9,11 +9,9 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ciPic"
         android:layout_width="40dp"
+        android:src="@drawable/menu"
         android:layout_height="40dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,14 +36,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="32dp"
+        android:text="Title"
         android:textAlignment="viewStart"
         android:textColor="@color/black"
         android:textSize="13dp"
-        app:layout_constraintBottom_toBottomOf="@+id/ciPic"
         app:layout_constraintEnd_toStartOf="@+id/tvDesc"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/ciPic"
-        app:layout_constraintTop_toTopOf="@+id/ciPic" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvDesc"
@@ -57,10 +55,11 @@
         android:textColor="@color/cool_grey"
         android:textSize="13dp"
         app:layout_constrainedWidth="true"
-        app:layout_constraintBottom_toBottomOf="@+id/tvName"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvName"
-        app:layout_constraintTop_toTopOf="@+id/tvName" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

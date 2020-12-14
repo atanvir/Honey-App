@@ -42,8 +42,8 @@ class CommonOrderAdapter(var context: Context,var pos:Int,var list:List<Response
                else holder.itemView.tvItemsCount.text=""+list.get(position).item_count+" "+context.getString(R.string.items)
                holder.itemView.tvSellerNames.text=list.get(position).seller_name
                holder.itemView.tvAmount.text=context.getString(R.string.sar)+" "+list.get(position).amount
-               holder.itemView.tvStatus.text=getTime(list.get(position).order_date!!,context=context)
-               holder.itemView.tvOrderDate.text=list.get(position).status
+               holder.itemView.tvStatus.text=list.get(position).status
+               holder.itemView.tvOrderDate.text=context.getString(R.string.status)
                if(getDispatchTime(list.get(position).dispatch_at!!,context=context)!!.split(" ".toRegex()).size>1){
                    holder.itemView.tvDispatchTime.text = getDispatchTime(list.get(position).dispatch_at!!,context=context)!!.split(" ".toRegex())[0]
                    holder.itemView.tvNoOfDays.text = getDispatchTime(list.get(position).dispatch_at!!,context=context)!!.split(" ".toRegex())[1]

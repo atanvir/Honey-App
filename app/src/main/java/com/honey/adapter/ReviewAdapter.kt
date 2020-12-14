@@ -16,9 +16,10 @@ class ReviewAdapter(var context: Context,var list: List<com.honey.model.request.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewAdapter.MyViewHolder=MyViewHolder(LayoutInflater.from(context).inflate(R.layout.adapter_review,parent,false))
     override fun getItemCount(): Int= list.size
     override fun onBindViewHolder(holder: ReviewAdapter.MyViewHolder, position: Int) {
+        if(list.get(position).user!!.name.equals("")) holder.itemView.tvName.text=context.getString(R.string.anonymous)
+        else holder.itemView.tvName.text=list.get(position).user!!.name
         holder.itemView.tvDesc.text= list.get(position).review
         holder.itemView.tvDate.text=list.get(position).created_at
-        holder.itemView.tvName.text=list.get(position).user!!.name
         setRoundImage(context,holder.itemView.ivPic,holder.itemView.lottieAnimation,""+list.get(position).user!!.image)
     }
     inner class  MyViewHolder(viewHolder: View): RecyclerView.ViewHolder(viewHolder){

@@ -69,8 +69,9 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
         setLocale(this)
         lvProfile.visibility=View.VISIBLE
         lvProfileHome.visibility=View.VISIBLE
-        setRoundImage(this, ivProfile, lvProfileHome, prefs.image!!)
-        setRoundImage(this, ivProfileHome, lvProfile, prefs.image!!)
+        Log.e(TAG(this),prefs.image!!)
+        setRoundImage(this, ivProfile, lvProfileHome, prefs.image)
+        setRoundImage(this, ivProfileHome, lvProfile, prefs.image)
         tvName.setText(prefs.name)
         if(prefs.jwtToken.equals("")) btnLogout.visibility=View.GONE
         else btnLogout.visibility=View.VISIBLE
@@ -79,7 +80,8 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
         tvBadge=findBadgeId(this, bottomNavigationView.getChildAt(0) as BottomNavigationMenuView)
         homeFragment=HomeFragment(tvBadge!!)
         mainViewModel=ViewModelProviders.of(this).get(MainViewModel::class.java)
-        mainViewModel.defaultAddressApi(prefs.jwtToken!!)
+        if(prefs.jwtToken!!.equals("")) tvDeliveryAddress.text = getString(R.string.please_add_address)
+        else mainViewModel.defaultAddressApi(prefs.jwtToken!!)
         drawerLayout.setViewScale(GravityCompat.START, 0.95f)
         drawerLayout.setViewElevation(GravityCompat.START, 80f)
         drawerLayout.setViewScrimColor(GravityCompat.START, Color.TRANSPARENT)

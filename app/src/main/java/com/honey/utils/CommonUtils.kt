@@ -65,6 +65,8 @@ class CommonUtils {
         const val PERMISSION_DIALOG_REQ = 6
         const val SHOPS = 1
         const val OFFERS = 2
+        const val DELAY_MS :Long = 500
+        const val PERIOD_MS: Long = 3000
 
 
         //Shared Prefrence constants
@@ -254,11 +256,11 @@ class CommonUtils {
             }
         }
 
-        fun setRoundImage(context: Context?, imageView: ImageView?, lottie: LottieAnimationView?, url: String) {
+        fun setRoundImage( context: Context?,imageView: ImageView?, lottie: LottieAnimationView?,url: String?) {
             if (lottie != null) {
                 lottie.visibility = View.VISIBLE
             }
-            Glide.with(context!!).load(url).listener(object : RequestListener<Drawable?> {
+            Glide.with(context!!).load(checkUrl(url)).listener(object : RequestListener<Drawable?> {
                 override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable?>, isFirstResource: Boolean): Boolean {
                     if (lottie != null) lottie.visibility = View.GONE
                     return false
@@ -271,13 +273,15 @@ class CommonUtils {
             }).apply(RequestOptions.bitmapTransform(RoundedCorners(14))).into(imageView!!)
         }
 
-        fun setNormalImage(
-            context: Context?,
-            userIv: ImageView?,
-            lottie: LottieAnimationView?,
-            url: String?
-        ) {
-            Glide.with(context!!).load(url).listener(object : RequestListener<Drawable?> {
+        private fun checkUrl(url: String?): Any {
+            if(url.equals("https://mobuloustech.com/honey_app/public/img/imagenotfound.jpg")) return "https://i.ibb.co/y6sCcvm/user-thumbnail.jpg"
+            else if(url.equals("")) return "https://i.ibb.co/y6sCcvm/user-thumbnail.jpg"
+            else if(url==null) return "https://i.ibb.co/y6sCcvm/user-thumbnail.jpg"
+            else return url
+        }
+
+        fun setNormalImage(context: Context?, userIv: ImageView?, lottie: LottieAnimationView?, url: String?) {
+            Glide.with(context!!).load(checkUrl(url)).listener(object : RequestListener<Drawable?> {
                 override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable?>, isFirstResource: Boolean): Boolean {
                     lottie!!.visibility = View.GONE
                     return false

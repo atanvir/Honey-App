@@ -36,9 +36,16 @@ object ViewExtension{
     }
 
     fun readMore(context: Context, text: TextView, lines: Int){
-        val readMoreOption: ReadMoreOption = ReadMoreOption.Builder(context)
-            .textLength(lines, ReadMoreOption.TYPE_LINE) // OR
-            //.textLength(300, ReadMoreOption.TYPE_CHARACTER)
+        when(text.id){
+            R.id.tvDesc ->{characterWiseReadMore(context,text,lines) }
+            else ->{ lineWiseReadMore(context,text,lines)
+            }
+        }
+    }
+
+    fun characterWiseReadMore(context: Context, text: TextView, lines: Int){
+        val readMoreOption : ReadMoreOption = ReadMoreOption.Builder(context)
+            .textLength(40, ReadMoreOption.TYPE_CHARACTER)
             .moreLabel(context.getString(R.string.read_more))
             .lessLabel(context.getString(R.string.undo))
             .moreLabelColor(Color.parseColor("#fea405"))
@@ -48,6 +55,24 @@ object ViewExtension{
             .build()
 
         readMoreOption.addReadMoreTo(text,text.text.toString())
+
+
+    }
+
+    fun lineWiseReadMore(context: Context, text: TextView, lines: Int){
+        val readMoreOption : ReadMoreOption = ReadMoreOption.Builder(context)
+            .textLength(lines, ReadMoreOption.TYPE_LINE)
+            .moreLabel(context.getString(R.string.read_more))
+            .lessLabel(context.getString(R.string.undo))
+            .moreLabelColor(Color.parseColor("#fea405"))
+            .lessLabelColor(Color.BLUE)
+            .labelUnderLine(true)
+            .expandAnimation(true)
+            .build()
+
+        readMoreOption.addReadMoreTo(text,text.text.toString())
+
+
     }
 
     fun setLocale(context: Activity) {

@@ -123,7 +123,6 @@ private constructor(val context: Context) {
         set(value) = sharedPreferences.set("image", value)
 
 
-
     operator fun SharedPreferences.set(key: String, value: Any?) {
         when (value) {
             is String? -> edit({ it.putString(key, value) })

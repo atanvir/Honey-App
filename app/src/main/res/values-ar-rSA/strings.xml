@@ -236,6 +236,13 @@
     <string name="order_details">Order Details</string>
     <string name="tracking_url_not_found">Tracking Url Not Found</string>
     <string name="out_for_delivery">Out for delivery</string>
+    <string name="anonymous">Anonymous</string>
+    <string name="ok">Ok</string>
+    <string name="your_phone_number_verified_successfully">Your Phone Number Verified Successfully!</string>
+    <string name="verfication_code_try_again">The sms code has expired. Please re-send the verification code to try again.</string>
+    <string name="delivered_on">Delivered On</string>
+    <string name="status">Status</string>
+    <string name="invalid_url">Invalid url</string>
 
 
 </resources>

@@ -18,7 +18,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -31,14 +30,15 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.honey.R
 import com.honey.activity.HomeFilter.HomeFilterActivity
 import com.honey.activity.Search.SearchActivity
+import com.honey.adapter.CommonHomeAdapter
 import com.honey.adapter.HomeBannerAdapter
 import com.honey.adapter.HomeOptionAdapter
-import com.honey.adapter.CommonHomeAdapter
 import com.honey.base.BaseFragment
 import com.honey.model.request.CommonModel
 import com.honey.model.response.success.CommonShopsItemModel
 import com.honey.model.response.success.ResponseBean
-import com.honey.utils.CommonUtils
+import com.honey.utils.CommonUtils.Companion.DELAY_MS
+import com.honey.utils.CommonUtils.Companion.PERIOD_MS
 import com.honey.utils.CommonUtils.Companion.PERMISSION
 import com.honey.utils.CommonUtils.Companion.PERMISSION_DIALOG_REQ
 import com.honey.utils.CommonUtils.Companion.isGPlayServicesOK
@@ -50,12 +50,11 @@ import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension.TAG
 import kotlinx.android.synthetic.main.activity_walk_through.viewPager
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_home.ivFilter
-import kotlinx.android.synthetic.main.fragment_home.tabLayout
 import me.kungfucat.viewpagertransformers.DepthPageTransformer
+import java.sql.Time
 import java.util.*
 
-class HomeFragment(var tvBadges:TextView) : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onOptionClickListner, CommonHomeAdapter.setOnShopClickListner, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, OnSuccessListener<Location> {
+class HomeFragment(var tvBadges: TextView) : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onOptionClickListner, CommonHomeAdapter.setOnShopClickListner, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, OnSuccessListener<Location> {
     private lateinit var homeViewModel: HomeViewModel
     private var homeData: ResponseBean?=null
     private var homeDataList :List<CommonShopsItemModel>?=null
@@ -69,8 +68,15 @@ class HomeFragment(var tvBadges:TextView) : BaseFragment(), View.OnClickListener
     private var mFusedLocationClient: FusedLocationProviderClient? = null
     private var currentPos=0
     val handler=Handler()
+    var isBannerRunning=true
+    var runnable:Runnable?=null
+    var timer:Timer?=null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -81,7 +87,9 @@ class HomeFragment(var tvBadges:TextView) : BaseFragment(), View.OnClickListener
 
     fun startLocationFunctioning() {
         if (!isOnline(requireActivity())) {
-            Toast.makeText(requireActivity(), getString(R.string.internet_not_available), Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireActivity(),
+                getString(R.string.internet_not_available),
+                Toast.LENGTH_SHORT).show()
         } else {
             if (isGPlayServicesOK(requireActivity())) {
                 buildGoogleApiClient()
@@ -134,14 +142,18 @@ class HomeFragment(var tvBadges:TextView) : BaseFragment(), View.OnClickListener
                     }
                 }
             }
-            if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(requireActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(requireActivity(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), PERMISSION)
+                    requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION), PERMISSION)
                 }
             }
             else {
-                mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+                mFusedLocationClient = LocationServices.getFusedLocationProviderClient(
+                    requireActivity())
                 mFusedLocationClient!!.lastLocation.addOnSuccessListener(this)
             }
         } catch (e: Exception) {
@@ -184,7 +196,11 @@ class HomeFragment(var tvBadges:TextView) : BaseFragment(), View.OnClickListener
     }
 
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when(requestCode)
         {
@@ -196,7 +212,8 @@ class HomeFragment(var tvBadges:TextView) : BaseFragment(), View.OnClickListener
                         break
                     }
                 }
-                if (permissionDenied) showSnackBar(requireActivity(), getString(R.string.please_allow_permission_for_security))
+                if (permissionDenied) showSnackBar(requireActivity(),
+                    getString(R.string.please_allow_permission_for_security))
                 else startLocationFunctioning()
             }
         }
@@ -205,15 +222,18 @@ class HomeFragment(var tvBadges:TextView) : BaseFragment(), View.OnClickListener
     override fun init() {
         // Options RecycleView
 //        val options = arrayListOf("ALL", "LATEST", "POPULAR", "OFFERS", "DISTANCE")
-        val options = arrayListOf(getString(R.string.all), getString(R.string.latest), getString(R.string.popular_caps), getString(R.string.distance_caps))
+        val options = arrayListOf(getString(R.string.all),
+            getString(R.string.latest),
+            getString(R.string.popular_caps),
+            getString(
+                R.string.distance_caps))
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation=LinearLayoutManager.HORIZONTAL
         rvOptions.layoutManager=layoutManager
         rvOptions.adapter=HomeOptionAdapter(requireContext(), "Home", options, this)
         rvOptions.scheduleLayoutAnimation()
-        Log.e(TAG(this),"Latitude : "+lat+" Longitude : "+lng)
+        Log.e(TAG(this), "Latitude : " + lat + " Longitude : " + lng)
         prefs.latitude=""+lat
-
         prefs.longitude=""+lng
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         homeViewModel.homeProductApi(requireActivity(), prefs.jwtToken!!, lat!!, lng!!)
@@ -228,20 +248,27 @@ class HomeFragment(var tvBadges:TextView) : BaseFragment(), View.OnClickListener
 
         homeViewModel.response.observe(requireActivity(), Observer {
             if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it.response)
-            else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity, it.message)
+            else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity,
+                it.message)
         })
 
         homeViewModel.notificationResponse.observe(requireActivity(), Observer {
             if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkNotificationBadge(it.response)
-            else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity, it.message)
+            else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity,
+                it.message)
         })
 
         homeViewModel.onFavResponse.observe(requireActivity(), Observer {
             if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkFavData(it)
-            else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity, it.message)
+            else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity,
+                it.message)
         })
 
-        homeViewModel.error.observe(requireActivity(), Observer { ErrorUtil.handlerGeneralError(requireActivity(), it) })
+        homeViewModel.error.observe(requireActivity(), Observer {
+            ErrorUtil.handlerGeneralError(
+                requireActivity(),
+                it)
+        })
     }
 
     private fun checkNotificationBadge(response: ResponseBean?) {
@@ -251,8 +278,10 @@ class HomeFragment(var tvBadges:TextView) : BaseFragment(), View.OnClickListener
     }
 
     private fun checkFavData(response: CommonModel?) {
-       if(response!!.message.equals(getString(R.string.store_added_to_wishlist))) homeDataList!!.get(pos!!).favourite="yes"
-       else if(response.message.equals(getString(R.string.store_removed_from_wishlist))) homeDataList!!.get(pos!!).favourite="no"
+       if(response!!.message.equals(getString(R.string.store_added_to_wishlist))) homeDataList!!.get(
+           pos!!).favourite="yes"
+       else if(response.message.equals(getString(R.string.store_removed_from_wishlist))) homeDataList!!.get(
+           pos!!).favourite="no"
         rvFeaturedShops.adapter!!.notifyItemChanged(pos!!)
     }
     private fun setDataToUi(data: ResponseBean?) {
@@ -264,31 +293,29 @@ class HomeFragment(var tvBadges:TextView) : BaseFragment(), View.OnClickListener
         viewPager.setPageTransformer(true, DepthPageTransformer())
         tabLayout.setupWithViewPager(viewPager)
 
-        val runnable=Runnable {
+        runnable=Runnable {
+            isBannerRunning=false
             if (currentPos == data.banner!!.size!! - 1) currentPos = 0
             else currentPos++
-            if(viewPager!=null) {
-                viewPager.setCurrentItem(currentPos, true)
-            }
+           if(viewPager!=null) viewPager.setCurrentItem(currentPos, true)
         }
-
-        Timer().schedule(object : TimerTask() {
-            override fun run() {
-                handler.post(runnable)
-            }
-        }, 500, 3000)
+        if(timer!=null) { timer!!.cancel()}
+        timer=Timer()
+        timer!!.schedule(object : TimerTask() {
+        override fun run() {
+            handler.post(runnable!!)
+        }
+        }, DELAY_MS, PERIOD_MS)
 
         // Shops
         homeDataList=data!!.allstores
         Collections.shuffle(homeDataList)
         val label=if(homeDataList!!.size>0) getString(R.string.all_shops) else getString(R.string.all_shop)
         tvLabel.text=label
-        val homeAdapter=CommonHomeAdapter(requireContext(), homeDataList!!,getString(R.string.all),this)
+        val homeAdapter=CommonHomeAdapter(requireContext(), homeDataList!!, getString(R.string.all), this)
         rvFeaturedShops.adapter=homeAdapter
         homeAdapter.notifyDataSetChanged()
         rvFeaturedShops.scheduleLayoutAnimation()
-
-
     }
 
     override fun onClick(p0: View?) {
@@ -308,13 +335,27 @@ class HomeFragment(var tvBadges:TextView) : BaseFragment(), View.OnClickListener
     override fun onSelectedOtion(option: String) {
         when(option.toLowerCase())
         {
-            "all" -> { homeDataList = homeData!!.allstores }
-            "latest" -> { homeDataList = homeData!!.latest }
-            "popular" -> { homeDataList = homeData!!.popular }
-            "offers" -> { homeDataList = homeData!!.offers }
-            "distance" -> { homeDataList = homeData!!.distance }
+            "all" -> {
+                homeDataList = homeData!!.allstores
+            }
+            "latest" -> {
+                homeDataList = homeData!!.latest
+            }
+            "popular" -> {
+                homeDataList = homeData!!.popular
+            }
+            "offers" -> {
+                homeDataList = homeData!!.offers
+            }
+            "distance" -> {
+                homeDataList = homeData!!.distance
+            }
         }
-        val label=if(option.equals(getString(R.string.offers),ignoreCase = true)) if(homeDataList!!.size>0) "$option " else getString(R.string.offer) else if(option.equals(getString(R.string.distance_caps),ignoreCase = true)) if(homeDataList!!.size>0) getString(R.string.near_by_shops) else getString(R.string.near_by_shop)  else if(homeDataList!!.size>0) "$option "+getString(R.string.shops_cap) else "$option "+getString(R.string.shop_cap)
+        val label=if(option.equals(getString(R.string.offers), ignoreCase = true)) if(homeDataList!!.size>0) "$option " else getString(
+            R.string.offer) else if(option.equals(getString(R.string.distance_caps),
+                ignoreCase = true)) if(homeDataList!!.size>0) getString(R.string.near_by_shops) else getString(
+            R.string.near_by_shop)  else if(homeDataList!!.size>0) "$option "+getString(R.string.shops_cap) else "$option "+getString(
+            R.string.shop_cap)
         tvLabel.text=label
         Collections.shuffle(homeDataList)
         Log.e(TAG(this), "" + homeDataList!!.size)
@@ -328,7 +369,7 @@ class HomeFragment(var tvBadges:TextView) : BaseFragment(), View.OnClickListener
             rvFeaturedShops.visibility=View.GONE
         }
 
-        rvFeaturedShops.adapter=CommonHomeAdapter(requireContext(), homeDataList!!,option, this)
+        rvFeaturedShops.adapter=CommonHomeAdapter(requireContext(), homeDataList!!, option, this)
         rvFeaturedShops.scheduleLayoutAnimation()
     }
 
@@ -344,18 +385,19 @@ class HomeFragment(var tvBadges:TextView) : BaseFragment(), View.OnClickListener
         {
             FILTER_RESULT_REQ -> {
                 when (resultCode) {
-                Activity.RESULT_OK -> {
-                }
-                Activity.RESULT_CANCELED -> {
-                }
+                    Activity.RESULT_OK -> {
+                    }
+                    Activity.RESULT_CANCELED -> {
+                    }
                 }
             }
 
 
             PERMISSION_DIALOG_REQ -> {
-                if (resultCode == Activity.RESULT_OK) { loadCurrentLoc() }
-                else if (resultCode == Activity.RESULT_CANCELED) {
-                    showSnackBarGreen(requireActivity(),getString(R.string.please_turn_gps))
+                if (resultCode == Activity.RESULT_OK) {
+                    loadCurrentLoc()
+                } else if (resultCode == Activity.RESULT_CANCELED) {
+                    showSnackBarGreen(requireActivity(), getString(R.string.please_turn_gps))
                     setUpLocationSettingsTaskStuff()
                 }
             }
@@ -366,7 +408,9 @@ class HomeFragment(var tvBadges:TextView) : BaseFragment(), View.OnClickListener
     @SuppressLint("MissingPermission")
     override fun onSuccess(p0: Location?) {
         if(p0!=null) locationCallBack(p0)
-        else mFusedLocationClient!!.requestLocationUpdates(locationRequest,locationCallback, Looper.getMainLooper())
+        else mFusedLocationClient!!.requestLocationUpdates(locationRequest,
+            locationCallback,
+            Looper.getMainLooper())
     }
 }
 

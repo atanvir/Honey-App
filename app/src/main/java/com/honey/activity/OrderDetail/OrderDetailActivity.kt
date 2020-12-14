@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -56,12 +57,12 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
             orderStatus=arrayListOf(getString(R.string.pending), getString(R.string.processed), getString(R.string.shipped))
         }else{
             orderStatus!!.clear()
-            orderStatus=arrayListOf(getString(R.string.out_for_delivery),getString(R.string.deliveried), getString(R.string.cancelled))
+            orderStatus=arrayListOf("")
             btnCancel.visibility=View.GONE
-            tvTrackingId.visibility=View.GONE
-            tvTrackingIdLabel.visibility=View.GONE
-            tvTrackingUrl.visibility=View.GONE
-            tvTrackingUrlLabel.visibility=View.GONE
+            tvTrackingId.visibility=View.VISIBLE
+            tvTrackingIdLabel.visibility=View.VISIBLE
+            tvTrackingUrl.visibility=View.VISIBLE
+            tvTrackingUrlLabel.visibility=View.VISIBLE
         }
         btnRate.visibility=View.GONE
         btnReOrder.visibility=View.GONE
@@ -94,12 +95,31 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun setDataToUi(data: ResponseBean?) {
+        if(intent.getStringExtra("cameFrom").equals("upcoming")){
+            orderStatus!!.clear()
+            orderStatus=arrayListOf(getString(R.string.pending), getString(R.string.processed), getString(R.string.shipped))
+        }else{
+            orderStatus!!.clear()
+            orderStatus=arrayListOf(""+data!!.status)
+            if(data.status.equals(getString(R.string.cancelled))){
+                tvTrackingId.visibility=View.GONE
+                tvTrackingIdLabel.visibility=View.GONE
+                tvTrackingUrl.visibility=View.GONE
+                tvTrackingUrlLabel.visibility=View.GONE
+            }
+        }
+
         tvOrderId.text=getString(R.string.order_id)+data!!.order_number
         tvDeliveryStatus.text=data.status
+        if(data.status.equals(getString(R.string.deliveried))) { tvLabelDelivered.text=getString(R.string.delivered_on) }
+        else if(data.status.equals(getString(R.string.cancelled))) {
+            tvLabelDelivered.visibility=View.GONE
+            tvDeliverOnDate.visibility=View.GONE
+        }
         tvTrackingId.text=data.tracking_id
         tvTrackingUrl.tag=data.tracking_url
-        tvOrderOnDate.text=data.dispatch_at
-        tvDeliverOnDate.text=data.order_date
+        tvOrderOnDate.text=data.order_date
+        tvDeliverOnDate.text=data.dispatch_at
 
         // Order Summary
         for(i in 0..orderStatus!!.size-1){
@@ -158,9 +178,13 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
                 if(tvTrackingUrl.tag.toString().equals("")){
                     showSnackBar(this,getString(R.string.tracking_url_not_found))
                 }else {
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse(tvTrackingUrl.tag.toString())
-                    startActivity(intent)
+                    try {
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse(tvTrackingUrl.tag.toString())
+                        startActivity(intent)
+                    }catch (e:Exception){
+                        showSnackBar(this,getString(R.string.invalid_url))
+                    }
                 }
             }
 

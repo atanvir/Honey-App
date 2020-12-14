@@ -216,9 +216,9 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
             otpViewModel.verfiyPhoneApi(intent.getStringExtra("phone_number")!!,prefs.device_token!!,product_id,seller_id,quantity)
         } else {
             if (task.exception is FirebaseAuthInvalidCredentialsException) {
-                dismissLoadingDialog()
                 Log.e(ViewExtension.TAG(this),""+task!!.exception!!.message)
-                showSnackBar(this,task!!.exception!!.message)
+                dismissLoadingDialog()
+                if(!task.exception!!.message.equals(getString(R.string.verfication_code_try_again))) showSnackBar(this,task!!.exception!!.message)
             }
         }
     }

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.e.carty.webservices.ApiClient
 import com.e.carty.webservices.ApiInterface
+import com.google.android.gms.common.internal.service.Common
 import com.honey.base.BaseViewModel
 import com.honey.model.request.CommonModel
 import com.honey.utils.CommonUtils
@@ -34,7 +35,6 @@ class HomeViewModel:BaseViewModel(){
     fun addToWishApi(token: String,id: String,type: String)
     {
         apiInterface.addtowish(token=token,id = id,type = type).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onFavSuccess(it) }, { onFailure(it) })
-
     }
 
     fun onNotificationSuccess(response: CommonModel){
@@ -49,7 +49,8 @@ class HomeViewModel:BaseViewModel(){
 
     fun onSuccess(response: CommonModel,token:String){
         this.response.value=response
-        notificationCountApi(token=token)
+        if(!token.equals("")) notificationCountApi(token=token)
+        else dismissLoadingDialog()
     }
     fun onFailure(it : Throwable){
         dismissLoadingDialog()

@@ -148,13 +148,13 @@
                 app:layoutManagerOrientation="vertical"
                 app:layoutManagerReverse="false"
                 app:layoutManagerType="linear"
-                app:layout_constraintEnd_toEndOf="@+id/textView82"
+                app:layout_constraintEnd_toEndOf="@+id/tvLabelDelivered"
                 app:layout_constraintStart_toStartOf="@+id/tvOrderSummary"
                 app:layout_constraintTop_toBottomOf="@+id/tvOrderSummary" />
 
 
             <TextView
-                android:id="@+id/textView82"
+                android:id="@+id/tvLabelDelivered"
                 style="@style/WalkThroughTitleDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -173,7 +173,7 @@
                 android:textColor="@color/black"
                 android:textSize="12dp"
                 app:layout_constraintBottom_toBottomOf="@+id/tvOrderOnDate"
-                app:layout_constraintEnd_toEndOf="@+id/textView82"
+                app:layout_constraintEnd_toEndOf="@+id/tvLabelDelivered"
                 app:layout_constraintTop_toTopOf="@+id/tvOrderOnDate" />
 
             <TextView

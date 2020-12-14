@@ -60,6 +60,7 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
     paymentViewModel= ViewModelProviders.of(this).get(PaymentViewModel::class.java)
     paymentViewModel.defaultAddressApi(this,prefs.jwtToken!!)
     }
+
     override fun initControl() {
         btnConfirmOrder.setOnClickListener(this)
         tvAddress.setOnClickListener(this)
@@ -75,6 +76,7 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
         if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) {
             setDataToUI(it)
         }
+
         else if(it.status.equals(ParamEnum.FAILURE.theValue())) {
             CommonUtils.dismissLoadingDialog()
             tvShippingCharges.visibility=View.GONE
@@ -87,7 +89,8 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
             try {
                 Log.e("distance", it.routes!!.get(0).legs!!.get(0).distance!!.text!!)
                 if (it.routes!!.get(0).legs!!.get(0).distance!!.text!!.contains("km")) {
-                    val kms = it.routes!!.get(0).legs!!.get(0).distance!!.text!!.split("km")[0].trim().toLong()
+                    val kmmString = it.routes!!.get(0).legs!!.get(0).distance!!.text!!.split("km")[0].trim().toString()
+                     val kms=Math.round(kmmString.toDouble())
                     if (kms > 25) {
                         val q = kms / 25
                         tvShippingCharges.text = "" + (1 * 40)
@@ -97,7 +100,7 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
                     }
                     tvTotal.text = "" + (prefs.total.toLong() + tvShippingCharges.text.toString().toLong())
                 }else if(it.routes!!.get(0).legs!!.get(0).distance!!.text!!.contains("m")){
-                    val kms = it.routes!!.get(0).legs!!.get(0).distance!!.text!!.split("m")[0].trim().toLong()
+                    val kms = it.routes!!.get(0).legs!!.get(0).distance!!.text!!.split("m")[0].trim().toString()
                     tvShippingCharges.text = "20"
                     tvTotal.text = "" + (prefs.total.toLong() + tvShippingCharges.text.toString().toLong())
                 }
@@ -107,7 +110,6 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
             }
 
         })
-
         paymentViewModel.response.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) { fireIntent()}
             else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message)})
@@ -143,7 +145,6 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
             }
-
             R.id.cvDefaultAddress ->{
                 val intent= Intent(this,AddNewAddressActivity::class.java)
                 intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
