@@ -50,7 +50,7 @@ class HomeOptionAdapter(var context: Context, val screen: String, val data: List
                  R.id.tvOptions -> {
                      if (selectedPos != adapterPosition) {
                          selectedPos = adapterPosition
-                         if (listner != null) listner!!.onSelectedOtion(data!!.get(adapterPosition))
+                         if (listner != null) listner!!.onSelectedOtion(data!!.get(adapterPosition),adapterPosition)
                          notifyDataSetChanged()
                      }
                  }
@@ -59,7 +59,7 @@ class HomeOptionAdapter(var context: Context, val screen: String, val data: List
      }
 
     interface onOptionClickListner{
-        fun  onSelectedOtion(option: String)
+        fun  onSelectedOtion(option: String,position: Int)
     }
 
 }

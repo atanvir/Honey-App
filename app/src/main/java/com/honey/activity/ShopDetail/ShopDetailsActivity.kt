@@ -221,7 +221,7 @@ class ShopDetailsActivity : BaseActivity(), View.OnClickListener, HomeOptionAdap
             }
         }
     }
-    override fun onSelectedOtion(option: String) {
+    override fun onSelectedOtion(option: String,pos: Int) {
        shopViewModel.productsTypeApi(this, intent.getStringExtra("store_id")!!,option.toLowerCase(),prefs.jwtToken!!)
     }
     override fun onCart(pos: Int, product_id: String, seller_id: String) {

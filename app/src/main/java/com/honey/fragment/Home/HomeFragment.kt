@@ -222,11 +222,7 @@ class HomeFragment(var tvBadges: TextView) : BaseFragment(), View.OnClickListene
     override fun init() {
         // Options RecycleView
 //        val options = arrayListOf("ALL", "LATEST", "POPULAR", "OFFERS", "DISTANCE")
-        val options = arrayListOf(getString(R.string.all),
-            getString(R.string.latest),
-            getString(R.string.popular_caps),
-            getString(
-                R.string.distance_caps))
+        val options = arrayListOf(getString(R.string.all), getString(R.string.latest), getString(R.string.popular_caps), getString(R.string.distance_caps))
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation=LinearLayoutManager.HORIZONTAL
         rvOptions.layoutManager=layoutManager
@@ -248,27 +244,20 @@ class HomeFragment(var tvBadges: TextView) : BaseFragment(), View.OnClickListene
 
         homeViewModel.response.observe(requireActivity(), Observer {
             if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it.response)
-            else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity,
-                it.message)
+            else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity, it.message)
         })
 
         homeViewModel.notificationResponse.observe(requireActivity(), Observer {
             if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkNotificationBadge(it.response)
-            else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity,
-                it.message)
+            else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity, it.message)
         })
 
         homeViewModel.onFavResponse.observe(requireActivity(), Observer {
             if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkFavData(it)
-            else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity,
-                it.message)
+            else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(activity, it.message)
         })
 
-        homeViewModel.error.observe(requireActivity(), Observer {
-            ErrorUtil.handlerGeneralError(
-                requireActivity(),
-                it)
-        })
+        homeViewModel.error.observe(requireActivity(), Observer { ErrorUtil.handlerGeneralError(requireActivity(), it) })
     }
 
     private fun checkNotificationBadge(response: ResponseBean?) {
@@ -332,33 +321,27 @@ class HomeFragment(var tvBadges: TextView) : BaseFragment(), View.OnClickListene
         context.startActivity(intent)
     }
 
-    override fun onSelectedOtion(option: String) {
-        when(option.toLowerCase())
+    override fun onSelectedOtion(option: String,position: Int) {
+        when(position)
         {
-            "all" -> {
-                homeDataList = homeData!!.allstores
-            }
-            "latest" -> {
-                homeDataList = homeData!!.latest
-            }
-            "popular" -> {
-                homeDataList = homeData!!.popular
-            }
-            "offers" -> {
-                homeDataList = homeData!!.offers
-            }
-            "distance" -> {
-                homeDataList = homeData!!.distance
-            }
+            0 -> { homeDataList = homeData!!.allstores }
+            1 -> { homeDataList = homeData!!.latest }
+            2 -> { homeDataList = homeData!!.popular }
+//            3 -> { homeDataList = homeData!!.offers }
+            3 -> { homeDataList = homeData!!.distance }
         }
+        Log.e("option",option)
+
+        if(prefs.selectedLanguage.equals("en")) option.toLowerCase()
         val label=if(option.equals(getString(R.string.offers), ignoreCase = true)) if(homeDataList!!.size>0) "$option " else getString(
-            R.string.offer) else if(option.equals(getString(R.string.distance_caps),
-                ignoreCase = true)) if(homeDataList!!.size>0) getString(R.string.near_by_shops) else getString(
+            R.string.offer) else if(option.equals(getString(R.string.distance_caps), ignoreCase = true)) if(homeDataList!!.size>0) getString(R.string.near_by_shops) else getString(
             R.string.near_by_shop)  else if(homeDataList!!.size>0) "$option "+getString(R.string.shops_cap) else "$option "+getString(
             R.string.shop_cap)
         tvLabel.text=label
         Collections.shuffle(homeDataList)
         Log.e(TAG(this), "" + homeDataList!!.size)
+        Log.e("option",option)
+
 
         if(homeDataList!!.size>0)
         {

@@ -115,6 +115,7 @@
                 android:background="@drawable/drawable_circle_corners"
                 android:backgroundTint="@color/app_theme_organe"
                 android:elevation="12dp"
+                android:textAlignment="center"
                 android:textColor="@color/app_theme_color"
                 android:textSize="10dp"
                 app:layout_constraintStart_toStartOf="@+id/ivStorePic"

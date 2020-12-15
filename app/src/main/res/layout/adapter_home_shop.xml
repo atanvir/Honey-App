@@ -140,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="8dp"
-                android:drawableEnd="@drawable/verified"
+                android:drawableEnd="@drawable/bitmap_verified"
                 android:drawablePadding="6dp"
                 android:foregroundGravity="center"
                 android:gravity="center"

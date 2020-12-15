@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.Gravity.LEFT
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -59,6 +60,7 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setLocale(this)
         setContentView(R.layout.activity_main)
         init()
         initControl()
@@ -66,7 +68,6 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
     }
     override fun onResume() {
         super.onResume()
-        setLocale(this)
         lvProfile.visibility=View.VISIBLE
         lvProfileHome.visibility=View.VISIBLE
         Log.e(TAG(this),prefs.image!!)
@@ -82,12 +83,19 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
         mainViewModel=ViewModelProviders.of(this).get(MainViewModel::class.java)
         if(prefs.jwtToken!!.equals("")) tvDeliveryAddress.text = getString(R.string.please_add_address)
         else mainViewModel.defaultAddressApi(prefs.jwtToken!!)
-        drawerLayout.setViewScale(GravityCompat.START, 0.95f)
-        drawerLayout.setViewElevation(GravityCompat.START, 80f)
-        drawerLayout.setViewScrimColor(GravityCompat.START, Color.TRANSPARENT)
+
+        drawerLayout.setViewScale(getGravity(), 0.95f)
+        drawerLayout.setViewElevation(getGravity(), 80f)
+        drawerLayout.setViewScrimColor(getGravity(), Color.TRANSPARENT)
         drawerLayout.setDrawerElevation(20f)
         drawerLayout.setContrastThreshold(3f)
-        drawerLayout.setRadius(GravityCompat.START, 50f)
+        drawerLayout.setRadius(getGravity(), 50f)
+    }
+
+    private fun getGravity(): Int {
+        if(prefs.selectedLanguage.equals("en")) return GravityCompat.START
+        else return GravityCompat.END
+
     }
 
     override fun initControl() {

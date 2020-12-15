@@ -1,9 +1,13 @@
 package com.honey.activity.SelectLanguage
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import com.honey.R
+import com.honey.activity.Main.MainActivity
 import com.honey.activity.WalkThrough.WalkThroughActivity
 import com.honey.base.BaseActivity
 import com.honey.utils.ViewExtension
@@ -12,8 +16,8 @@ import com.thekhaeng.pushdownanim.PushDownAnim
 import kotlinx.android.synthetic.main.activity_select_language.*
 
 class SelectLanguageActivity : BaseActivity(), View.OnClickListener {
-
-
+    
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_language)
@@ -27,8 +31,28 @@ class SelectLanguageActivity : BaseActivity(), View.OnClickListener {
         setLocale(this)
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun init() {
         PushDownAnim.setPushDownAnimTo(btnContinue).setScale(PushDownAnim.MODE_SCALE, 0.89f)
+        settingBackground(prefs.selectedLanguage)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun settingBackground(languageCode: String) {
+        if(languageCode.equals("en")){
+            btnEnglish.backgroundTintList=getColorStateList(R.color.app_theme_organe)
+            btnEnglish.setTextColor(ContextCompat.getColor(this,R.color.app_theme_color))
+            btnArabic.background=ContextCompat.getDrawable(this,R.drawable.drawable_round_circle_stroke_corners)
+            btnArabic.backgroundTintList=null
+            btnArabic.setTextColor(ContextCompat.getColor(this,R.color.app_theme_organe))
+        }
+        else {
+            btnEnglish.background=ContextCompat.getDrawable(this,R.drawable.drawable_round_circle_stroke_corners)
+            btnEnglish.backgroundTintList=null
+            btnEnglish.setTextColor(ContextCompat.getColor(this,R.color.app_theme_organe))
+            btnArabic.backgroundTintList=getColorStateList(R.color.app_theme_organe)
+            btnArabic.setTextColor(ContextCompat.getColor(this,R.color.app_theme_color))
+        }
     }
 
     override fun initControl() {
@@ -47,7 +71,11 @@ class SelectLanguageActivity : BaseActivity(), View.OnClickListener {
             R.id.btnContinue ->{
                 if(intent.getStringExtra("cameFrom")!=null)
                 {
+                    setLocale(this)
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
                     finish()
+
                 }else {
                     val intent = Intent(this, WalkThroughActivity::class.java)
                     startActivity(intent)
@@ -56,15 +84,17 @@ class SelectLanguageActivity : BaseActivity(), View.OnClickListener {
             }
 
             R.id.btnEnglish ->{
-                ivArabics.visibility-View.GONE
-                ivEnglish.visibility=View.VISIBLE
                 prefs.selectedLanguage="en"
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    settingBackground(prefs.selectedLanguage)
+                }
             }
 
             R.id.btnArabic ->{
-                ivArabics.visibility-View.VISIBLE
-                ivEnglish.visibility=View.GONE
                 prefs.selectedLanguage="ar"
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    settingBackground(prefs.selectedLanguage)
+                }
             }
         }
 

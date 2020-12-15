@@ -44,7 +44,6 @@ class WebviewActivity : BaseActivity() {
     }
 
     override fun myObserver() {
-
     }
 
 }

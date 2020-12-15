@@ -33,7 +33,7 @@
         <item name="android:textColor">@color/light_black</item>
         <item name="android:textStyle">normal</item>
         <item name="android:fontFamily">@font/alata_regular</item>
-        <item name="android:gravity">center</item>
+<!--        <item name="android:gravity">center</item>-->
         <item name="android:textSize">@dimen/heading_text_size_large</item>
     </style>
 
