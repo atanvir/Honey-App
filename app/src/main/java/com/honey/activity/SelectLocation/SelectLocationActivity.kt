@@ -52,6 +52,7 @@ import com.honey.utils.CommonUtils.Companion.showSnackBarGreen
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension
 import com.honey.utils.ViewExtension.observeOnce
+import com.honey.utils.ViewExtension.setLocale
 import kotlinx.android.synthetic.main.activity_select_location.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -73,6 +74,7 @@ class SelectLocationActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnC
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setLocale(this)
         setContentView(R.layout.activity_select_location)
         startLocationFunctioning()
     }
@@ -151,15 +153,20 @@ class SelectLocationActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnC
     }
 
     private fun fireIntent() {
+        var address =""; var city="" ; var state="" ; var country="" ; var postalCode=""; var knownName=""
         val geocoder = Geocoder(this, Locale.getDefault())
         val addresses: List<Address> = geocoder.getFromLocation(mMap!!.cameraPosition.target.latitude, mMap!!.cameraPosition.target.longitude, 1)
         if(addresses.size>0) {
-            val address: String = addresses[0].getAddressLine(0)!!
-            val city: String = addresses[0].locality!!
-            val state: String = addresses[0].adminArea!!
-            val country: String = addresses[0].countryName!!
-            val postalCode: String = addresses[0].postalCode!!
-            val knownName: String = addresses[0].featureName!!
+            try {
+                address = addresses[0].getAddressLine(0)!!
+                city = addresses[0].locality!!
+                state = addresses[0].adminArea!!
+                country = addresses[0].countryName!!
+                postalCode = addresses[0].postalCode!!
+                knownName = addresses[0].featureName!!
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
 
             if(getIntent().getStringExtra("cameFrom").equals(SearchLocationActivity::class.simpleName))
             {

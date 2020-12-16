@@ -53,7 +53,7 @@ class FilterItemAdapter(var context: Context, var list: ArrayList<String>,var ty
                 R.id.tv ->{
                     selectedText=checkKey(type,list.get(adapterPosition))
                     selectedPos = adapterPosition
-                    listner.onFilterItemClick(type,checkKey(type,list.get(adapterPosition)))
+                    listner.onFilterItemClick(type,checkKey(type,list.get(adapterPosition)),adapterPosition+1)
                 }
             }
         }
@@ -67,7 +67,7 @@ class FilterItemAdapter(var context: Context, var list: ArrayList<String>,var ty
     }
 
     interface setOnFilterItemClickListner{
-        fun onFilterItemClick(type: String,keyValue: String)
+        fun onFilterItemClick(type: String,keyValue: String,days:Int)
     }
 
 }

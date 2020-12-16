@@ -1,3 +1,4 @@
+
 package com.honey.activity.Main
 
 import android.annotation.SuppressLint
@@ -66,6 +67,7 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
         initControl()
         myObserver()
     }
+
     override fun onResume() {
         super.onResume()
         lvProfile.visibility=View.VISIBLE
@@ -77,13 +79,13 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
         if(prefs.jwtToken.equals("")) btnLogout.visibility=View.GONE
         else btnLogout.visibility=View.VISIBLE
     }
+
     override fun init() {
         tvBadge=findBadgeId(this, bottomNavigationView.getChildAt(0) as BottomNavigationMenuView)
         homeFragment=HomeFragment(tvBadge!!)
         mainViewModel=ViewModelProviders.of(this).get(MainViewModel::class.java)
         if(prefs.jwtToken!!.equals("")) tvDeliveryAddress.text = getString(R.string.please_add_address)
         else mainViewModel.defaultAddressApi(prefs.jwtToken!!)
-
         drawerLayout.setViewScale(getGravity(), 0.95f)
         drawerLayout.setViewElevation(getGravity(), 80f)
         drawerLayout.setViewScrimColor(getGravity(), Color.TRANSPARENT)
@@ -95,7 +97,6 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
     private fun getGravity(): Int {
         if(prefs.selectedLanguage.equals("en")) return GravityCompat.START
         else return GravityCompat.END
-
     }
 
     override fun initControl() {
@@ -188,12 +189,8 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
             }
-            R.id.clFaq -> {
-                startActivity(this, FAQsActivity::class.java)
-            }
-            R.id.ivProfile -> {
-                startActivity(this, MyProfileActivity::class.java)
-            }
+            R.id.clFaq -> { startActivity(this, FAQsActivity::class.java) }
+            R.id.ivProfile -> { startActivity(this, MyProfileActivity::class.java) }
             R.id.clAddress -> {
                 prefs.cameFrom = MainActivity::class.simpleName!!
                 startActivity(this, SearchLocationActivity::class.java)

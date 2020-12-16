@@ -62,8 +62,7 @@ class ProductAdapter(var context: Context, var list: List<CommonProductItemModel
 
     inner class  MyViewHolder(viewHolder: View): RecyclerView.ViewHolder(viewHolder), View.OnClickListener {
         init {
-            PushDownAnim.setPushDownAnimTo(viewHolder.clMain).setScale(PushDownAnim.MODE_SCALE,
-                0.89f)
+            PushDownAnim.setPushDownAnimTo(viewHolder.clMain).setScale(PushDownAnim.MODE_SCALE, 0.89f)
             viewHolder.clMain.setOnClickListener(this)
             viewHolder.btnAddCardVertical!!.setOnClickListener(this)
             viewHolder.ivFavVertical!!.setOnClickListener(this)

@@ -20,6 +20,7 @@ class WalkThroughActivity : BaseActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setLocale(this)
         setContentView(R.layout.activity_walk_through)
         init()
         initControl()
@@ -27,7 +28,6 @@ class WalkThroughActivity : BaseActivity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        setLocale(this)
         prefs.isFirstTime= true
     }
 

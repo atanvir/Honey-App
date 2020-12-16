@@ -129,6 +129,7 @@ class FilterActivity : BaseActivity(), View.OnClickListener, FilterRatingAdapter
             setResult(Activity.RESULT_OK,intent)
             finish()
             }
+
             R.id.btnReset ->{
             val intent=Intent()
             intent.putExtra(""+ParamEnum.TYPE.theValue(),"")
@@ -147,7 +148,7 @@ class FilterActivity : BaseActivity(), View.OnClickListener, FilterRatingAdapter
         rvRating.adapter!!.notifyDataSetChanged()
     }
 
-    override fun onFilterItemClick(type: String, keyValue: String) {
+    override fun onFilterItemClick(type: String, keyValue: String,days:Int) {
         when(type)
         {
             "Honey Type" ->{

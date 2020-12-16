@@ -20,6 +20,7 @@ class SelectLanguageActivity : BaseActivity(), View.OnClickListener {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setLocale(this)
         setContentView(R.layout.activity_select_language)
         init()
         initControl()
@@ -28,7 +29,7 @@ class SelectLanguageActivity : BaseActivity(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         prefs.isLanguageFirstTime=true
-        setLocale(this)
+
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -71,11 +72,9 @@ class SelectLanguageActivity : BaseActivity(), View.OnClickListener {
             R.id.btnContinue ->{
                 if(intent.getStringExtra("cameFrom")!=null)
                 {
-                    setLocale(this)
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     finish()
-
                 }else {
                     val intent = Intent(this, WalkThroughActivity::class.java)
                     startActivity(intent)

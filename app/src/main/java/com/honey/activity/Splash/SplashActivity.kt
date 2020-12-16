@@ -36,7 +36,7 @@ class SplashActivity: BaseActivity()
         super.onResume()
         getDeviceToken(prefs)
         Log.e("allData","-->>"+GuestData.instance!!.allData)
-        setLocale(this)
+
     }
 
 

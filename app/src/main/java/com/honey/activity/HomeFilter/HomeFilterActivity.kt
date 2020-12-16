@@ -165,7 +165,7 @@ class HomeFilterActivity: BaseActivity(), View.OnClickListener, FilterItemAdapte
     }
 
 
-    override fun onFilterItemClick(type: String, keyValue: String) {
+    override fun onFilterItemClick(type: String, keyValue: String,days:Int) {
         Log.e(TAG(this),"Type==>"+type+" \nValue==>"+keyValue)
         when(type)
         {
@@ -175,7 +175,7 @@ class HomeFilterActivity: BaseActivity(), View.OnClickListener, FilterItemAdapte
             }
             "Delivery Day" -> {
                 rvDeliveryDate.adapter!!.notifyDataSetChanged()
-                this.deliveryTime=keyValue.split("Day")[0].trim()
+                this.deliveryTime=""+days
             }
         }
     }
