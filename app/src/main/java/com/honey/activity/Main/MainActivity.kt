@@ -2,6 +2,8 @@
 package com.honey.activity.Main
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -119,11 +121,11 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
 
         if(intent.getStringExtra("cameFrom").equals(MyFirebaseMessageService::class.simpleName))
         {
-            loadFragment(this, this.supportFragmentManager, notificationFragment)
-            clAddress.visibility = View.GONE
-            tvTitle.visibility = View.VISIBLE
-            tvTitle.text = getString(R.string.notification)
-            bottomNavigationView.menu.getItem(3).setChecked(true)
+            val intent=Intent(this,OrderActivity::class.java)
+            intent.putExtra("body",getIntent().getStringExtra("body"))
+            startActivity(intent)
+            finish()
+
         }else {
             loadFragment(this, this.supportFragmentManager, bagFragment)
             clAddress.visibility = View.GONE
@@ -274,6 +276,8 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
             }
         }
     }
+
+
 
 }
 

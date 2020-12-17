@@ -20,6 +20,7 @@
             android:drawableEnd="@drawable/bitmap_down"
             android:textColor="@color/black"
             android:textSize="16dp"
+            android:text="Laurent afjbshjbasdbbasdhasd h asdh hasdvsdvkjjksdjklsdbvlasv"
             android:textAlignment="viewStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

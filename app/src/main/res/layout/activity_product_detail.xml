@@ -109,9 +109,8 @@
 
             <ImageView
                 android:id="@+id/imageView14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:rotation="270"
+                android:layout_width="14dp"
+                android:layout_height="10dp"
                 android:src="@drawable/bitmap_arrow"
                 app:layout_constraintBottom_toBottomOf="@+id/tvReview"
                 app:layout_constraintStart_toEndOf="@+id/tvReview"
@@ -243,7 +242,7 @@
                 android:drawablePadding="6dp"
                 android:foregroundGravity="center"
                 android:gravity="center"
-                android:text="Specifications"
+                android:text="@string/specifications"
                 android:textAlignment="center"
                 android:textSize="@dimen/text_size_normal"
                 android:visibility="gone"

@@ -20,7 +20,7 @@ class AppController : Application(){
     }
 
     override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(setLocale(base))
-        MultiDex.install(base)
+        super.attachBaseContext(base)
+        MultiDex.install(this)
     }
 }

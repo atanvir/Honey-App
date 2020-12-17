@@ -36,6 +36,7 @@ class SplashActivity: BaseActivity()
         super.onResume()
         getDeviceToken(prefs)
         Log.e("allData","-->>"+GuestData.instance!!.allData)
+        setLocale(this)
 
     }
 
@@ -68,7 +69,10 @@ class SplashActivity: BaseActivity()
             if(prefs.isLanguageFirstTime!! && prefs.isFirstTime!!)
             {
                 val intent=Intent(this,MainActivity::class.java)
-                if(intent.getStringExtra("title")!=null) {intent.putExtra("cameFrom",MyFirebaseMessageService::class.simpleName)}
+                if(getIntent().getStringExtra("title")!=null) {
+                    intent.putExtra("cameFrom",MyFirebaseMessageService::class.simpleName)
+                    intent.putExtra("body",getIntent().getStringExtra("body"))
+                }
                 startActivity(intent)
                 finish()
             }else if(prefs.isLanguageFirstTime!!  && !(prefs.isFirstTime!!))

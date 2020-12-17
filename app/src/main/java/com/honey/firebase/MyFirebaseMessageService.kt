@@ -30,7 +30,8 @@ class MyFirebaseMessageService : FirebaseMessagingService(){
 
     private fun handleMessage(title: String?, body: String?) {
         val intent = Intent(getApplicationContext(), OrderActivity::class.java)
-        intent.putExtra("cameFrom", MyFirebaseMessageService::class.java.simpleName)
+        intent.putExtra("cameFrom", MyFirebaseMessageService::class.simpleName)
+        intent.putExtra("body",body)
         showNotificationMessage(getApplicationContext(), title, body, intent, Random().nextInt())
         playNotificationSound()
     }

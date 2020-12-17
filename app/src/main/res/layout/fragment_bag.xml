@@ -110,7 +110,6 @@
                 android:background="@drawable/drawable_round_circle_corners"
                 android:backgroundTint="@android:color/white"
                 android:padding="12dp"
-                android:rotation="270"
                 android:src="@drawable/bitmap_arrow"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

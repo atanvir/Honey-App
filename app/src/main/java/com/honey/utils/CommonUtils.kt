@@ -67,6 +67,8 @@ class CommonUtils {
         const val OFFERS = 2
         const val DELAY_MS :Long = 500
         const val PERIOD_MS: Long = 3000
+        const val UPCOMING_ORDER_TAB: Int = 0
+        const val PAST_ORDER_TAB: Int = 1
 
 
         //Shared Prefrence constants

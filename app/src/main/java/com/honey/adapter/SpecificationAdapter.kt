@@ -21,7 +21,7 @@ class SpecificationAdapter(var context: Context,var list: List<AttributeModel>?)
     override fun getItemViewType(position: Int): Int =position
 
     override fun onBindViewHolder(holder: SpecificationAdapter.MyViewHolder, position: Int) {
-        setNormalImage(context,holder.itemView.ciPic,holder.itemView.lvSpec,list!!.get(position).image)
+        if(!list!!.get(position).image.equals("")) setNormalImage(context,holder.itemView.ciPic,holder.itemView.lvSpec,list!!.get(position).image)
         holder.itemView.tvName.text=list!!.get(position).labal
         holder.itemView.tvDesc.text=list!!.get(position).text
         readMore(context,holder.itemView.tvDesc, 2)

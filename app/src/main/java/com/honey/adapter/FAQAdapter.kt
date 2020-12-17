@@ -8,9 +8,13 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.honey.R
 import com.honey.model.response.success.ResponseBean
+import com.honey.utils.SharedPreferenceUtil
+import com.honey.utils.ViewExtension
+import com.honey.utils.ViewExtension.setLocale
 import kotlinx.android.synthetic.main.adapter_faq.view.*
 
 class FAQAdapter(var context: Context,var list:List<ResponseBean>) : RecyclerView.Adapter<FAQAdapter.MyViewHolder>(){
+    var prefs=SharedPreferenceUtil.getInstance(context)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FAQAdapter.MyViewHolder=MyViewHolder(LayoutInflater.from(context!!).inflate(R.layout.adapter_faq,parent,false))
     override fun getItemCount(): Int= list.size
     override fun onBindViewHolder(holder: FAQAdapter.MyViewHolder, position: Int) {
@@ -27,15 +31,18 @@ class FAQAdapter(var context: Context,var list:List<ResponseBean>) : RecyclerVie
         override fun onClick(v: View?) {
             when(v!!.id)
             {
-                R.id.mainCl ->{
-                    if (itemView.desText.visibility == View.GONE) {
-                        itemView.headerText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(context,R.drawable.up), null)
-                        itemView.desText.setVisibility(View.VISIBLE)
-                    } else {
-                        itemView.headerText.setCompoundDrawablesWithIntrinsicBounds(null, null,ContextCompat.getDrawable(context,R.drawable.down), null)
-                        itemView.desText.setVisibility(View.GONE)
-                    }
-                }
+            R.id.mainCl ->{
+            if (itemView.desText.visibility == View.GONE) {
+            if(prefs.selectedLanguage.equals("en")) itemView.headerText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(context,R.drawable.up), null)
+            else itemView.headerText.setCompoundDrawablesWithIntrinsicBounds( ContextCompat.getDrawable(context,R.drawable.up), null,null ,null)
+            itemView.desText.setVisibility(View.VISIBLE)
+            }
+            else {
+            if(prefs.selectedLanguage.equals("en")) itemView.headerText.setCompoundDrawablesWithIntrinsicBounds(null, null,ContextCompat.getDrawable(context,R.drawable.down), null)
+            else itemView.headerText.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context,R.drawable.down), null,null, null)
+            itemView.desText.setVisibility(View.GONE)
+            }
+            }
             }
         }
     }

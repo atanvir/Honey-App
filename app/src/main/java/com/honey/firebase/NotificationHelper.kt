@@ -31,7 +31,6 @@ class NotificationHelper(private val mContext: Context) : ContextWrapper(mContex
         bigText.bigText(message)
         mBuilder.setContentIntent(pendingIntent)
         mBuilder.setSmallIcon(R.drawable.icon)
-        //mBuilder.setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.app_icon))
         mBuilder.setContentTitle(title)
         mBuilder.color = ContextCompat.getColor(mContext, R.color.app_theme_organe)
         mBuilder.setContentText(message)

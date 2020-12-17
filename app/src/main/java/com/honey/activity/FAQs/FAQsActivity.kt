@@ -16,6 +16,7 @@ import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension.observeOnce
+import com.honey.utils.ViewExtension.setLocale
 import kotlinx.android.synthetic.main.activity_faqs.*
 
 class FAQsActivity : BaseActivity() {
@@ -31,6 +32,7 @@ class FAQsActivity : BaseActivity() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
+        setLocale(this)
         setToolbar(this,getString(R.string.faqs))
     }
 
@@ -54,4 +56,5 @@ class FAQsActivity : BaseActivity() {
         rvFaq.adapter=FAQAdapter(this,it.faq!!)
         rvFaq.scheduleLayoutAnimation()
     }
+
 }

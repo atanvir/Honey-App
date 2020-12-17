@@ -35,7 +35,6 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
     var orderStatus: ArrayList<String>?=null
     val listStatus=ArrayList<OrderModel>()
     var pos:Int=-1
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_detail)
@@ -54,7 +53,7 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
         orderStatus= arrayListOf(getString(R.string.pending))
         if(intent.getStringExtra("cameFrom").equals("upcoming")){
             orderStatus!!.clear()
-            orderStatus=arrayListOf(getString(R.string.pending), getString(R.string.processed), getString(R.string.shipped))
+            orderStatus=arrayListOf(getString(R.string.pending), getString(R.string.processed), getString(R.string.shipped),getString(R.string.deliveried))
         }else{
             orderStatus!!.clear()
             orderStatus=arrayListOf("")
@@ -64,6 +63,7 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
             tvTrackingUrl.visibility=View.VISIBLE
             tvTrackingUrlLabel.visibility=View.VISIBLE
         }
+
         btnRate.visibility=View.GONE
         btnReOrder.visibility=View.GONE
         orderDetailViewModel= ViewModelProviders.of(this).get(OrderDetailViewModel::class.java);
@@ -85,20 +85,21 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
 
         orderDetailViewModel.cancelOrderResponse.observe(this, Observer {
             if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) {
-                startActivity(this, OrderActivity::class.java)
-                Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                startActivity(Intent(this,OrderActivity::class.java).putExtra("body","Your order has been cancelled"))
+                finish()
             } else if (it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this, it.message)
         })
 
-
         orderDetailViewModel.error.observe(this, Observer { ErrorUtil.handlerGeneralError(this, it) })
+
     }
 
     private fun setDataToUi(data: ResponseBean?) {
         if(intent.getStringExtra("cameFrom").equals("upcoming")){
             orderStatus!!.clear()
-            orderStatus=arrayListOf(getString(R.string.pending), getString(R.string.processed), getString(R.string.shipped))
+            orderStatus=arrayListOf(getString(R.string.pending), getString(R.string.processed),getString(R.string.shipped),getString(R.string.deliveried))
         }else{
+
             orderStatus!!.clear()
             orderStatus=arrayListOf(""+data!!.status)
             if(data.status.equals(getString(R.string.cancelled))){
@@ -132,7 +133,7 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
 
         for(i in 0..pos)
         {
-            listStatus.get(i).isChecked=true
+          listStatus.get(i).isChecked=true
         }
 
         rvOrdersStatus.layoutManager=LinearLayoutManager(this)
@@ -187,7 +188,6 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
                     }
                 }
             }
-
             R.id.btnRate -> { startActivity(this, RatingActivity::class.java) }
             R.id.btnCancel -> { orderDetailViewModel.cancelOrderApi(this, prefs.jwtToken!!, intent.getStringExtra(ParamEnum.ORDER_ID.theValue() as String)!!) }
 
