@@ -8,19 +8,15 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import androidx.annotation.RequiresApi
-import androidx.core.widget.addTextChangedListener
 import com.google.android.material.tabs.TabLayout
 import com.honey.R
 import com.honey.activity.Filter.FilterActivity
 import com.honey.adapter.FrgamentPagerAdapter
 import com.honey.base.BaseActivity
-import com.honey.utils.CommonUtils
 import com.honey.utils.CommonUtils.Companion.setToolbar
 import com.honey.utils.ParamEnum
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.fragment_home.ivFilter
-import kotlinx.android.synthetic.main.fragment_home.tabLayout
-import kotlinx.android.synthetic.main.fragment_home.viewPager
 
 class SearchActivity : BaseActivity(), View.OnClickListener, TabLayout.OnTabSelectedListener, TextWatcher {
     companion object{

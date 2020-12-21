@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clSubTotal"
@@ -31,12 +29,11 @@
             style="@style/WalkThroughTitleDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
             android:text="0"
             android:textColor="@color/black"
             android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="@+id/textView11"
-            app:layout_constraintEnd_toStartOf="@+id/textView14"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView11"
             app:layout_constraintVertical_bias="0.0" />
 
@@ -46,10 +43,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
+            android:layout_marginEnd="6dp"
             android:text="SAR"
             android:textColor="@color/cool_grey"
             android:textSize="13dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvSubTotal"
             app:layout_constraintTop_toTopOf="@+id/tvSubTotal" />
 
         <View
@@ -90,12 +88,11 @@
             style="@style/WalkThroughTitleDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
             android:text="0"
             android:textColor="@color/black"
             android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="@+id/textView16"
-            app:layout_constraintEnd_toStartOf="@+id/textView17"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView16" />
 
 
@@ -105,10 +102,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
+            android:layout_marginEnd="6dp"
             android:text="SAR"
             android:textColor="@color/cool_grey"
             android:textSize="13dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvTax"
             app:layout_constraintTop_toTopOf="@+id/tvTax" />
 
         <View
@@ -150,10 +148,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
+            android:layout_marginEnd="6dp"
             android:text="SAR"
             android:textColor="@color/green"
             android:textSize="13dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvDiscount"
             app:layout_constraintTop_toTopOf="@+id/tvDiscount" />
 
         <TextView
@@ -161,12 +160,11 @@
             style="@style/WalkThroughTitleDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
             android:text="0"
             android:textColor="@color/green"
             android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="@+id/textView166"
-            app:layout_constraintEnd_toStartOf="@+id/textView177"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView166"
             app:layout_constraintVertical_bias="1.0" />
 
@@ -207,12 +205,11 @@
             style="@style/WalkThroughTitleDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
             android:text="0"
             android:textColor="@color/black"
             android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="@+id/textView167"
-            app:layout_constraintEnd_toStartOf="@+id/textView123"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView167" />
 
         <TextView
@@ -221,10 +218,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
+            android:layout_marginEnd="6dp"
             android:text="SAR"
             android:textColor="@color/cool_grey"
             android:textSize="13dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvShippingCharges"
             app:layout_constraintTop_toTopOf="@+id/tvShippingCharges" />
 
 
@@ -265,12 +263,11 @@
             style="@style/WalkThroughTitleDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
             android:text="0"
             android:textColor="@color/app_theme_organe"
             android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="@+id/textView21"
-            app:layout_constraintEnd_toStartOf="@+id/textView20"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView21" />
 
         <TextView
@@ -282,9 +279,9 @@
             android:text=""
             android:textColor="@color/black"
             android:textSize="11dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvTotal"
-            app:layout_constraintEnd_toStartOf="@+id/tvTotal"
-            app:layout_constraintTop_toTopOf="@+id/tvTotal" />
+            app:layout_constraintBottom_toBottomOf="@+id/textView20"
+            app:layout_constraintEnd_toStartOf="@+id/textView20"
+            app:layout_constraintTop_toTopOf="@+id/textView20" />
 
 
         <TextView
@@ -293,10 +290,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
+            android:layout_marginEnd="6dp"
             android:text="SAR"
             android:textColor="@color/app_theme_organe"
             android:textSize="13dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvTotal"
             app:layout_constraintTop_toTopOf="@+id/tvTotal" />
 
 

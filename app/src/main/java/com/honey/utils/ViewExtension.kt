@@ -15,7 +15,8 @@ import com.devs.readmoreoption.ReadMoreOption
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.honey.R
-import kotlinx.android.synthetic.main.activity_main.*
+import com.honey.utils.CommonUtils.Companion.CHARACTER_WISE_READ_MORE
+import com.honey.utils.CommonUtils.Companion.LINE_WISE_READ_MORE
 import java.util.*
 
 
@@ -34,39 +35,37 @@ object ViewExtension{
         return any!!.javaClass.simpleName
     }
 
-    fun readMore(context: Context, text: TextView, lines: Int){
-        when(text.id){
-            R.id.tvDesc -> {
-                characterWiseReadMore(context, text, lines)
-            }
-            else ->{ lineWiseReadMore(context, text, lines) }
+    fun readMore(view: View){
+        when(view.id){
+            R.id.tvDescss -> { characterWiseReadMore(view) }
+            else ->{ lineWiseReadMore(view) }
         }
     }
 
-    fun characterWiseReadMore(context: Context, text: TextView, lines: Int){
-        val readMoreOption : ReadMoreOption = ReadMoreOption.Builder(context)
-            .textLength(40, ReadMoreOption.TYPE_CHARACTER)
-            .moreLabel(context.getString(R.string.read_more))
-            .lessLabel(context.getString(R.string.undo))
+    fun characterWiseReadMore(view: View){
+        val readMoreOption : ReadMoreOption = ReadMoreOption.Builder(view.context)
+            .textLength(CHARACTER_WISE_READ_MORE, ReadMoreOption.TYPE_CHARACTER)
+            .moreLabel(view.context.getString(R.string.read_more))
+            .lessLabel(view.context.getString(R.string.undo))
             .moreLabelColor(Color.parseColor("#fea405"))
             .lessLabelColor(Color.BLUE)
             .labelUnderLine(true)
             .expandAnimation(true)
             .build()
-        readMoreOption.addReadMoreTo(text, text.text.toString())
+        readMoreOption.addReadMoreTo(view as TextView?, view.text.toString())
     }
 
-    fun lineWiseReadMore(context: Context, text: TextView, lines: Int){
-        val readMoreOption : ReadMoreOption = ReadMoreOption.Builder(context)
-            .textLength(lines, ReadMoreOption.TYPE_LINE)
-            .moreLabel(context.getString(R.string.read_more))
-            .lessLabel(context.getString(R.string.undo))
+    fun lineWiseReadMore(view: View){
+        val readMoreOption : ReadMoreOption = ReadMoreOption.Builder(view.context)
+            .textLength(LINE_WISE_READ_MORE, ReadMoreOption.TYPE_LINE)
+            .moreLabel(view.context.getString(R.string.read_more))
+            .lessLabel(view.context.getString(R.string.undo))
             .moreLabelColor(Color.parseColor("#fea405"))
             .lessLabelColor(Color.BLUE)
             .labelUnderLine(true)
             .expandAnimation(true)
             .build()
-        readMoreOption.addReadMoreTo(text, text.text.toString())
+        readMoreOption.addReadMoreTo(view as TextView?, view.text.toString())
     }
     fun findBadgeId(context: Context, bottomNavigationView: BottomNavigationMenuView) : TextView {
         val v: View = bottomNavigationView.getChildAt(3)

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">عسل</string>
+    <string name="app_name">فرزة</string>
     <string name="see_review"><u>يوجد</u></string>
     <string name="google_map_api_key">AIzaSyBIcOPG6bi5aIgM-99JWsF_boy5_t9QjGE</string>
     <string name="default_notification_channel_id"> 1001 </string>
@@ -133,8 +133,8 @@
     <string name="re_order">إعادة الطلب</string>
     <string name="rate">المعدّل</string>
     <string name="type_verification_code">يُرجى كتابة رمز التحقق المُرسَل إلى\n</string>
-    <string name="phone_number_not_exist">رقم الهاتف غير موجود</string>
-    <string name="login_successfully">تسجيل الدخول بنجاح</string>
+    <string name="phone_number_not_exist">Phone Number does not exist</string>
+    <string name="login_successfully">Login successfully.</string>
     <string name="login_successful">تم تسجيل الدخول بنجاح</string>
     <string name="wait_for_otp">يُرجى انتظار رمز التحقق لمرة واحدة</string>
     <string name="please_enter_otp">يُرجى إدخال رمز التحقق لمرة واحدة</string>
@@ -244,6 +244,11 @@
     <string name="status">الحالة</string>
     <string name="invalid_url">URL غير صالح</string>
     <string name="specifications">مواصفات</string>
+    <string name="replace_cart_item">هل تريد استبدال عنصر عربة التسوق؟</string>
+    <string name="discard_selection">تحتوي سلة التسوق الخاصة بك على منتجات. \ n هل تريد تجاهل التحديد وإضافة منتجات جديدة</string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+    <string name="view_cart">عرض العربة</string>
 
 
 </resources>

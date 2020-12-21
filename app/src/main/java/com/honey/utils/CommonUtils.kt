@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.*
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
-import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
@@ -56,7 +55,7 @@ import kotlin.collections.ArrayList
 
 class CommonUtils {
     companion object {
-
+        /* All Commom Constants */
         const val GETTING_ADDRESS = 1
         const val NOT_SERVE_THIS_AREA = 2
         const val HIDE_INFO_WINDOW = 3
@@ -69,6 +68,8 @@ class CommonUtils {
         const val PERIOD_MS: Long = 3000
         const val UPCOMING_ORDER_TAB: Int = 0
         const val PAST_ORDER_TAB: Int = 1
+        const val LINE_WISE_READ_MORE: Int = 3
+        const val CHARACTER_WISE_READ_MORE: Int = 40
 
 
         //Shared Prefrence constants
@@ -289,13 +290,7 @@ class CommonUtils {
                     return false
                 }
 
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any,
-                    target: Target<Drawable?>,
-                    dataSource: DataSource,
-                    isFirstResource: Boolean
-                ): Boolean {
+                override fun onResourceReady(resource: Drawable?, model: Any, target: Target<Drawable?>, dataSource: DataSource, isFirstResource: Boolean): Boolean {
                     lottie!!.visibility = View.GONE
                     return false
                 }
@@ -319,23 +314,10 @@ class CommonUtils {
 
         fun showSnackBar(context: Context?, msg: String?) {
             var snackbar: Snackbar? = null
-            snackbar = if (context is MainActivity) Snackbar.make(
-                (context as Activity).findViewById(
-                    R.id.viewSnackbar
-                ), msg!!, Snackbar.LENGTH_LONG
-            )
-            else Snackbar.make(
-                (context as Activity).findViewById(android.R.id.content),
-                msg!!,
-                Snackbar.LENGTH_LONG
-            )
+            snackbar = if (context is MainActivity) Snackbar.make((context as Activity).findViewById(R.id.viewSnackbar), msg!!, Snackbar.LENGTH_LONG)
+            else Snackbar.make((context as Activity).findViewById(android.R.id.content), msg!!, Snackbar.LENGTH_LONG)
             val snackBarView = snackbar.view
-            snackBarView.setBackgroundColor(
-                ContextCompat.getColor(
-                    context,
-                    android.R.color.holo_red_dark
-                )
-            )
+            snackBarView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.holo_red_dark))
             val tv = snackBarView.findViewById<View>(R.id.snackbar_text) as TextView
             snackBarView.minimumHeight = 20
             tv.textSize = 14f
@@ -347,23 +329,10 @@ class CommonUtils {
 
         fun showSnackBarGreen(context: Context?, msg: String?) {
             var snackbar: Snackbar? = null
-            snackbar = if (context is MainActivity) Snackbar.make(
-                (context as Activity).findViewById(
-                    R.id.viewSnackbar
-                ), msg!!, Snackbar.LENGTH_LONG
-            )
-            else Snackbar.make(
-                (context as Activity).findViewById(android.R.id.content),
-                msg!!,
-                Snackbar.LENGTH_LONG
-            )
+            snackbar = if (context is MainActivity) Snackbar.make((context as Activity).findViewById(R.id.viewSnackbar), msg!!, Snackbar.LENGTH_LONG)
+            else Snackbar.make((context as Activity).findViewById(android.R.id.content), msg!!, Snackbar.LENGTH_LONG)
             val snackBarView = snackbar.view
-            snackBarView.setBackgroundColor(
-                ContextCompat.getColor(
-                    context,
-                    android.R.color.holo_green_dark
-                )
-            )
+            snackBarView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.holo_green_dark))
             val tv = snackBarView.findViewById<View>(R.id.snackbar_text) as TextView
             snackBarView.minimumHeight = 20
             tv.textSize = 14f
@@ -385,25 +354,11 @@ class CommonUtils {
 
         fun getPickIntent(context: Context, cameraOutputUri: Uri?): Intent? {
             val intents=ArrayList<Intent>()
-            if (true) {
-                intents.add(
-                    Intent(
-                        Intent.ACTION_PICK,
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                    )
-                )
-            }
-            if (true) {
-                setCameraIntents(context, intents, cameraOutputUri)
-            }
+            if (true) intents.add(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI))
+            if (true) setCameraIntents(context, intents, cameraOutputUri)
             if (intents.isEmpty()) return null
             val result = Intent.createChooser(intents.removeAt(0), null)
-            if (!intents.isEmpty()) {
-                result.putExtra(
-                    Intent.EXTRA_INITIAL_INTENTS,
-                    intents.toArray(arrayOf<Parcelable>())
-                )
-            }
+            if (!intents.isEmpty()) result.putExtra(Intent.EXTRA_INITIAL_INTENTS, intents.toArray(arrayOf<Parcelable>()))
             return result
         }
 
@@ -414,10 +369,7 @@ class CommonUtils {
             for (res in listCam) {
                 val packageName: String = res.activityInfo.packageName
                 val intent = Intent(captureIntent)
-                intent.component = ComponentName(
-                    res.activityInfo.packageName,
-                    res.activityInfo.name
-                )
+                intent.component = ComponentName(res.activityInfo.packageName, res.activityInfo.name)
                 intent.setPackage(packageName)
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, output)
                 intent.putExtra("uri", output)
@@ -426,18 +378,11 @@ class CommonUtils {
         }
 
         fun isGPlayServicesOK(activity: Activity?): Boolean {
-            val isAvailable = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(
-                activity
-            )
-            if (isAvailable == ConnectionResult.SUCCESS) {
-                return true
-            } else if (GoogleApiAvailability.getInstance().isUserResolvableError(isAvailable)) {
-                val dialog = GoogleApiAvailability.getInstance().getErrorDialog(activity, isAvailable, 1001)
-                dialog.show()
-            } else {
-                Toast.makeText(activity, activity!!.getApplicationContext().getString(R.string.cannot_connect_to_playstore), Toast.LENGTH_SHORT).show()
-            }
-            return false
+        val isAvailable = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(activity)
+        if (isAvailable == ConnectionResult.SUCCESS) return true
+        else if (GoogleApiAvailability.getInstance().isUserResolvableError(isAvailable)) GoogleApiAvailability.getInstance().getErrorDialog(activity, isAvailable, 1001).show()
+        else Toast.makeText(activity, activity!!.getApplicationContext().getString(R.string.cannot_connect_to_playstore), Toast.LENGTH_SHORT).show()
+        return false
         }
 
         fun getGsonInstance(): Gson {

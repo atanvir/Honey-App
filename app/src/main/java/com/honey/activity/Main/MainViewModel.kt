@@ -12,6 +12,7 @@ import io.reactivex.schedulers.Schedulers
 
 class MainViewModel : BaseViewModel(){
     var response = MutableLiveData<CommonModel>()
+    var notificationResponse = MutableLiveData<CommonModel>()
     var logoutResponse = MutableLiveData<CommonModel>()
     var error = MutableLiveData<Throwable>()
 
@@ -19,6 +20,9 @@ class MainViewModel : BaseViewModel(){
         apiInterface.defaultAddress(token=token).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onSuccess(it) }, { onFailure(it) })
     }
 
+    fun notificationCountApi(token:String){
+        apiInterface.notificationToken(token=token).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onNotificationSuccess(it) }, { onFailure(it) })
+    }
 
 
     fun logoutApi(context: Context,token: String)
@@ -30,6 +34,10 @@ class MainViewModel : BaseViewModel(){
     fun onSuccess(response: CommonModel){
         dismissLoadingDialog()
         this.response.value=response
+    }
+
+    fun onNotificationSuccess(response: CommonModel){
+        this.notificationResponse.value=response
     }
 
     fun onLogoutSuccess(response: CommonModel){

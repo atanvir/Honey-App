@@ -91,10 +91,10 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
 
     private fun sendOtp() {
         showLoadingDialog(this)
+        mAuth!!.setLanguageCode(prefs.selectedLanguage)
         val options = PhoneAuthOptions.newBuilder(mAuth!!).setPhoneNumber(intent.getStringExtra("country_code") + intent.getStringExtra("phone_number")).setTimeout(60L, TimeUnit.SECONDS).setActivity(this).setCallbacks(mCallback!!).build()
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
-
 
     private fun checkData(response: CommonModel) {
         if(response.message.equals(getString(R.string.phone_number_not_exist)))
@@ -121,8 +121,6 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
             startActivity(intent)
         }
     }
-
-
 
     private fun checkData(signupData: ResponseBean) {
         prefs.jwtToken=signupData.token!!
@@ -171,7 +169,6 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
         }
     }
 
-
     private var mCallback:PhoneAuthProvider.OnVerificationStateChangedCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
         override fun onVerificationCompleted(credential: PhoneAuthCredential) {
@@ -198,7 +195,6 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
         mAuth!!.signInWithCredential(credential).addOnCompleteListener(this)
     }
 
-
     override fun onCancel(p0: DialogInterface?) {
         p0!!.dismiss()
         Toast.makeText(this,getString(R.string.login_successful),Toast.LENGTH_LONG).show()
@@ -216,9 +212,10 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
             otpViewModel.verfiyPhoneApi(intent.getStringExtra("phone_number")!!,prefs.device_token!!,product_id,seller_id,quantity)
         } else {
             if (task.exception is FirebaseAuthInvalidCredentialsException) {
-                Log.e(ViewExtension.TAG(this),""+task!!.exception!!.message)
+            if(!task.exception!!.message.equals(getString(R.string.verfication_code_try_again))) {
                 dismissLoadingDialog()
-                if(!task.exception!!.message.equals(getString(R.string.verfication_code_try_again))) showSnackBar(this,task!!.exception!!.message)
+                showSnackBar(this,task!!.exception!!.message)
+            }
             }
         }
     }

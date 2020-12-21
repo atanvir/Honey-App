@@ -10,7 +10,7 @@ import com.honey.base.BaseActivity
 import com.honey.utils.CommonUtils.Companion.PAST_ORDER_TAB
 import com.honey.utils.CommonUtils.Companion.UPCOMING_ORDER_TAB
 import com.honey.utils.CommonUtils.Companion.setToolbar
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.activity_order.*
 
 class OrderActivity : BaseActivity() {
 

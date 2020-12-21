@@ -254,7 +254,7 @@
                 android:id="@+id/rvSpecification"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="14dp"
                 android:layout_marginEnd="16dp"
                 android:nestedScrollingEnabled="false"
                 app:animationDuration="1000"

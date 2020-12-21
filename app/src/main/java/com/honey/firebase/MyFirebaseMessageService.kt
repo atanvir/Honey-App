@@ -1,15 +1,11 @@
 package com.honey.firebase
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.media.RingtoneManager
 import android.util.Log
-import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.honey.activity.Main.MainActivity
 import com.honey.activity.Order.OrderActivity
 import com.honey.utils.SharedPreferenceUtil
 import java.util.*
@@ -19,8 +15,10 @@ class MyFirebaseMessageService : FirebaseMessagingService(){
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Log.e(TAG, "data:" + remoteMessage.data)
         Log.e(TAG, "notification:" + remoteMessage.notification)
-        if (remoteMessage.data.size > 0) handleMessage(remoteMessage.data["title"], remoteMessage.data["body"])
-        else if (remoteMessage.notification != null) handleMessage(remoteMessage.notification!!.title, remoteMessage.notification!!.body)
+        if (remoteMessage.data.size > 0) handleMessage(remoteMessage.data["title"],
+            remoteMessage.data["body"])
+        else if (remoteMessage.notification != null) handleMessage(remoteMessage.notification!!.title,
+            remoteMessage.notification!!.body)
     }
 
     override fun onNewToken(p0: String) {
@@ -29,9 +27,12 @@ class MyFirebaseMessageService : FirebaseMessagingService(){
     }
 
     private fun handleMessage(title: String?, body: String?) {
+        val broadcastIntent = Intent("com.honey")
+        sendBroadcast(broadcastIntent)
+
         val intent = Intent(getApplicationContext(), OrderActivity::class.java)
         intent.putExtra("cameFrom", MyFirebaseMessageService::class.simpleName)
-        intent.putExtra("body",body)
+        intent.putExtra("body", body)
         showNotificationMessage(getApplicationContext(), title, body, intent, Random().nextInt())
         playNotificationSound()
     }
@@ -43,7 +44,7 @@ class MyFirebaseMessageService : FirebaseMessagingService(){
 
     fun playNotificationSound() {
         try {
-            val notification = RingtoneManager.getActualDefaultRingtoneUri(this, RingtoneManager.TYPE_NOTIFICATION)
+            val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
             val r = RingtoneManager.getRingtone(this, notification)
             r.play()
         } catch (e: java.lang.Exception) {

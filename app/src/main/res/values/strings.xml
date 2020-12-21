@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Honey</string>
+    <string name="app_name">Frzah</string>
     <string name="see_review"><u>See Review</u></string>
     <string name="google_map_api_key">AIzaSyBIcOPG6bi5aIgM-99JWsF_boy5_t9QjGE</string>
     <string name="default_notification_channel_id"> 1001 </string>
@@ -244,4 +244,9 @@
     <string name="status">Status</string>
     <string name="invalid_url">Invalid url</string>
     <string name="specifications">Specifications</string>
+    <string name="replace_cart_item">Replace Cart item?</string>
+    <string name="discard_selection">Your cart contains products.\nDo you want to discard the selection and add new products</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="view_cart">View Cart</string>
 </resources>

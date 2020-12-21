@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bg"
+    tools:context=".activity.Login.LoginActivity">
+
+    <include
+        android:id="@+id/include8"
+        layout="@layout/layout_common_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:id="@+id/textView54"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="32dp"
+        android:lineSpacingExtra="6.3sp"
+        android:text="@string/verify_account"
+        android:textColor="@color/black"
+        android:textSize="31.4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include8" />
+
+    <TextView
+        android:id="@+id/textView55"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="18dp"
+        android:lineSpacingExtra="6.8sp"
+        android:text="@string/by_verifying_phone_number_you_can_order_and_check_your_order_history_as_well"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textSize="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView54"
+        app:layout_constraintTop_toBottomOf="@+id/textView54" />
+
+
+    <TextView
+        android:id="@+id/textView52"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/phone_number"
+        android:textColor="@color/cool_grey"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="@+id/textView54"
+        app:layout_constraintTop_toBottomOf="@+id/textView55" />
+
+
+    <com.hbb20.CountryCodePicker
+        android:id="@+id/countryCodePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:ccp_showFlag="false"
+        app:ccp_showNameCode="false"
+        android:elevation="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText6"
+        app:layout_constraintEnd_toEndOf="@+id/editText6"
+        app:layout_constraintStart_toStartOf="@+id/editText6"
+        app:layout_constraintTop_toTopOf="@+id/editText6">
+
+    </com.hbb20.CountryCodePicker>
+
+
+    <EditText
+        android:id="@+id/edPhoneNumber"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/drawable_selector_edittext"
+        android:elevation="4dp"
+        android:hint="@string/your_phone_number"
+        android:inputType="number"
+        android:maxLength="10"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        android:textAlignment="viewStart"
+        android:textColor="@color/edit_text_color"
+        android:textColorHint="@color/edit_text_color"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText6"
+        app:layout_constraintEnd_toStartOf="@+id/countryCodePicker"
+        app:layout_constraintStart_toStartOf="@+id/textView52"
+        app:layout_constraintTop_toTopOf="@+id/editText6" />
+
+    <EditText
+        android:id="@+id/editText6"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="84dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/drawable_selector_edittext"
+        android:elevation="4dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:textAlignment="center"
+        android:textColor="@color/edit_text_color"
+        android:textColorHint="@color/edit_text_color"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView52" />
+
+    <Button
+        android:id="@+id/btnNext"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/drawable_round_circle_corners"
+        android:backgroundTint="@color/app_theme_organe"
+        android:text="@string/next"
+        android:textAlignment="center"
+        android:textColor="@color/app_theme_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/editText6"
+        app:layout_constraintStart_toStartOf="@+id/edPhoneNumber"
+        app:layout_constraintTop_toBottomOf="@+id/edPhoneNumber"
+        app:layout_constraintVertical_bias="0.32999998" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

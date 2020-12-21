@@ -7,23 +7,21 @@ import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.honey.R
+import com.honey.activity.Main.MainActivity
 import com.honey.activity.Review.ReviewActivity
 import com.honey.adapter.SpecificationAdapter
 import com.honey.base.BaseActivity
 import com.honey.model.request.GuestDataModel
 import com.honey.model.response.success.ResponseBean
-import com.honey.utils.CommonUtils
 import com.honey.utils.CommonUtils.Companion.setRoundImage
 import com.honey.utils.CommonUtils.Companion.setToolbar
 import com.honey.utils.CommonUtils.Companion.showSnackBar
@@ -32,14 +30,7 @@ import com.honey.utils.GuestData
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension.readMore
 import com.thekhaeng.pushdownanim.PushDownAnim
-import kotlinx.android.synthetic.main.activity_offer_detail.*
 import kotlinx.android.synthetic.main.activity_product_detail.*
-import kotlinx.android.synthetic.main.activity_product_detail.btnAddtoCart
-import kotlinx.android.synthetic.main.activity_product_detail.ivCart
-import kotlinx.android.synthetic.main.activity_product_detail.tvDesc
-import kotlinx.android.synthetic.main.activity_product_detail.tvMRP
-import kotlinx.android.synthetic.main.activity_product_detail.tvName
-import kotlinx.android.synthetic.main.activity_product_detail.tvSellingPrice
 
 class ProductDetailActivity : BaseActivity(), View.OnClickListener {
     private lateinit var productViewModel: ProductDetailViewModel
@@ -97,11 +88,15 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
         tvQuality.text=""+quantity
 
         if(quantity==0){
-            btnAddtoCart.visibility=View.VISIBLE
-            ivCart.visibility=View.VISIBLE
+            btnAddtoCart.text=getString(R.string.add_to_cart)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                btnAddtoCart.backgroundTintList=getColorStateList(R.color.app_theme_organe)
+            }
         }else{
-            btnAddtoCart.visibility=View.GONE
-            ivCart.visibility=View.GONE
+            btnAddtoCart.text=getString(R.string.view_cart)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                btnAddtoCart.backgroundTintList=getColorStateList(R.color.green)
+            }
         }
     }
     private fun showAlertDialog() {
@@ -109,10 +104,7 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setContentView(R.layout.dialog_aleart)
-        dialog.window!!.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        )
+        dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         val tvYes = dialog.findViewById<TextView>(R.id.tvYes)
         tvYes.setOnClickListener {
             dialog.dismiss()
@@ -121,16 +113,17 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
                 GuestData.instance!!.addData(GuestDataModel(intent.getStringExtra("product_id")!!, intent.getStringExtra("seller_id")!!, 1))
                 productViewModel.productDetailApi(this, "" + intent.getStringExtra("product_id"), prefs.jwtToken!!)
             }
-            else {productViewModel.addToCartApi(this, intent.getStringExtra("product_id")!!, intent.getStringExtra("seller_id")!!, "yes", prefs.jwtToken!!, 1)
-            }
+            else {productViewModel.addToCartApi(this, intent.getStringExtra("product_id")!!, intent.getStringExtra("seller_id")!!, "yes", prefs.jwtToken!!, 1) }
         }
 
         val tvNo = dialog.findViewById<TextView>(R.id.tvNo)
         tvNo.setOnClickListener { dialog.dismiss() }
         dialog.show()
     }
-    private fun setDataToUi(response: ResponseBean?) {
 
+    private fun setDataToUi(response: ResponseBean?) {
+        btnAddtoCart.visibility=View.VISIBLE
+        ivCart.visibility=View.VISIBLE
         if(prefs.jwtToken!!.equals("")){
          for(i in 0..(GuestData.instance!!.allData!!.size-1)){
              if(GuestData.instance!!.allData!!.get(i).product_id.equals(intent.getStringExtra("product_id")))
@@ -150,24 +143,27 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
         if(response.mrp.equals("0")){ tvMRP.visibility=View.GONE }
         tvMRP.text =getString(R.string.sar)+" "+response.mrp
         tvDesc.text=response.description
-        readMore(this,tvDesc,3)
+        readMore(tvDesc)
         stockQuantity=response.quantity
 
         if(response.quantity!!<1){
+
             btnAddtoCart.text=getString(R.string.out_of_stock)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 btnAddtoCart.backgroundTintList=getColorStateList(R.color.red)
             }
-        }
-
-        if(response.havecart.equals("yes") )
+        }else if(response.havecart.equals("yes") )
         {
-            btnAddtoCart.visibility=View.GONE
-            ivCart.visibility=View.GONE
+            btnAddtoCart.text=getString(R.string.view_cart)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                btnAddtoCart.backgroundTintList=getColorStateList(R.color.green)
+            }
         }else
         {
-            btnAddtoCart.visibility=View.VISIBLE
-            ivCart.visibility=View.VISIBLE
+            btnAddtoCart.text=getString(R.string.add_to_cart)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                btnAddtoCart.backgroundTintList=getColorStateList(R.color.app_theme_organe)
+            }
 
         }
         if(prefs.jwtToken!!.equals("")){
@@ -214,7 +210,6 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
          }
 
          R.id.ivPlus -> {
-
              if (checkAvaialbleStock()) {
                  if (prefs.jwtToken!!.equals("")) {
                      quantity = quantity!! + 1
@@ -240,23 +235,39 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
          }
 
          R.id.btnAddtoCart -> {
+             if(checkText()) {
              if (checkAvaialbleStock()) {
-                 if (prefs.jwtToken!!.equals("")) {
-                     quantity = quantity!! + 1
-                     if (checkStore(intent.getStringExtra("seller_id")!!)) {
-                         GuestData.instance!!.addData(GuestDataModel(intent.getStringExtra("product_id")!!, intent.getStringExtra("seller_id")!!, quantity!!.toLong()))
-                         productViewModel.productDetailApi(this, "" + intent.getStringExtra("product_id"), prefs.jwtToken!!)
+                     if (prefs.jwtToken!!.equals("")) {
+                         quantity = quantity!! + 1
+                         if (checkStore(intent.getStringExtra("seller_id")!!)) {
+                             GuestData.instance!!.addData(GuestDataModel(intent.getStringExtra("product_id")!!, intent.getStringExtra("seller_id")!!, quantity!!.toLong()))
+                             productViewModel.productDetailApi(this, "" + intent.getStringExtra("product_id"), prefs.jwtToken!!)
+                         } else {
+                             showAlertDialog()
+                         }
                      } else {
-                         showAlertDialog()
+                         quantity = quantity!! + 1
+                         productViewModel.addToCartApi(this, intent.getStringExtra("product_id")!!, intent.getStringExtra("seller_id")!!, "no", prefs.jwtToken!!, quantity!!.toLong())
                      }
-                 } else {
-                     quantity = quantity!! + 1
-                     productViewModel.addToCartApi(this, intent.getStringExtra("product_id")!!, intent.getStringExtra("seller_id")!!, "no", prefs.jwtToken!!, quantity!!.toLong())
                  }
              }
          }
      }
     }
+
+    private fun checkText(): Boolean {
+        var ret=true
+        if(btnAddtoCart.text.toString().equals(getString(R.string.view_cart))){
+            ret=false
+            val intent=Intent(this,MainActivity::class.java)
+            intent.putExtra("cameFrom",ProductDetailActivity::class.simpleName)
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+
+        return ret
+    }
+
     private fun checkAvaialbleStock(): Boolean {
         var ret=false
         if(stockQuantity!! >= (quantity!! + 1).toLong()) {ret=true}

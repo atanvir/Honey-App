@@ -7,11 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.honey.R
 import com.honey.model.response.success.AttributeModel
-import com.honey.utils.CommonUtils
 import com.honey.utils.CommonUtils.Companion.setNormalImage
-import com.honey.utils.ViewExtension
 import com.honey.utils.ViewExtension.readMore
-import kotlinx.android.synthetic.main.activity_product_detail.*
 import kotlinx.android.synthetic.main.adapter_specification.view.*
 
 class SpecificationAdapter(var context: Context,var list: List<AttributeModel>?): RecyclerView.Adapter<SpecificationAdapter.MyViewHolder>(){
@@ -22,9 +19,10 @@ class SpecificationAdapter(var context: Context,var list: List<AttributeModel>?)
 
     override fun onBindViewHolder(holder: SpecificationAdapter.MyViewHolder, position: Int) {
         if(!list!!.get(position).image.equals("")) setNormalImage(context,holder.itemView.ciPic,holder.itemView.lvSpec,list!!.get(position).image)
+        else holder.itemView.lvSpec.visibility=View.GONE
         holder.itemView.tvName.text=list!!.get(position).labal
-        holder.itemView.tvDesc.text=list!!.get(position).text
-        readMore(context,holder.itemView.tvDesc, 2)
+        holder.itemView.tvDescss.text=list!!.get(position).text
+        readMore(holder.itemView.tvDescss)
     }
 
     inner class MyViewHolder(view : View) :RecyclerView.ViewHolder(view)
