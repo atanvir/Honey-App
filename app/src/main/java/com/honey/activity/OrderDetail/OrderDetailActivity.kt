@@ -4,9 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -20,7 +18,6 @@ import com.honey.adapter.OrderStatusAdapter
 import com.honey.base.BaseActivity
 import com.honey.model.response.success.OrderModel
 import com.honey.model.response.success.ResponseBean
-import com.honey.utils.CommonUtils
 import com.honey.utils.CommonUtils.Companion.setRoundImage
 import com.honey.utils.CommonUtils.Companion.setToolbar
 import com.honey.utils.CommonUtils.Companion.showSnackBar
@@ -95,9 +92,10 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun setDataToUi(data: ResponseBean?) {
-        if(intent.getStringExtra("cameFrom").equals("upcoming")){
+        if(intent.getStringExtra("cameFrom").equals("upcoming") || checkUpcoming(data!!.status)){
             orderStatus!!.clear()
             orderStatus=arrayListOf(getString(R.string.pending), getString(R.string.processed),getString(R.string.shipped),getString(R.string.deliveried))
+            btnCancel.visibility=View.VISIBLE
         }else{
 
             orderStatus!!.clear()
@@ -165,6 +163,17 @@ class OrderDetailActivity : BaseActivity(), View.OnClickListener {
         tvTotal.text=data.finalAmount
         tvPaymentMethod.text=if(data.payment_type.equals("COD", ignoreCase = true)) getString(R.string.cod) else getString(
             R.string.online)
+    }
+
+    private fun checkUpcoming(status: String?): Boolean {
+        when(status!!.toLowerCase()){
+            "cancelled" -> return false
+            "delivered" -> return false
+            else -> return true
+        }
+
+
+
     }
 
     override fun onClick(p0: View?) {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Frzah</string>
+    <string name="app_name">FRZAH</string>
     <string name="see_review"><u>See Review</u></string>
     <string name="google_map_api_key">AIzaSyBIcOPG6bi5aIgM-99JWsF_boy5_t9QjGE</string>
     <string name="default_notification_channel_id"> 1001 </string>
@@ -249,4 +249,5 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="view_cart">View Cart</string>
+    <string name="remove">Remove</string>
 </resources>

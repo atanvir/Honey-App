@@ -12,29 +12,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.honey.R
 import com.honey.activity.DeliveryAddress.DeliveryAddressActivity
-import com.honey.activity.Main.MainActivity
 import com.honey.activity.Payment.PaymentActivity
 import com.honey.activity.SearchLocation.SearchLocationActivity
 import com.honey.activity.SelectLocation.SelectLocationActivity
 import com.honey.base.BaseActivity
 import com.honey.model.request.AddressModel
 import com.honey.model.request.CommonModel
-import com.honey.model.response.success.ResponseBean
-import com.honey.utils.CommonUtils
 import com.honey.utils.CommonUtils.Companion.setToolbar
 import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
-import com.honey.utils.ViewExtension
-import com.honey.utils.ViewExtension.observeOnce
-import io.reactivex.internal.util.NotificationLite.getValue
 import kotlinx.android.synthetic.main.activity_add_new_address.*
-import kotlinx.android.synthetic.main.activity_add_new_address.btnSave
-import kotlinx.android.synthetic.main.activity_add_new_address.countryCodePicker
-import kotlinx.android.synthetic.main.activity_add_new_address.edFullName
-import kotlinx.android.synthetic.main.activity_add_new_address.edPhoneNumber
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_my_profile.*
 
 class AddNewAddressActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheckedChangeListener {
     val ADDRESS_REQ_CODE: Int =12
@@ -146,6 +134,7 @@ class AddNewAddressActivity : BaseActivity(), View.OnClickListener, RadioGroup.O
     }
 
     override fun onClick(p0: View?) {
+
         when(p0!!.id)
         {
             R.id.btnSave ->

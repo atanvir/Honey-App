@@ -56,10 +56,12 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
     var homeFragment: HomeFragment?=null
     val bagFragment= BagFragment()
     val notificationFragment= NotificationFragment()
+    val favFragment= FavoriteFragment()
     var doubleBackToExitPressedOnce = false
     private lateinit var mainViewModel: MainViewModel
     var tvBadge:TextView?=null
     var notifcationBroadcastReceiver:BroadcastReceiver?=null
+    var isFavSelected=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setLocale(this)
@@ -98,7 +100,6 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
         drawerLayout.setRadius(getGravity(), 50f)
         notifcationBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
-                //Log.e("dekh","aa gya h re baba")
                 mainViewModel.notificationCountApi(prefs.jwtToken!!)
             }
         }
@@ -128,6 +129,7 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
             finish()
 
         }else {
+            isFavSelected=false
             loadFragment(this, this.supportFragmentManager, bagFragment)
             clAddress.visibility = View.GONE
             tvTitle.visibility = View.VISIBLE
@@ -135,7 +137,10 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
             bottomNavigationView.menu.getItem(1).setChecked(true)
         }
     }
-    else { loadFragment(this, this.supportFragmentManager, homeFragment!!) }
+    else {
+        isFavSelected=false
+        loadFragment(this, this.supportFragmentManager, homeFragment!!)
+    }
     }
     override fun myObserver() {
         mainViewModel.response.observe(this, Observer {
@@ -222,6 +227,7 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
                 drawerLayout.closeDrawers()
                 clAddress.visibility = View.VISIBLE
                 tvTitle.visibility = View.GONE
+                isFavSelected=false
                 loadFragment(this, this.supportFragmentManager, homeFragment!!)
                 return true
             }
@@ -230,18 +236,22 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
                 clAddress.visibility = View.GONE
                 tvTitle.visibility = View.VISIBLE
                 tvTitle.text = getString(R.string.cart)
+                isFavSelected=false
                 loadFragment(this, this.supportFragmentManager, bagFragment)
                 return true
             }
             R.id.bottomFav -> {
-                drawerLayout.closeDrawers()
-                if (!prefs.jwtToken.equals("")) {
-                    clAddress.visibility = View.GONE
-                    tvTitle.visibility = View.VISIBLE
-                    tvTitle.text = getString(R.string.favorites)
+                if(!isFavSelected) {
+                    isFavSelected=true
+                    drawerLayout.closeDrawers()
+                    if (!prefs.jwtToken.equals("")) {
+                        clAddress.visibility = View.GONE
+                        tvTitle.visibility = View.VISIBLE
+                        tvTitle.text = getString(R.string.favorites)
+                    }
+                    loadFragment(this, this.supportFragmentManager, FavoriteFragment())
+                    return true
                 }
-                loadFragment(this, this.supportFragmentManager, FavoriteFragment())
-                return true
             }
             R.id.bottomNotification -> {
                 drawerLayout.closeDrawers()
@@ -250,6 +260,7 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
                     tvTitle.visibility = View.VISIBLE
                     tvTitle.text = getString(R.string.notification)
                 }
+                isFavSelected=false
                 tvBadge!!.visibility = View.GONE
                 loadFragment(this, this.supportFragmentManager, notificationFragment)
                 return true

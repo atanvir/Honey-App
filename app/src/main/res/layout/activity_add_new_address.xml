@@ -182,7 +182,7 @@
                 android:layout_height="10dp"
                 android:layout_marginEnd="27dp"
                 android:elevation="5dp"
-                android:src="@drawable/bitmap_down_arrow"
+                android:src="@drawable/bitmap_arrows"
                 app:layout_constraintBottom_toBottomOf="@+id/edAddress"
                 app:layout_constraintEnd_toEndOf="@+id/edAddress"
                 app:layout_constraintTop_toTopOf="@+id/edAddress" />

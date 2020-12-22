@@ -56,9 +56,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             if(checkValidation()) {
             val intent= Intent(this, OTPVerificationActivity::class.java)
             intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-            intent.putExtra("country_code",""+countryCodePicker.defaultCountryCodeWithPlus)
+            intent.putExtra("country_code",""+countryCodePicker.selectedCountryCodeWithPlus)
             intent.putExtra("phone_number",""+edPhoneNumber.text.toString().trim())
-            startActivity(intent) }
+            startActivity(intent)
+            }
             }
         }
     }

@@ -101,6 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:text="@string/see_review"
+                android:textStyle="bold"
                 android:textColor="@color/app_theme_organe"
                 android:textSize="15dp"
                 app:layout_constraintBottom_toBottomOf="@+id/tvReviews"
@@ -230,7 +231,8 @@
                 android:textSize="15dp"
                 app:layout_constraintEnd_toEndOf="@+id/ivPlus"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvSellingPrice" />
+                app:layout_constraintTop_toBottomOf="@+id/tvSellingPrice"
+                tools:ignore="RtlCompat" />
 
 
             <TextView
@@ -277,7 +279,7 @@
         android:layout_height="11.9dp"
         android:layout_marginStart="24dp"
         android:elevation="12dp"
-        android:src="@drawable/cart_bag"
+        android:src="@drawable/bitmap_cart_bag"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/btnAddtoCart"
         app:layout_constraintStart_toStartOf="@+id/btnAddtoCart"

@@ -60,7 +60,7 @@ object ViewExtension{
             .textLength(LINE_WISE_READ_MORE, ReadMoreOption.TYPE_LINE)
             .moreLabel(view.context.getString(R.string.read_more))
             .lessLabel(view.context.getString(R.string.undo))
-            .moreLabelColor(Color.parseColor("#fea405"))
+            .moreLabelColor(Color.parseColor("#F7D219"))
             .lessLabelColor(Color.BLUE)
             .labelUnderLine(true)
             .expandAnimation(true)
@@ -70,28 +70,18 @@ object ViewExtension{
     fun findBadgeId(context: Context, bottomNavigationView: BottomNavigationMenuView) : TextView {
         val v: View = bottomNavigationView.getChildAt(3)
         val itemView = v as BottomNavigationItemView
-        val badge: View = LayoutInflater.from(context).inflate(R.layout.menu_unread_message_layout,
-            bottomNavigationView,
-            false)
+        val badge: View = LayoutInflater.from(context).inflate(R.layout.menu_unread_message_layout, bottomNavigationView, false)
         itemView.addView(badge)
         for (i in 0 until bottomNavigationView.getChildCount()) {
             val iconView: View = bottomNavigationView.getChildAt(i).findViewById(R.id.icon)
             val layoutParams = iconView.layoutParams
             val displayMetrics = context.resources.displayMetrics
             if (i == 1) {
-                layoutParams.height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                    24f,
-                    displayMetrics).toInt()
-                layoutParams.width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                    44f,
-                    displayMetrics).toInt()
+                layoutParams.height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, displayMetrics).toInt()
+                layoutParams.width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 44f, displayMetrics).toInt()
             } else {
-                layoutParams.height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                    24f,
-                    displayMetrics).toInt()
-                layoutParams.width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                    44f,
-                    displayMetrics).toInt()
+                layoutParams.height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, displayMetrics).toInt()
+                layoutParams.width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 44f, displayMetrics).toInt()
             }
             iconView.layoutParams = layoutParams
         }

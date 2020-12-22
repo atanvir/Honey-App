@@ -46,7 +46,7 @@
       android:backgroundTint="@android:color/white"
       android:elevation="20dp"
       android:padding="15dp"
-      android:src="@drawable/filter"
+      android:src="@drawable/bitmap_filter"
       app:layout_constraintBottom_toBottomOf="@+id/editText"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toTopOf="@+id/editText" />

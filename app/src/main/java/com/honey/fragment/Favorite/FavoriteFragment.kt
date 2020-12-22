@@ -27,6 +27,10 @@ class FavoriteFragment : BaseFragment() {
         tabLayout.setupWithViewPager(viewPager)
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
+
     override fun initControl() {
     }
 

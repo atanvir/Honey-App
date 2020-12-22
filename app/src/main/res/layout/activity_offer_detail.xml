@@ -230,7 +230,7 @@
         android:layout_height="11.9dp"
         android:layout_marginStart="24dp"
         android:elevation="12dp"
-        android:src="@drawable/cart_bag"
+        android:src="@drawable/bitmap_cart_bag"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/btnAddtoCart"
         app:layout_constraintStart_toStartOf="@+id/btnAddtoCart"

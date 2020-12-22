@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
@@ -15,7 +14,6 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.honey.R
 import com.honey.activity.Login.LoginActivity
@@ -26,7 +24,6 @@ import com.honey.base.BaseActivity
 import com.honey.model.request.CommonModel
 import com.honey.model.response.success.CommonProductItemModel
 import com.honey.model.response.success.ResponseBean
-import com.honey.utils.CommonUtils
 import com.honey.utils.CommonUtils.Companion.setRoundImage
 import com.honey.utils.CommonUtils.Companion.setToolbar
 import com.honey.utils.CommonUtils.Companion.showLoadingDialog
@@ -188,8 +185,8 @@ class ShopDetailsActivity : BaseActivity(), View.OnClickListener, HomeOptionAdap
             categoryList=getGuestAddedProduct(categoryList)
         }
 
-        if(categoryList!!.size>0) lvNoProducts.visibility=View.GONE
-        else lvNoProducts.visibility=View.VISIBLE
+//        if(categoryList!!.size>0) lvNoProducts.visibility=View.GONE
+//        else lvNoProducts.visibility=View.VISIBLE
 
         Collections.shuffle(categoryList)
         val shopsManager = LinearLayoutManager(this)

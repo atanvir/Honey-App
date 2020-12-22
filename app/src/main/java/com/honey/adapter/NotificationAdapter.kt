@@ -1,14 +1,16 @@
 package com.honey.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.honey.R
+import com.honey.activity.OrderDetail.OrderDetailActivity
 import com.honey.model.response.success.ResponseBean
-import com.honey.utils.CommonUtils
 import com.honey.utils.CommonUtils.Companion.getTimeAgo
+import com.honey.utils.ParamEnum
 import kotlinx.android.synthetic.main.adapter_notification.view.*
 
 class NotificationAdapter(var context: Context,var list:List<ResponseBean>) : RecyclerView.Adapter<NotificationAdapter.MyViewHolder>(){
@@ -24,7 +26,31 @@ class NotificationAdapter(var context: Context,var list:List<ResponseBean>) : Re
         holder.itemView.tvTime.text=getTimeAgo(""+list.get(position).createdAt,context = context)
     }
 
-    inner class  MyViewHolder(viewHolder: View): RecyclerView.ViewHolder(viewHolder){
+    inner class  MyViewHolder(viewHolder: View): RecyclerView.ViewHolder(viewHolder),
+        View.OnClickListener {
+        init{
+            itemView.mainCl.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            when(v!!.id){
+                R.id.mainCl ->{
+                val intent= Intent(context,OrderDetailActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.putExtra(ParamEnum.ORDER_ID.theValue() as String,""+list.get(adapterPosition).order_id)
+                intent.putExtra("cameFrom",getWhereFrom(list.get(adapterPosition).content))
+                context.startActivity(intent)
+              }
+            }
+        }
+    }
+
+    private fun getWhereFrom(content: String?): String? {
+        when(content){
+            "Your order has been Delivered" ->{ return ""}
+            "Your order has been cancelled" ->{ return ""}
+            else ->{ return ""}
+        }
     }
 
 }

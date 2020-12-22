@@ -10,6 +10,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
@@ -30,11 +31,14 @@ import com.honey.R
 import com.honey.activity.HomeFilter.HomeFilterActivity
 import com.honey.activity.Search.SearchActivity
 import com.honey.adapter.CommonHomeAdapter
+import com.honey.adapter.HomeBannerAdapter
 import com.honey.adapter.HomeOptionAdapter
 import com.honey.base.BaseFragment
 import com.honey.model.request.CommonModel
 import com.honey.model.response.success.CommonShopsItemModel
 import com.honey.model.response.success.ResponseBean
+import com.honey.utils.CommonUtils.Companion.DELAY_MS
+import com.honey.utils.CommonUtils.Companion.PERIOD_MS
 import com.honey.utils.CommonUtils.Companion.PERMISSION
 import com.honey.utils.CommonUtils.Companion.PERMISSION_DIALOG_REQ
 import com.honey.utils.CommonUtils.Companion.isGPlayServicesOK
@@ -45,6 +49,7 @@ import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension.TAG
 import kotlinx.android.synthetic.main.fragment_home.*
+import me.kungfucat.viewpagertransformers.DepthPageTransformer
 import java.util.*
 
 class HomeFragment(var tvBadges: TextView) : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onOptionClickListner, CommonHomeAdapter.setOnShopClickListner, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, OnSuccessListener<Location> {
@@ -59,6 +64,9 @@ class HomeFragment(var tvBadges: TextView) : BaseFragment(), View.OnClickListene
     var lat: Double? = null
     var lng: Double? = null
     private var mFusedLocationClient: FusedLocationProviderClient? = null
+    private var currentPos=0
+    val handler= Handler()
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -124,17 +132,13 @@ class HomeFragment(var tvBadges: TextView) : BaseFragment(), View.OnClickListene
                 }
             }
             if (ActivityCompat.checkSelfPermission(requireActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(requireActivity(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.ACCESS_FINE_LOCATION), PERMISSION)
+                    requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), PERMISSION)
                 }
             }
             else {
-                mFusedLocationClient = LocationServices.getFusedLocationProviderClient(
-                    requireActivity())
+                mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
                 mFusedLocationClient!!.lastLocation.addOnSuccessListener(this)
             }
         } catch (e: Exception) {
@@ -193,8 +197,7 @@ class HomeFragment(var tvBadges: TextView) : BaseFragment(), View.OnClickListene
                         break
                     }
                 }
-                if (permissionDenied) showSnackBar(requireActivity(),
-                    getString(R.string.please_allow_permission_for_security))
+                if (permissionDenied) showSnackBar(requireActivity(), getString(R.string.please_allow_permission_for_security))
                 else startLocationFunctioning()
             }
         }
@@ -256,6 +259,28 @@ class HomeFragment(var tvBadges: TextView) : BaseFragment(), View.OnClickListene
     }
     private fun setDataToUi(data: ResponseBean?) {
         homeData=data
+
+        // Banner View Pager
+        Collections.shuffle(data!!.banner!!)
+        viewPager.adapter= HomeBannerAdapter(requireContext(), data!!.banner!!)
+        viewPager.setPageTransformer(true, DepthPageTransformer())
+        tabLayout.setupWithViewPager(viewPager)
+
+        val runnable=Runnable {
+            if (currentPos == data.banner!!.size!! - 1) currentPos = 0
+            else currentPos++
+            if(viewPager!=null) {
+                viewPager.setCurrentItem(currentPos, true)
+            }
+        }
+
+        Timer().schedule(object : TimerTask() {
+            override fun run() {
+                handler.post(runnable)
+            }
+        }, DELAY_MS, PERIOD_MS)
+
+
 
         // Shops
         homeDataList=data!!.allstores

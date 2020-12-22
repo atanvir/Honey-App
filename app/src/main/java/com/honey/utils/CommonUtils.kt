@@ -75,7 +75,8 @@ class CommonUtils {
         //Shared Prefrence constants
         const val PREFRENCE_NAME = "com.honey"
         const val PERSISTABLE_PREFRENCE_NAME = "cache_memory"
-        const val DELAY_FOR_NEXT_SCREEN: Long = 2000
+        const val DELAY_FOR_NEXT_SCREEN: Long = 3500
+        const val DELAY_GIF_BACKGROUND: Long = 500
 
         //Patterns
         const val PASSWORD_PATTERN = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@\$%^&<>*~:`-]).{8,}\$"

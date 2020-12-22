@@ -1,12 +1,9 @@
 package com.honey.fragment.FavAndSearchTab
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +14,6 @@ import com.honey.adapter.CommonTabAdapter
 import com.honey.base.BaseFragment
 import com.honey.model.request.CommonModel
 import com.honey.model.response.success.ProductDetailModel
-import com.honey.utils.CommonUtils
 import com.honey.utils.CommonUtils.Companion.showLoadingDialog
 import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.ErrorUtil
@@ -58,6 +54,7 @@ class CommonTabFragment(var pos : Int,var screen: String) : BaseFragment(), Comm
     }
 
     override fun myObserver() {
+
         commonTabViewModel.response.observeOnce(requireActivity(), Observer {
         if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it!!)
         else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(requireActivity(),it.message) })
@@ -66,11 +63,11 @@ class CommonTabFragment(var pos : Int,var screen: String) : BaseFragment(), Comm
         if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUi(it!!)
         else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(requireActivity(),it.message) })
 
-        commonTabViewModel.onFavResponse.observeOnce(requireActivity(), Observer {
+        commonTabViewModel.onFavResponse.observe(requireActivity(), Observer {
         if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) removeData(it!!)
 
         else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(requireActivity(),it.message) })
-        commonTabViewModel.error.observeOnce(requireActivity(), Observer{ ErrorUtil.handlerGeneralError(requireActivity(), it) })
+        commonTabViewModel.error.observe(requireActivity(), Observer{ ErrorUtil.handlerGeneralError(requireActivity(), it) })
     }
 
     private fun removeData(response: CommonModel) {
@@ -102,6 +99,7 @@ class CommonTabFragment(var pos : Int,var screen: String) : BaseFragment(), Comm
 
         }else {
             if (pos == 0) {
+                dataList!!.clear()
                 dataList = it.wishlistproduct!!.productList!!
                 if(!(dataList!!.size>0)) lottieAnim.visibility=View.VISIBLE
                 else lottieAnim.visibility=View.GONE
@@ -121,6 +119,7 @@ class CommonTabFragment(var pos : Int,var screen: String) : BaseFragment(), Comm
         recycleView.notifyDataSetChanged()
         recycleView.scheduleLayoutAnimation()
     }
+
 
     override fun onFav(pos: Int,position: Int, _id: String, type: String) {
         commonTabViewModel.addtowishApi(requireActivity(),prefs.jwtToken!!,_id,type)

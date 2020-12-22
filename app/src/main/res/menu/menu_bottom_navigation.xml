@@ -15,6 +15,7 @@
 
     <item android:id="@+id/bottomNotification"
         android:title=""
+        android:actionLayout="@layout/menu_unread_message_layout"
         android:icon="@drawable/drawable_menu_notification_selector"/>
 
 

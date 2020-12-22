@@ -163,7 +163,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:drawableStart="@drawable/time"
+                android:drawableStart="@drawable/bitmap_time"
                 android:drawablePadding="4dp"
                 android:text="10-15 mins"
                 android:textColor="@color/cool_grey"

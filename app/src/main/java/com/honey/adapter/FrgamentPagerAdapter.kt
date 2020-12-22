@@ -1,14 +1,13 @@
 package com.honey.adapter
 
 import android.content.Context
-import android.os.Bundle
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.viewpager.widget.PagerAdapter
 import com.honey.R
-import com.honey.fragment.Order.OrderFragment
 import com.honey.fragment.FavAndSearchTab.CommonTabFragment
+import com.honey.fragment.Order.OrderFragment
 
 class FrgamentPagerAdapter(var context: Context,var screen: String,fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
     override fun getItem(position: Int): Fragment= if(screen.equals("Order")) OrderFragment(position) else CommonTabFragment(position, screen)
@@ -27,5 +26,9 @@ class FrgamentPagerAdapter(var context: Context,var screen: String,fm: FragmentM
         if (position == 0) return context.getString(R.string.honey_products)
         else return context.getString(R.string.stores)
         }
+    }
+
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+        //super.destroyItem(container, position, `object`)
     }
 }

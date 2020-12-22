@@ -4,7 +4,8 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="app_theme_color">#ffffff</color>
-    <color name="app_theme_organe">#fea405</color>
+<!--    <color name="app_theme_organe">#fea405</color>-->
+    <color name="app_theme_organe">#F7D219</color>
     <color name="app_theme_organe_yellow">#66fea405</color>
     <color name="light_black">#131a38</color>
     <color name="light_grey">#616772</color>
@@ -17,7 +18,8 @@
     <color name="slate_grey">#5b5b5e</color>
     <color name="green">#4ee476</color>
     <color name="red_dot">#f25151</color>
-    <color name="blur_black">#C3050505</color>
+    <color name="blur_black">#C2F6D319</color>
+
 
 
 </resources>

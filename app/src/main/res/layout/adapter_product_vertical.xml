@@ -131,6 +131,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/app_theme_organe"
+                android:text="SAR 500"
+                android:textStyle="bold"
                 android:textSize="12dp"
                 app:layout_constraintStart_toStartOf="@+id/tvRating"
                 app:layout_constraintTop_toBottomOf="@+id/tvRating" />
@@ -194,7 +196,7 @@
                 android:layout_height="11.9dp"
                 android:layout_marginStart="13dp"
                 android:elevation="12dp"
-                android:src="@drawable/cart_bag"
+                android:src="@drawable/bitmap_cart_bag"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/btnAddCardVertical"
                 app:layout_constraintStart_toStartOf="@+id/btnAddCardVertical"

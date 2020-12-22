@@ -2,7 +2,6 @@ package com.honey.model.response.success
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import java.util.stream.IntStream
 
 class ResponseBean {
 
@@ -293,6 +292,10 @@ class ResponseBean {
     @SerializedName("content")
     @Expose
     val content:String?=null
+
+    @SerializedName("order_id")
+    @Expose
+    val order_id:String?=null
 
     @SerializedName("order_number")
     @Expose

@@ -12,8 +12,6 @@ import com.honey.R
 import com.honey.adapter.CommonOrderAdapter
 import com.honey.base.BaseFragment
 import com.honey.model.request.CommonListModel
-import com.honey.model.request.CommonModel
-import com.honey.utils.CommonUtils
 import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.CommonUtils.Companion.showSnackBarGreen
 import com.honey.utils.ErrorUtil
@@ -71,6 +69,7 @@ class OrderFragment(var pos:Int) : BaseFragment() {
         lanim.visibility=View.GONE
         rvOrders.layoutManager=LinearLayoutManager(activity)
         rvOrders.adapter= CommonOrderAdapter(requireContext(),pos, it.response!!,orderViewModel)
+
         rvOrders.notifyDataSetChanged()
         rvOrders.scheduleLayoutAnimation()
         }else{
