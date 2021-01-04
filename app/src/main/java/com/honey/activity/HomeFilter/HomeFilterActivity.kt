@@ -1,10 +1,8 @@
 package com.honey.activity.HomeFilter
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.Parcelable
 import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
@@ -14,32 +12,19 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.honey.R
-import com.honey.activity.Filter.FilterViewModel
 import com.honey.activity.FilteredShops.FilteredShopActivity
 import com.honey.adapter.FilterItemAdapter
 import com.honey.adapter.FilterRatingAdapter
 import com.honey.base.BaseActivity
-import com.honey.model.request.CommonListModel
 import com.honey.model.request.CommonModel
 import com.honey.model.response.success.ProductDetailModel
-import com.honey.utils.CommonUtils
 import com.honey.utils.CommonUtils.Companion.setToolbar
 import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.ErrorUtil
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension.TAG
-import com.honey.utils.ViewExtension.observeOnce
 import com.stfalcon.pricerangebar.model.BarEntry
-import kotlinx.android.synthetic.main.activity_filter.*
 import kotlinx.android.synthetic.main.activity_home_filter.*
-import kotlinx.android.synthetic.main.activity_home_filter.btnApply
-import kotlinx.android.synthetic.main.activity_home_filter.btnReset
-import kotlinx.android.synthetic.main.activity_home_filter.clMain
-import kotlinx.android.synthetic.main.activity_home_filter.rvRating
-import kotlinx.android.synthetic.main.activity_home_filter.rvType
-import kotlinx.android.synthetic.main.activity_home_filter.seekBarWithChart
-import kotlinx.android.synthetic.main.activity_home_filter.tvRange
-import kotlinx.android.synthetic.main.layout_billing_details.*
 
 class HomeFilterActivity: BaseActivity(), View.OnClickListener, FilterItemAdapter.setOnFilterItemClickListner, FilterRatingAdapter.setOnItemClickListner {
     var honeyType:ArrayList<String>?=null
@@ -50,8 +35,10 @@ class HomeFilterActivity: BaseActivity(), View.OnClickListener, FilterItemAdapte
     var deliveryTime: String?=""
     var sort_by: String?=""
     var rating: String?=""
-    var to:String?="1"
-    var from:String?="100"
+//    var to:String?="1"
+//    var from:String?="100"
+    var price_low: String?="50"
+    var price_high: String?="5000"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,10 +68,12 @@ class HomeFilterActivity: BaseActivity(), View.OnClickListener, FilterItemAdapte
 
     override fun myObserver() {
         seekBarWithChart.onRangeChanged = { leftPinValue, rightPinValue ->
-            to=leftPinValue
-            from=rightPinValue
-            tvRange.setText(leftPinValue+" "+getString(R.string.km)+" - "+rightPinValue+" "+getString(R.string.km))
+            tvRange.setText(getString(R.string.sar)+" "+ leftPinValue+" - "+getString(R.string.sar)+ " "+rightPinValue)
+            price_low=leftPinValue
+            price_high=rightPinValue
         }
+
+
         filterViewModel.response.observe(this, Observer {
         if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUI(it)
         else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
@@ -134,8 +123,8 @@ class HomeFilterActivity: BaseActivity(), View.OnClickListener, FilterItemAdapte
         rvRating.layoutManager=layoutManger
         rvRating.adapter= FilterRatingAdapter(this,ratingList,rating!!,this)
         rvRating.scheduleLayoutAnimation()
-        val barEntrys = ArrayList<BarEntry>()
-        val values=1.0f
+        var values=50.0f
+        var barEntrys = ArrayList<BarEntry>()
         for (int in 1..100){
             barEntrys.add(BarEntry((values*int), int.toFloat()))
         }
@@ -144,27 +133,24 @@ class HomeFilterActivity: BaseActivity(), View.OnClickListener, FilterItemAdapte
         seekBarWithChart.setSelectedEntries(barEntrys)
 
     }
-
     override fun onClick(v: View?) {
         when(v!!.id)
         {
             R.id.btnApply ->{
-            filterViewModel.homeFilterApi(context = this,token=prefs.jwtToken!!,latitude = prefs.latitude,longitude = prefs.longitude,rating=rating!!,type=type!!,delivery_day =deliveryTime!!,to=to!!,from=from!!)
+            filterViewModel.homeFilterApi(context = this,token=prefs.jwtToken!!,latitude = prefs.latitude,longitude = prefs.longitude,rating=rating!!,type=type!!,delivery_day =deliveryTime!!,price_low=price_low!!,price_high=price_high!!)
             }
 
             R.id.btnReset ->{
                 rating=""
                 type=""
                 deliveryTime =""
-                to="1"
-                from="100"
+                price_low="50"
+                price_high="5000"
                 filterViewModel.categoryListApi(this)
             }
 
         }
     }
-
-
     override fun onFilterItemClick(type: String, keyValue: String,days:Int) {
         Log.e(TAG(this),"Type==>"+type+" \nValue==>"+keyValue)
         when(type)
@@ -179,7 +165,6 @@ class HomeFilterActivity: BaseActivity(), View.OnClickListener, FilterItemAdapte
             }
         }
     }
-
     override fun ratingClick(rating: String) {
         this.rating=rating
         rvRating.adapter!!.notifyDataSetChanged()

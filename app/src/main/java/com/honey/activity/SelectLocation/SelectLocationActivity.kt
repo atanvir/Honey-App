@@ -13,8 +13,9 @@ import android.os.*
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.common.ConnectionResult
@@ -38,7 +39,6 @@ import com.honey.R
 import com.honey.activity.AddNewAddress.AddNewAddressActivity
 import com.honey.activity.SearchLocation.SearchLocationActivity
 import com.honey.base.BaseActivity
-import com.honey.utils.CommonUtils
 import com.honey.utils.CommonUtils.Companion.GETTING_ADDRESS
 import com.honey.utils.CommonUtils.Companion.HIDE_INFO_WINDOW
 import com.honey.utils.CommonUtils.Companion.NOT_SERVE_THIS_AREA
@@ -51,7 +51,6 @@ import com.honey.utils.CommonUtils.Companion.showSnackBar
 import com.honey.utils.CommonUtils.Companion.showSnackBarGreen
 import com.honey.utils.ParamEnum
 import com.honey.utils.ViewExtension
-import com.honey.utils.ViewExtension.observeOnce
 import com.honey.utils.ViewExtension.setLocale
 import kotlinx.android.synthetic.main.activity_select_location.*
 import java.util.*
@@ -105,8 +104,9 @@ class SelectLocationActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnC
         mMap = p0
         initControl()
         val sydney = LatLng(mLastLocation!!.latitude, mLastLocation!!.longitude)
+        val location_marker = ContextCompat.getDrawable(this,R.drawable.bitmap_reached)
         mMap?.apply {
-            marker=addMarker(MarkerOptions().position(sydney).title("Your Location").icon(BitmapDescriptorFactory.fromResource(R.drawable.map_location)))
+            marker=addMarker(MarkerOptions().position(sydney).title("Your Location").icon(BitmapDescriptorFactory.fromBitmap(location_marker!!.toBitmap(location_marker.intrinsicWidth, location_marker.intrinsicHeight, null))))
             mMap!!.moveCamera(CameraUpdateFactory.newLatLng(sydney))
             mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney,21.0f))
         }

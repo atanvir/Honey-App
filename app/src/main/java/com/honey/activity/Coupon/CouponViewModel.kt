@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import com.honey.base.BaseViewModel
 import com.honey.model.request.CommonListModel
 import com.honey.model.request.CommonModel
-import com.honey.utils.CommonUtils
 import com.honey.utils.CommonUtils.Companion.dismissLoadingDialog
 import com.honey.utils.CommonUtils.Companion.showLoadingDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -26,6 +25,9 @@ class CouponViewModel: BaseViewModel() {
         showLoadingDialog(context as Activity)
         apiInterface.applyCoupon(token,couponCode).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onApplySuccess(it) }, { onFailure(it) })
     }
+
+
+
 
 
     fun onApplySuccess(response: CommonModel){

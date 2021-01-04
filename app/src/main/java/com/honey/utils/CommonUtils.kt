@@ -157,7 +157,6 @@ class CommonUtils {
             return isConnected
         }
 
-
         fun isOnline(context: Context): Boolean {
             return try {
                 val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -342,12 +341,14 @@ class CommonUtils {
         }
 
         private fun loginIntent(context: Activity, msg: String) {
-            var sharedPreferenceUtil= SharedPreferenceUtil.getInstance(context)
+            val sharedPreferenceUtil= SharedPreferenceUtil.getInstance(context)
+            val language=sharedPreferenceUtil.selectedLanguage
             sharedPreferenceUtil.deletePreferences()
             sharedPreferenceUtil.isFirstTime=true
             sharedPreferenceUtil.isLanguageFirstTime=true
+            sharedPreferenceUtil.selectedLanguage=language
             getDeviceToken(sharedPreferenceUtil)
-            var intent= Intent(context, LoginActivity::class.java)
+            val intent= Intent(context, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(intent)
             Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
@@ -379,11 +380,11 @@ class CommonUtils {
         }
 
         fun isGPlayServicesOK(activity: Activity?): Boolean {
-        val isAvailable = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(activity)
-        if (isAvailable == ConnectionResult.SUCCESS) return true
-        else if (GoogleApiAvailability.getInstance().isUserResolvableError(isAvailable)) GoogleApiAvailability.getInstance().getErrorDialog(activity, isAvailable, 1001).show()
-        else Toast.makeText(activity, activity!!.getApplicationContext().getString(R.string.cannot_connect_to_playstore), Toast.LENGTH_SHORT).show()
-        return false
+            val isAvailable = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(activity)
+            if (isAvailable == ConnectionResult.SUCCESS) return true
+            else if (GoogleApiAvailability.getInstance().isUserResolvableError(isAvailable)) GoogleApiAvailability.getInstance().getErrorDialog(activity, isAvailable, 1001).show()
+            else Toast.makeText(activity, activity!!.getApplicationContext().getString(R.string.cannot_connect_to_playstore), Toast.LENGTH_SHORT).show()
+            return false
         }
 
         fun getGsonInstance(): Gson {
@@ -439,9 +440,7 @@ class CommonUtils {
                 val date1 = completeDate[0]
                 val month = completeDate[1]
                 val year = completeDate[2]
-                val days_in_months = GregorianCalendar(year.toInt(), month.toInt(), date1.toInt()).getActualMaximum(
-                    Calendar.DAY_OF_MONTH
-                )
+                val days_in_months = GregorianCalendar(year.toInt(), month.toInt(), date1.toInt()).getActualMaximum(Calendar.DAY_OF_MONTH)
                 val secounds: Long = 1000 // 1 secound
                 val min = 60 * secounds // 1 min
                 val hour: Long = 3600000 // 1 hour
@@ -476,9 +475,7 @@ class CommonUtils {
                 val date1 = completeDate[0]
                 val month = completeDate[1]
                 val year = completeDate[2]
-                val days_in_months = GregorianCalendar(year.toInt(), month.toInt(), date1.toInt()).getActualMaximum(
-                    Calendar.DAY_OF_MONTH
-                )
+                val days_in_months = GregorianCalendar(year.toInt(), month.toInt(), date1.toInt()).getActualMaximum(Calendar.DAY_OF_MONTH)
                 val secounds: Long = 1000 // 1 secound
                 val min = 60 * secounds // 1 min
                 val hour: Long = 3600000 // 1 hour
@@ -513,9 +510,7 @@ class CommonUtils {
                 val date1 = completeDate[0]
                 val month = completeDate[1]
                 val year = completeDate[2]
-                val days_in_months = GregorianCalendar(year.toInt(), month.toInt(), date1.toInt()).getActualMaximum(
-                    Calendar.DAY_OF_MONTH
-                )
+                val days_in_months = GregorianCalendar(year.toInt(), month.toInt(), date1.toInt()).getActualMaximum(Calendar.DAY_OF_MONTH)
                 val secounds: Long = 1000 // 1 secound
                 val min = 60 * secounds // 1 min
                 val hour: Long = 3600000 // 1 hour
@@ -543,19 +538,9 @@ class CommonUtils {
             {
                 for(i in 0..(GuestData.instance!!.allData!!.size-1))
                 {
-                    if(key.equals(ParamEnum.PRODUCT_ID.theValue())) list.add(
-                        GuestData!!.instance!!.allData!!.get(
-                            i
-                        ).product_id
-                    )
-                    else if(key.equals(ParamEnum.SELLER_ID.theValue())) list.add(
-                        GuestData!!.instance!!.allData!!.get(
-                            i
-                        ).store_id
-                    )
-                    else if(key.equals(ParamEnum.QUANTITY.theValue())) list.add(
-                        "" + GuestData!!.instance!!.allData!!.get(i).quanutity
-                    )
+                    if(key.equals(ParamEnum.PRODUCT_ID.theValue())) list.add(GuestData!!.instance!!.allData!!.get(i).product_id)
+                    else if(key.equals(ParamEnum.SELLER_ID.theValue())) list.add(GuestData!!.instance!!.allData!!.get(i).store_id)
+                    else if(key.equals(ParamEnum.QUANTITY.theValue())) list.add("" + GuestData!!.instance!!.allData!!.get(i).quanutity)
                 }
             }
             return list
@@ -565,8 +550,6 @@ class CommonUtils {
             val rnd = Random()
             return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
         }
-
-
 
     }
 }

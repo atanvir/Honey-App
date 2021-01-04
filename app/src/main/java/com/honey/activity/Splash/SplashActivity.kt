@@ -24,7 +24,6 @@ import com.honey.utils.CommonUtils.Companion.getDeviceToken
 import com.honey.utils.ViewExtension.setLocale
 import kotlinx.android.synthetic.main.activity_splash.*
 
-
 class SplashActivity: BaseActivity()
 {
     override fun onCreate(savedInstanceState: Bundle?) {

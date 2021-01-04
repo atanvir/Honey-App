@@ -24,7 +24,6 @@ import com.honey.utils.ParamEnum
 import com.thekhaeng.pushdownanim.PushDownAnim
 import kotlinx.android.synthetic.main.activity_payment.*
 import kotlinx.android.synthetic.main.layout_billing_details.*
-import java.lang.Exception
 
 class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheckedChangeListener {
     private lateinit var paymentViewModel: PaymentViewModel
@@ -46,19 +45,19 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
     }
 
     override fun init() {
-    tvSubTotal.text=prefs.subTotal
-    Log.e("tax",prefs.tax)
-    if(prefs.tax.equals("0")) clTextFees.visibility=View.GONE
-    else clTextFees.visibility=View.VISIBLE
-    if(prefs.discount.equals("0")) clDiscount.visibility=View.GONE
-    else clDiscount.visibility=View.VISIBLE
-    tvShippingCharges.visibility=View.GONE
-    tvTax.text=prefs.tax
-    tvTotal.text=prefs.total
-    tvItems.text=prefs.item
-    tvDiscount.text=prefs.discount
-    paymentViewModel= ViewModelProviders.of(this).get(PaymentViewModel::class.java)
-    paymentViewModel.defaultAddressApi(this,prefs.jwtToken!!)
+      tvSubTotal.text=prefs.subTotal
+      Log.e("tax",prefs.tax)
+      if(prefs.tax.equals("0")) clTextFees.visibility=View.GONE
+      else clTextFees.visibility=View.VISIBLE
+      if(prefs.discount.equals("0")) clDiscount.visibility=View.GONE
+      else clDiscount.visibility=View.VISIBLE
+      tvShippingCharges.visibility=View.GONE
+      tvTax.text=prefs.tax
+      tvTotal.text=prefs.total
+      tvItems.text=prefs.item
+      tvDiscount.text=prefs.discount
+      paymentViewModel= ViewModelProviders.of(this).get(PaymentViewModel::class.java)
+      paymentViewModel.defaultAddressApi(this,prefs.jwtToken!!)
     }
 
     override fun initControl() {
@@ -128,9 +127,14 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
         tvAddress.visibility=View.GONE
         paymentViewModel.getDistackInKms(prefs.latitude,prefs.longitude,""+it!!.default_address!!.latitude,""+ it.default_address!!.longitude)
         defaultAddress=it!!.default_address!!
-        if(it!!.default_address!!.type!!.equals(ParamEnum.HOME.theValue())) ivIcon.setImageResource(R.drawable.home_icn)
-        else ivIcon.setImageResource(R.drawable.office_icn)
-        tvName.setText(it.default_address!!.name.toString().toUpperCase())
+        if(it!!.default_address!!.type!!.equals(ParamEnum.HOME.theValue())) {
+            ivIcon.setImageResource(R.drawable.home_icn)
+            tvName.text=getString(R.string.home)
+        }
+        else {
+            ivIcon.setImageResource(R.drawable.office_icn)
+            tvName.text=getString(R.string.office_commercial)
+        }
         tvPhoneNumber.setText(it.default_address!!.phone)
         tvAddressDefault.setText(it.default_address!!.address)
         address_id= it.default_address!!.id.toString()
@@ -169,7 +173,6 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
     }
     private fun checkValidation(): Boolean {
         var ret=true
-
         if(address_id==null)
         {
             ret=false
@@ -182,6 +185,7 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
 
         return ret
     }
+
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
         when(group!!.checkedRadioButtonId)
         {

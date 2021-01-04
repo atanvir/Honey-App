@@ -89,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="Estimated Arrival"
+                android:text="@string/estimated_arrival"
                 android:textColor="@color/cool_grey"
                 android:textSize="12dp"
                 app:layout_constraintStart_toStartOf="@+id/ivSellerPhoto"

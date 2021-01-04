@@ -48,7 +48,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView94"
         app:srb_drawableEmpty="@drawable/star_un"
-        app:srb_drawableFilled="@drawable/star_small">
+        app:srb_drawableFilled="@drawable/bitmap_star_small">
     </com.willy.ratingbar.RotationRatingBar>
 
 
@@ -85,7 +85,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView95"
         app:srb_drawableEmpty="@drawable/star_un"
-        app:srb_drawableFilled="@drawable/star_small">
+        app:srb_drawableFilled="@drawable/bitmap_star_small">
     </com.willy.ratingbar.RotationRatingBar>
 
     <EditText

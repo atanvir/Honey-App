@@ -99,15 +99,19 @@ class HomeFragment(var tvBadges: TextView) : BaseFragment(), View.OnClickListene
 
     override fun onPause() {
         super.onPause()
-        googleApiClient!!.stopAutoManage(requireActivity())
-        googleApiClient!!.disconnect()
+        if(googleApiClient!=null) {
+            googleApiClient!!.stopAutoManage(requireActivity())
+            googleApiClient!!.disconnect()
+        }
     }
 
     override fun onStop() {
         super.onStop()
-        if (googleApiClient!!.isConnected()) {
-            googleApiClient!!.stopAutoManage(requireActivity())
-            googleApiClient!!.disconnect()
+        if(googleApiClient!=null) {
+            if (googleApiClient!!.isConnected()) {
+                googleApiClient!!.stopAutoManage(requireActivity())
+                googleApiClient!!.disconnect()
+            }
         }
     }
 

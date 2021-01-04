@@ -1,10 +1,8 @@
 package com.e.carty.webservices
 
-import com.google.android.gms.common.internal.service.Common
-import com.honey.R
 import com.honey.model.request.AddressModel
-import com.honey.model.request.CommonModel
 import com.honey.model.request.CommonListModel
+import com.honey.model.request.CommonModel
 import com.honey.model.request.ReviewModel
 import com.honey.utils.ParamEnum
 import com.honey.webservices.ApiConstant
@@ -223,8 +221,8 @@ interface ApiInterface {
                    @Field("rating") rating: String,
                    @Field("type") type:String,
                    @Field("delivery_day") delivery_day: String,
-                   @Field("to")to: String,
-                   @Field("from")from: String): Observable<CommonModel>
+                   @Field("price_low") price_low: String,
+                   @Field("price_high")price_high: String): Observable<CommonModel>
 
     @FormUrlEncoded
     @POST(ApiConstant.OFFER_DETAIL)

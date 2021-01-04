@@ -12,9 +12,7 @@ import com.honey.activity.OrderDetail.OrderDetailActivity
 import com.honey.activity.Rating.RatingActivity
 import com.honey.fragment.Order.OrderViewModel
 import com.honey.model.response.success.ResponseBean
-import com.honey.utils.CommonUtils
 import com.honey.utils.CommonUtils.Companion.getDispatchTime
-import com.honey.utils.CommonUtils.Companion.getTime
 import com.honey.utils.CommonUtils.Companion.setRoundImage
 import com.honey.utils.ParamEnum
 import com.honey.utils.SharedPreferenceUtil
@@ -58,7 +56,7 @@ class CommonOrderAdapter(var context: Context,var pos:Int,var list:List<Response
                holder.itemView.tvSellerName.text = list.get(position).seller_name
                holder.itemView.tvSellingPrice.text = context.getString(R.string.sar)+" " + list.get(position).amount
                holder.itemView.tvOrderStaus.text = list.get(position).status
-               if (list.get(position).status.equals(context.getString(R.string.deliveried), ignoreCase = true)){
+               if (list.get(position).status.equals("Delivered", ignoreCase = true)){
                    holder.itemView.btnRate.visibility=View.VISIBLE
                    holder.itemView.tvOrderStaus.setCompoundDrawablesRelativeWithIntrinsicBounds(ContextCompat.getDrawable(context,R.drawable.drawable_green_dot),null,null,null)
                    holder.itemView.tvOrderStaus.setTextColor(ContextCompat.getColor(context,R.color.green))

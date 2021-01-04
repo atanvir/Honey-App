@@ -31,6 +31,8 @@ object ViewExtension{
         })
     }
 
+
+
     fun TAG(any: Any?): String? {
         return any!!.javaClass.simpleName
     }
@@ -67,6 +69,7 @@ object ViewExtension{
             .build()
         readMoreOption.addReadMoreTo(view as TextView?, view.text.toString())
     }
+
     fun findBadgeId(context: Context, bottomNavigationView: BottomNavigationMenuView) : TextView {
         val v: View = bottomNavigationView.getChildAt(3)
         val itemView = v as BottomNavigationItemView

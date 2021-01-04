@@ -4,9 +4,7 @@ import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.honey.base.BaseViewModel
-import com.honey.model.request.CommonListModel
 import com.honey.model.request.CommonModel
-import com.honey.utils.CommonUtils
 import com.honey.utils.CommonUtils.Companion.dismissLoadingDialog
 import com.honey.utils.CommonUtils.Companion.showLoadingDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,10 +21,10 @@ class HomeFilterViewModel : BaseViewModel(){
         apiInterface.categorylist().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onSuccess(it) }, { onFailure(it) })
     }
 
-    fun homeFilterApi(context: Context,token:String,latitude:String,longitude:String,rating:String,type:String,delivery_day:String,to:String,from:String)
+    fun homeFilterApi(context: Context,token:String,latitude:String,longitude:String,rating:String,type:String,delivery_day:String,price_low:String,price_high:String)
     {
         showLoadingDialog(context as Activity)
-        apiInterface.homesearch(token=token,latitude=latitude,longitude=longitude,rating=rating,type=type,delivery_day=delivery_day,to=to,from=from).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onFilterSuccess(it) }, { onFailure(it) })
+        apiInterface.homesearch(token=token,latitude=latitude,longitude=longitude,rating=rating,type=type,delivery_day=delivery_day,price_low=price_low,price_high=price_high).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onFilterSuccess(it) }, { onFailure(it) })
     }
 
     fun onSuccess(response: CommonModel){

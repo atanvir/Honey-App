@@ -79,6 +79,7 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
 
         productViewModel.addCartResponse.observe(this, Observer {
             if (it.status!!.equals(ParamEnum.SUCCESS.theValue())) responseHandler()
+
             else if (it.status.equals(ParamEnum.FAILURE.theValue())) showAlertDialog()
         })
 
@@ -147,7 +148,6 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
         stockQuantity=response.quantity
 
         if(response.quantity!!<1){
-
             btnAddtoCart.text=getString(R.string.out_of_stock)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 btnAddtoCart.backgroundTintList=getColorStateList(R.color.red)

@@ -250,4 +250,6 @@
     <string name="no">No</string>
     <string name="view_cart">View Cart</string>
     <string name="remove">Remove</string>
+    <string name="estimated_arrival">Estimated Arrival</string>
+    <string name="saved_address">Saved Address</string>
 </resources>

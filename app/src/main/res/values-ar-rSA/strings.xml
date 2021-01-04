@@ -250,6 +250,8 @@
     <string name="no">لا</string>
     <string name="view_cart">عرض العربة</string>
     <string name="remove">إزالة</string>
+    <string name="estimated_arrival">الوصول المتوقع</string>
+    <string name="saved_address">العنوان المحفوظ</string>
 
 
 </resources>

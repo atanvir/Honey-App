@@ -2,21 +2,16 @@ package com.honey.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.content.IntentSender
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.honey.R
 import com.honey.activity.AddNewAddress.AddNewAddressActivity
 import com.honey.activity.DeliveryAddress.DeliveryAddressActivity
-import com.honey.activity.SearchLocation.SearchViewModel
 import com.honey.model.response.success.ResponseBean
-import kotlinx.android.synthetic.main.activity_add_new_address.*
 import kotlinx.android.synthetic.main.adapter_address.view.*
 
 
@@ -28,9 +23,14 @@ class AddressAdapter(var context :Context,var list:List<ResponseBean>,var listne
     override fun getItemViewType(position: Int): Int =position
 
     override fun onBindViewHolder(holder: AddressAdapter.MyViewHolder, position: Int) {
-        if (list.get(position).type.equals("home")) holder.itemView.ivIcon.setImageResource(R.drawable.home_icn)
-        else holder.itemView.ivIcon.setImageResource(R.drawable.office_icn)
-        holder.itemView.tvName.setText(list.get(position).type.toString().toUpperCase())
+        if (list.get(position).type.equals("home")) {
+            holder.itemView.ivIcon.setImageResource(R.drawable.home_icn)
+            holder.itemView.tvName.text=context.getString(R.string.home)
+        }
+        else {
+            holder.itemView.ivIcon.setImageResource(R.drawable.office_icn)
+            holder.itemView.tvName.text = context.getString(R.string.office_commercial)
+        }
         holder.itemView.tvPhoneNumber.setText(list.get(position).phone)
         holder.itemView.tvAddress.setText("" + list.get(position).address)
     }

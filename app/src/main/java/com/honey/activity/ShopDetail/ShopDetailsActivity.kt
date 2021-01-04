@@ -128,10 +128,10 @@ class ShopDetailsActivity : BaseActivity(), View.OnClickListener, HomeOptionAdap
             dialog.dismiss()
             rvShops.adapter!!.notifyItemChanged(pos!!)
         }
+
         dialog.show()
     }
     private fun setDataToUi(response: ResponseBean?) {
-
         // Disable options
         val optionManger = LinearLayoutManager(this)
         optionManger.orientation=LinearLayoutManager.HORIZONTAL
@@ -170,14 +170,13 @@ class ShopDetailsActivity : BaseActivity(), View.OnClickListener, HomeOptionAdap
                     }
                 }
             }
-            else{
-                break
-            }
+            else{ break }
         }
 
         return list
     }
     private fun setProductByCategory(response: ResponseBean?) {
+
         // Selected Option
         categoryList=response!!.list!!
         if(prefs.jwtToken.equals(""))
@@ -205,6 +204,7 @@ class ShopDetailsActivity : BaseActivity(), View.OnClickListener, HomeOptionAdap
                 intent.putExtra("id",getIntent().getStringExtra("store_id")!!)
                 startActivity(intent)
             }
+
             R.id.ivFav -> {
                 if(prefs.jwtToken.equals(""))
                 {

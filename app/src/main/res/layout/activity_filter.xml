@@ -149,7 +149,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:barActiveLineColor="@android:color/holo_orange_dark"
+            app:barActiveLineColor="@color/app_theme_organe"
             app:barActiveThumbColor="@android:color/holo_blue_light"
             app:barActiveTickRadius="@dimen/custom_active_tick_radius"
             app:barChartSelectedBackgroundColor="@android:color/holo_red_dark"

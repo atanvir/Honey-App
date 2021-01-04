@@ -17,29 +17,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-<!--    <EditText-->
-<!--        android:id="@+id/edFind"-->
-<!--        style="@style/WalkThroughTitleDescription"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="51dp"-->
-<!--        android:layout_marginStart="24dp"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:layout_marginEnd="24dp"-->
-<!--        android:focusable="false"-->
-<!--        android:focusableInTouchMode="false"-->
-<!--        android:background="@drawable/drawable_corners_storke"-->
-<!--        android:drawableStart="@drawable/search"-->
-<!--        android:drawablePadding="16dp"-->
-<!--        android:hint="Search for your location"-->
-<!--        android:paddingStart="18dp"-->
-<!--        android:textAlignment="viewStart"-->
-<!--        android:textColor="@color/edit_text_color"-->
-<!--        android:textColorHint="@color/edit_text_color"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/include11" />-->
-
-
     <TextView
         android:id="@+id/tvCurrentLocation"
         style="@style/WalkThroughTitleDescription"
@@ -94,7 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:drawablePadding="12dp"
-        android:text="Saved Address"
+        android:text="@string/saved_address"
         android:visibility="gone"
         android:textAlignment="viewStart"
         android:textColor="@color/black"

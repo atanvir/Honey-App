@@ -105,42 +105,42 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
         }
     }
     override fun initControl() {
-    bottomNavigationView.setOnNavigationItemSelectedListener(this)
-    clMyOrders.setOnClickListener(this)
-    clMyProfile.setOnClickListener(this)
-    clDeliveryAddress.setOnClickListener(this)
-    clPaymentMethod.setOnClickListener(this)
-    clContactUs.setOnClickListener(this)
-    clAboutUs.setOnClickListener(this)
-    ClTerms.setOnClickListener(this)
-    ClPrivacyPolicy.setOnClickListener(this)
-    ClChangeLanguage.setOnClickListener(this)
-    clFaq.setOnClickListener(this)
-    ivProfile.setOnClickListener(this)
-    clAddress.setOnClickListener(this)
-    btnLogout.setOnClickListener(this)
-    ivDrawer.setOnClickListener(this)
-    if(intent.getStringExtra("cameFrom")!=null){
-        if(intent.getStringExtra("cameFrom").equals(MyFirebaseMessageService::class.simpleName))
-        {
-            val intent=Intent(this, OrderActivity::class.java)
-            intent.putExtra("body", getIntent().getStringExtra("body"))
-            startActivity(intent)
-            finish()
+        bottomNavigationView.setOnNavigationItemSelectedListener(this)
+        clMyOrders.setOnClickListener(this)
+        clMyProfile.setOnClickListener(this)
+        clDeliveryAddress.setOnClickListener(this)
+        clPaymentMethod.setOnClickListener(this)
+        clContactUs.setOnClickListener(this)
+        clAboutUs.setOnClickListener(this)
+        ClTerms.setOnClickListener(this)
+        ClPrivacyPolicy.setOnClickListener(this)
+        ClChangeLanguage.setOnClickListener(this)
+        clFaq.setOnClickListener(this)
+        ivProfile.setOnClickListener(this)
+        clAddress.setOnClickListener(this)
+        btnLogout.setOnClickListener(this)
+        ivDrawer.setOnClickListener(this)
+        if(intent.getStringExtra("cameFrom")!=null){
+            if(intent.getStringExtra("cameFrom").equals(MyFirebaseMessageService::class.simpleName))
+            {
+                val intent=Intent(this, OrderActivity::class.java)
+                intent.putExtra("body", getIntent().getStringExtra("body"))
+                startActivity(intent)
+                finish()
 
-        }else {
-            isFavSelected=false
-            loadFragment(this, this.supportFragmentManager, bagFragment)
-            clAddress.visibility = View.GONE
-            tvTitle.visibility = View.VISIBLE
-            tvTitle.text = getString(R.string.cart)
-            bottomNavigationView.menu.getItem(1).setChecked(true)
+            }else {
+                isFavSelected=false
+                loadFragment(this, this.supportFragmentManager, bagFragment)
+                clAddress.visibility = View.GONE
+                tvTitle.visibility = View.VISIBLE
+                tvTitle.text = getString(R.string.cart)
+                bottomNavigationView.menu.getItem(1).setChecked(true)
+            }
         }
-    }
-    else {
-        isFavSelected=false
-        loadFragment(this, this.supportFragmentManager, homeFragment!!)
-    }
+        else {
+            isFavSelected=false
+            loadFragment(this, this.supportFragmentManager, homeFragment!!)
+        }
     }
     override fun myObserver() {
         mainViewModel.response.observe(this, Observer {
@@ -224,34 +224,34 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
         when(item.itemId)
         {
             R.id.bottomHome -> {
-                drawerLayout.closeDrawers()
-                clAddress.visibility = View.VISIBLE
-                tvTitle.visibility = View.GONE
-                isFavSelected=false
-                loadFragment(this, this.supportFragmentManager, homeFragment!!)
-                return true
+            drawerLayout.closeDrawers()
+            clAddress.visibility = View.VISIBLE
+            tvTitle.visibility = View.GONE
+            isFavSelected=false
+            loadFragment(this, this.supportFragmentManager, homeFragment!!)
+            return true
             }
             R.id.bottomBag -> {
-                drawerLayout.closeDrawers()
-                clAddress.visibility = View.GONE
-                tvTitle.visibility = View.VISIBLE
-                tvTitle.text = getString(R.string.cart)
-                isFavSelected=false
-                loadFragment(this, this.supportFragmentManager, bagFragment)
-                return true
+            drawerLayout.closeDrawers()
+            clAddress.visibility = View.GONE
+            tvTitle.visibility = View.VISIBLE
+            tvTitle.text = getString(R.string.cart)
+            isFavSelected=false
+            loadFragment(this, this.supportFragmentManager, bagFragment)
+            return true
             }
             R.id.bottomFav -> {
-                if(!isFavSelected) {
-                    isFavSelected=true
-                    drawerLayout.closeDrawers()
-                    if (!prefs.jwtToken.equals("")) {
-                        clAddress.visibility = View.GONE
-                        tvTitle.visibility = View.VISIBLE
-                        tvTitle.text = getString(R.string.favorites)
-                    }
-                    loadFragment(this, this.supportFragmentManager, FavoriteFragment())
-                    return true
-                }
+            if(!isFavSelected) {
+            isFavSelected=true
+            drawerLayout.closeDrawers()
+            if (!prefs.jwtToken.equals("")) {
+                clAddress.visibility = View.GONE
+                tvTitle.visibility = View.VISIBLE
+                tvTitle.text = getString(R.string.favorites)
+            }
+            loadFragment(this, this.supportFragmentManager, FavoriteFragment())
+            return true
+            }
             }
             R.id.bottomNotification -> {
                 drawerLayout.closeDrawers()
@@ -292,5 +292,6 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
         super.onDestroy()
         unregisterReceiver(notifcationBroadcastReceiver)
     }
+
 }
 
