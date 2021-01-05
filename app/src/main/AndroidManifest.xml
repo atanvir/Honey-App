@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.honey">
+    package="com.frzah">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:name=".base.AppController"
+        android:name="com.frzah.base.AppController"
         android:allowBackup="true"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
@@ -23,72 +23,72 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.OfferDetail.OfferDetailActivity"></activity>
-        <activity android:name=".activity.Coupon.CouponActivity" />
-        <activity android:name=".activity.Rating.RatingActivity" />
+        <activity android:name="com.frzah.activity.OfferDetail.OfferDetailActivity"></activity>
+        <activity android:name="com.frzah.activity.Coupon.CouponActivity" />
+        <activity android:name="com.frzah.activity.Rating.RatingActivity" />
         <activity
-            android:name=".activity.SelectLanguage.SelectLanguageActivity"
+            android:name="com.frzah.activity.SelectLanguage.SelectLanguageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.OrderDetail.OrderDetailActivity"
+            android:name="com.frzah.activity.OrderDetail.OrderDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.Payment.PaymentActivity"
+            android:name="com.frzah.activity.Payment.PaymentActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.FAQs.FAQsActivity"
+            android:name="com.frzah.activity.FAQs.FAQsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.Webview.WebviewActivity"
+            android:name="com.frzah.activity.Webview.WebviewActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ContactUs.ContactUsActivity"
+            android:name="com.frzah.activity.ContactUs.ContactUsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.SelectLocation.SelectLocationActivity"
+            android:name="com.frzah.activity.SelectLocation.SelectLocationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.SearchLocation.SearchLocationActivity"
+            android:name="com.frzah.activity.SearchLocation.SearchLocationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.AddNewAddress.AddNewAddressActivity"
+            android:name="com.frzah.activity.AddNewAddress.AddNewAddressActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.DeliveryAddress.DeliveryAddressActivity"
+            android:name="com.frzah.activity.DeliveryAddress.DeliveryAddressActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.OTPVerification.OTPVerificationActivity"
+            android:name="com.frzah.activity.OTPVerification.OTPVerificationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.Login.LoginActivity"
+            android:name="com.frzah.activity.Login.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.MyProfile.MyProfileActivity"
+            android:name="com.frzah.activity.MyProfile.MyProfileActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.Order.OrderActivity"
+            android:name="com.frzah.activity.Order.OrderActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.Filter.FilterActivity"
+            android:name="com.frzah.activity.Filter.FilterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.Review.ReviewActivity"
+            android:name="com.frzah.activity.Review.ReviewActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ProductDetail.ProductDetailActivity"
+            android:name="com.frzah.activity.ProductDetail.ProductDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ShopDetail.ShopDetailsActivity"
+            android:name="com.frzah.activity.ShopDetail.ShopDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.Main.MainActivity"
+            android:name="com.frzah.activity.Main.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.WalkThrough.WalkThroughActivity"
+            android:name="com.frzah.activity.WalkThrough.WalkThroughActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.Splash.SplashActivity"
+            android:name="com.frzah.activity.Splash.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -97,13 +97,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.Search.SearchActivity"
+            android:name="com.frzah.activity.Search.SearchActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.HomeFilter.HomeFilterActivity"
+            android:name="com.frzah.activity.HomeFilter.HomeFilterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.FilteredShops.FilteredShopActivity"
+            android:name="com.frzah.activity.FilteredShops.FilteredShopActivity"
             android:screenOrientation="portrait" />
 
         <meta-data
@@ -134,7 +134,7 @@
             android:value="@string/default_notification_channel_id" />
 
         <service
-            android:name=".firebase.MyFirebaseMessageService"
+            android:name="com.frzah.firebase.MyFirebaseMessageService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

@@ -15,7 +15,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.honey"
+        applicationId "com.frzah"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1

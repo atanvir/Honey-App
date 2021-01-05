@@ -304,21 +304,55 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:nestedScrollingEnabled="false"
         app:animationDuration="800"
         app:layoutAnimation="@anim/layout_animation_from_bottom"
         app:layoutManagerOrientation="horizontal"
         app:layoutManagerReverse="false"
         app:layoutManagerType="linear"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddtoCart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rvOptionsSelection">
 
     </com.mlsdev.animatedrv.AnimatedRecyclerView>
+
+
+    <ImageView
+        android:id="@+id/ivCart"
+        android:layout_width="11.2dp"
+        android:layout_height="11.9dp"
+        android:layout_marginStart="24dp"
+        android:elevation="12dp"
+        android:src="@drawable/bitmap_cart_bag_green"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/btnAddtoCart"
+        app:layout_constraintStart_toStartOf="@+id/btnAddtoCart"
+        app:layout_constraintTop_toTopOf="@+id/btnAddtoCart" />
+
+    <Button
+        android:id="@+id/btnAddtoCart"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/drawable_round_circle_corners"
+        android:backgroundTint="@color/green"
+        android:drawableStart="@drawable/bitmap_cart"
+        android:drawablePadding="10dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="20dp"
+        android:textAlignment="center"
+        android:text="@string/view_cart"
+        android:textColor="@android:color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <com.airbnb.lottie.LottieAnimationView

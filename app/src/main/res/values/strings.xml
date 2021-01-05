@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">FRZAH</string>
     <string name="see_review"><u>See Review</u></string>
-    <string name="google_map_api_key">AIzaSyBIcOPG6bi5aIgM-99JWsF_boy5_t9QjGE</string>
+    <string name="google_map_api_key">AIzaSyDgPSrkLQMUmrfhth86Naz6Es42TDPZWrA</string>
     <string name="default_notification_channel_id"> 1001 </string>
     <string name="reason_order_id">Reason/Order ID</string>
     <string name="query">Query</string>
@@ -104,9 +104,9 @@
     <string name="my_order">My Orders</string>
     <string name="upcoming">Upcoming</string>
     <string name="history">History</string>
-    <string name="pending">Pending</string>
-    <string name="processed">Processed</string>
-    <string name="shipped">Shipped</string>
+    <string name="pending">Your request has been sent</string>
+    <string name="processed">Your request has been received</string>
+    <string name="shipped">Your order has been shipped</string>
     <string name="deliveried">Delivered</string>
     <string name="cancelled">Cancelled</string>
     <string name="order_id">Order Id : #</string>
@@ -132,7 +132,7 @@
     <string name="cancel">Cancel</string>
     <string name="re_order">Re-Order</string>
     <string name="rate">Rate</string>
-    <string name="type_verification_code">Please type the  verification code sent to\n</string>
+    <string name="type_verification_code">Please type the  verification code sent to</string>
     <string name="phone_number_not_exist">Phone Number does not exist</string>
     <string name="login_successfully">Login successfully.</string>
     <string name="login_successful">Login Successful</string>
@@ -141,7 +141,7 @@
     <string name="please_enter_valid_otp">Please enter valid otp</string>
     <string name="one_time_password">One Time Password</string>
     <string name="i_don_t_receive_a_code">I don\'t receive a code!  </string>
-    <string name="please_resend">Please resend</string>
+    <string name="please_resend">  Please resend</string>
     <string name="payment">Payment</string>
     <string name="order_successfully_placed">Order successfully placed!</string>
     <string name="please_add_address_first">Please add address first</string>

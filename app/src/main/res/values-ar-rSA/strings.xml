@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">فرزة</string>
     <string name="see_review"><u>يوجد</u></string>
-    <string name="google_map_api_key">AIzaSyBIcOPG6bi5aIgM-99JWsF_boy5_t9QjGE</string>
+    <string name="google_map_api_key">AIzaSyDgPSrkLQMUmrfhth86Naz6Es42TDPZWrA</string>
     <string name="default_notification_channel_id"> 1001 </string>
     <string name="reason_order_id">سبب طلب رقم الطلب الخاص</string>
     <string name="query">استفسار</string>
@@ -104,9 +104,9 @@
     <string name="my_order">طلباتي</string>
     <string name="upcoming">القادم</string>
     <string name="history">السِّجل</string>
-    <string name="pending">المُعلَّق</string>
-    <string name="processed">المُعالَج</string>
-    <string name="shipped">المشحون</string>
+    <string name="pending">تم ارسال طلبك</string>
+    <string name="processed"> تم استقبال طلبك</string>
+    <string name="shipped">تم شحن طلبك</string>
     <string name="deliveried">تم التسليم</string>
     <string name="cancelled">الملغي</string>
     <string name="order_id">رقم الطلب : #</string>
@@ -132,7 +132,7 @@
     <string name="cancel">إلغاء</string>
     <string name="re_order">إعادة الطلب</string>
     <string name="rate">المعدّل</string>
-    <string name="type_verification_code">يُرجى كتابة رمز التحقق المُرسَل إلى\n</string>
+    <string name="type_verification_code">يُرجى كتابة رمز التحقق المُرسَل إلى</string>
     <string name="phone_number_not_exist">Phone Number does not exist</string>
     <string name="login_successfully">Login successfully.</string>
     <string name="login_successful">تم تسجيل الدخول بنجاح</string>
@@ -141,7 +141,7 @@
     <string name="please_enter_valid_otp">يُرجى إدخال رمز تحقق صالح</string>
     <string name="one_time_password">كلمة مرور لمرة واحدة</string>
     <string name="i_don_t_receive_a_code">لا يصلني الرمز  </string>
-    <string name="please_resend">يُرجى إعادة الإرسال</string>
+    <string name="please_resend">   يُرجى إعادة الإرسال </string>
     <string name="payment">الدفع</string>
     <string name="order_successfully_placed">تم الطلب بنجاح!</string>
     <string name="please_add_address_first">يُرجى إضافة العنوان أولًا</string>
@@ -190,7 +190,7 @@
     <string name="item">العنصر</string>
     <string name="hey_it_feels_to_light">يبدو هذا خفيفًا جدًا!</string>
     <string name="there_is_nothing_in_your_bag_let_s_add_some_items">لا يوجد شئ في حقيبتك, لِنُضِف بعض العناصر.</string>
-    <string name="checkout">الخروج</string>
+    <string name="checkout">أكمال</string>
     <string name="all">الكل</string>
     <string name="latest">الأحدث</string>
     <string name="popular_caps">الأكثر رواجًا</string>
