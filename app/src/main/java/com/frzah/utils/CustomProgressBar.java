@@ -25,7 +25,6 @@ public class CustomProgressBar extends Dialog {
     public CustomProgressBar(@NonNull Context context, int theme) {
         super(context);
     }
-
     public static CustomProgressBar show(final Context context, boolean cancelable) {
         final CustomProgressBar dialog = new CustomProgressBar(context, android.R.style.Theme_Black);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);

@@ -2,7 +2,7 @@ package com.frzah.utils
 
 enum class ParamEnum {
     SUCCESS("SUCCESS"),
-    STORE_ID("store_id"),
+    STORE_ID( "store_id"),
     FAILURE("FAILURE"),
     ANDROID("android"),
     PRODUCT("product"),

@@ -272,12 +272,8 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
         return false
     }
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 0) {
-            supportFragmentManager.popBackStack()
-        } else if (doubleBackToExitPressedOnce) {
-            finishAffinity()
-        }
-
+        if (supportFragmentManager.backStackEntryCount > 0) supportFragmentManager.popBackStack()
+         else if (doubleBackToExitPressedOnce) finishAffinity()
         this.doubleBackToExitPressedOnce = true
         showSnackBar(this, getString(R.string.press_again_to_exit))
         Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)

@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -113,7 +114,6 @@ class MyProfileActivity : BaseActivity(), View.OnClickListener {
             if (checkPermissions()) {
                 launchIntent()
             }
-
             }
         }
     }
@@ -178,7 +178,7 @@ class MyProfileActivity : BaseActivity(), View.OnClickListener {
         if (!file.exists()) {
             file.mkdirs()
         }
-        path = capture_dir + System.currentTimeMillis() + ".jpg"
+        path = capture_dir + System.currentTimeMillis() + ".mp3"
         val imageFileUri = FileProvider.getUriForFile(applicationContext, BuildConfig.APPLICATION_ID + ".provider", File(path!!))
         val intent = getPickIntent(this, imageFileUri)
         startActivityForResult(intent, IMAGE_REQ)
@@ -191,11 +191,18 @@ class MyProfileActivity : BaseActivity(), View.OnClickListener {
             IMAGE_REQ ->{
             if(resultCode== Activity.RESULT_OK) {
                 if (data != null) {
+                    try{
                     path = FilePath.getPath(this, Uri.parse(data.getDataString()))
-                    setNormalImage(this, ivProfile, lvProfile, "" + Uri.parse(data.getDataString()))
+                    }catch (e:Exception){
+                        val imageFileUri = FileProvider.getUriForFile(applicationContext, BuildConfig.APPLICATION_ID + ".provider", File(path!!))
+                        Log.e("imageUri",""+imageFileUri)
+                        e.printStackTrace()
+                    }
+//                    setNormalImage(this, ivProfile, lvProfile, "" + Uri.parse(data.getDataString()))
                 } else {
-                    setNormalImage(this, ivProfile, lvProfile, "" + Uri.parse(path))
+//                  setNormalImage(this, ivProfile, lvProfile, "" + Uri.parse(path))
                 }
+                Log.e("path","-->"+path)
             }
             }
         }

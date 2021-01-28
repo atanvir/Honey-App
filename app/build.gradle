@@ -58,6 +58,7 @@ dependencies {
 
     //drawer
     implementation 'com.infideap.drawerbehavior:drawer-behavior:1.0.4'
+
     implementation 'com.google.android.material:material:1.2.1'
 
     //Otp View
@@ -65,12 +66,15 @@ dependencies {
 
     //Recycle View
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+    //Fragment
     implementation 'androidx.fragment:fragment-ktx:1.2.5'
 
     //Price Slider
     implementation 'com.github.stfalcon:StfalconPriceRangeBar:0.1.2'
-    implementation 'com.google.android.gms:play-services-location:17.1.0'
 
+    //Google Play Service
+    implementation 'com.google.android.gms:play-services-location:17.1.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation "com.google.android.gms:play-services-places:17.0.0"
     implementation 'com.google.android.gms:play-services-location:17.1.0'

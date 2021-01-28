@@ -21,6 +21,7 @@ import com.frzah.firebase.MyFirebaseMessageService
 import com.frzah.utils.CommonUtils.Companion.DELAY_FOR_NEXT_SCREEN
 import com.frzah.utils.CommonUtils.Companion.DELAY_GIF_BACKGROUND
 import com.frzah.utils.CommonUtils.Companion.getDeviceToken
+import com.frzah.utils.GetContext
 import com.frzah.utils.ViewExtension.setLocale
 import kotlinx.android.synthetic.main.activity_splash.*
 
@@ -36,6 +37,7 @@ class SplashActivity: BaseActivity()
 
     override fun onResume() {
         super.onResume()
+        val getContext: GetContext by lazy { GetContext.getInstance(applicationContext) }
         getDeviceToken(prefs)
         setLocale(this)
     }

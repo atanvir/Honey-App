@@ -9,21 +9,23 @@ import com.frzah.model.request.CommonModel
 import com.frzah.utils.CommonUtils.Companion.dismissLoadingDialog
 import com.frzah.utils.CommonUtils.Companion.showLoadingDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class AddNewAddressViewModel : BaseViewModel(){
     var response = MutableLiveData<CommonModel>()
     var editResponse = MutableLiveData<CommonModel>()
     var error = MutableLiveData<Throwable>()
+    var compositeDisposable: CompositeDisposable?= CompositeDisposable()
 
     fun userAddAddressApi(context: Context, model:AddressModel){
         showLoadingDialog(context as Activity)
-        apiInterface.userAddAddress(model).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onSuccess(it) }, { onFailure(it) })
+        apiInterface.userAddAddress(model).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({onSuccess(it)},{onFailure(it)}).let{ compositeDisposable?.add(it)}
     }
 
     fun userEditAddressApi(context: Context, model:AddressModel) {
         showLoadingDialog(context as Activity)
-        apiInterface.userEditddress(model).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onEditSuccess(it) }, { onFailure(it) })
+        apiInterface.userEditddress(model).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onEditSuccess(it) }, { onFailure(it) }).let { compositeDisposable?.add(it)}
     }
 
     fun onSuccess(response: CommonModel){
@@ -39,6 +41,13 @@ class AddNewAddressViewModel : BaseViewModel(){
     fun onFailure(it : Throwable){
         dismissLoadingDialog()
         error.value=it
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        if(compositeDisposable?.isDisposed == false){
+            compositeDisposable?.clear()
+        }
     }
 
 

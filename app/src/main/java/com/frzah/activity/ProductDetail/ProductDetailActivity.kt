@@ -44,7 +44,6 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
         initControl()
         myObserver()
     }
-
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
@@ -91,11 +90,13 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
 
         if(quantity==0){
             btnAddtoCart.text=getString(R.string.add_to_cart)
+            ivCart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.bitmap_cart_bag))
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 btnAddtoCart.backgroundTintList=getColorStateList(R.color.app_theme_organe)
             }
         }else{
             btnAddtoCart.text=getString(R.string.view_cart)
+            ivCart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.bitmap_cart_bag_green))
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 btnAddtoCart.backgroundTintList=getColorStateList(R.color.green)
             }
@@ -122,7 +123,6 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
         tvNo.setOnClickListener { dialog.dismiss() }
         dialog.show()
     }
-
     private fun setDataToUi(response: ResponseBean?) {
         btnAddtoCart.visibility=View.VISIBLE
         ivCart.visibility=View.VISIBLE
@@ -198,7 +198,6 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
              intent.putExtra("id", getIntent().getStringExtra("product_id")!!)
              startActivity(intent)
          }
-
          R.id.ivMinus -> {
              if (prefs.jwtToken.equals("")) {
                  quantity = quantity!! - 1
@@ -212,7 +211,6 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
                  else productViewModel.updateCartApi(this, intent.getStringExtra("product_id")!!, prefs.jwtToken!!, quantity!!)
              }
          }
-
          R.id.ivPlus -> {
              if (checkAvaialbleStock()) {
                  if (prefs.jwtToken!!.equals("")) {
@@ -237,7 +235,6 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
                  showSnackBar(this, getString(R.string.out_of_stock))
              }
          }
-
          R.id.btnAddtoCart -> {
              if(checkText()) {
              if (checkAvaialbleStock()) {
@@ -258,7 +255,6 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
          }
      }
     }
-
     private fun checkText(): Boolean {
         var ret=true
         if(btnAddtoCart.text.toString().equals(getString(R.string.view_cart))){
@@ -271,13 +267,12 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
 
         return ret
     }
-
     private fun checkAvaialbleStock(): Boolean {
-        var ret=false
-        if(stockQuantity!! >= (quantity!! + 1).toLong()) {ret=true}
-        else {ret=false
-            showSnackBar(this, getString(R.string.out_of_stock))}
-
+        var ret=true
+        if(!(stockQuantity!! >= (quantity!! + 1).toLong())) {
+            ret=false
+            showSnackBar(this, getString(R.string.out_of_stock))
+        }
      return ret
     }
     private fun checkStore(sellerId: String): Boolean {
@@ -292,5 +287,4 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
         }
         return ret
     }
-
 }

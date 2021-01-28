@@ -31,8 +31,6 @@ object ViewExtension{
         })
     }
 
-
-
     fun TAG(any: Any?): String? {
         return any!!.javaClass.simpleName
     }

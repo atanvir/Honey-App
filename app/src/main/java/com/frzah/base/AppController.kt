@@ -12,8 +12,8 @@ class AppController : Application(){
     }
 
     companion object {
-       private var minstance: AppController? = null
-        fun getInstance(): AppController? { return minstance }
+      private var minstance: AppController? = null
+      fun getInstance(): AppController? { return minstance }
     }
 
     override fun attachBaseContext(base: Context) {

@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -92,7 +91,7 @@ class ContactUsActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun getUploadedPhoto() :MultipartBody.Part?{
+    private fun getUploadedPhoto() :MultipartBody.Part? {
         if(path!=null) {
             val imgFile = File(path!!)
             val imagesBody = imgFile.asRequestBody("image/*".toMediaTypeOrNull())
@@ -119,7 +118,6 @@ class ContactUsActivity : BaseActivity(), View.OnClickListener {
         return ret
     }
 
-
     private fun checkPermissions(): Boolean {
         var ret = true
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -134,7 +132,7 @@ class ContactUsActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun launchIntent() {
-        val capture_dir: String = Environment.getExternalStorageDirectory().toString() + "/Honey Application/Images/"
+        val capture_dir: String = this.getExternalCacheDir().toString() + "/Honey Application/Images/"
         val file = File(capture_dir)
         if (!file.exists()) {
             file.mkdirs()
@@ -162,6 +160,7 @@ class ContactUsActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when(requestCode)
