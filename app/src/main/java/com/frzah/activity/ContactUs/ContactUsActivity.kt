@@ -38,6 +38,7 @@ class ContactUsActivity : BaseActivity(), View.OnClickListener {
     private val IMAGE_REQ=112
     private val PERMISSION=12
     private var path:String?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contact_us)
