@@ -89,6 +89,31 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
         otpViewModel.error.observe(this, Observer{ ErrorUtil.handlerGeneralError(this, it) })
     }
 
+    private var mCallback:PhoneAuthProvider.OnVerificationStateChangedCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+        override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+            dismissLoadingDialog()
+            if(credential?.smsCode!=null) {
+                otp_view?.setOTP("" + credential?.smsCode!!)
+                signInWithPhoneAuthCredential(credential)
+            }else{
+//                sendOtp()
+            }
+        }
+
+        override fun onVerificationFailed(e: FirebaseException) {
+            dismissLoadingDialog()
+            showSnackBar(this@OTPVerificationActivity,e.message)
+        }
+
+        override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
+            dismissLoadingDialog()
+            Log.d("OTPVerificationActivity", "onCodeSent:$verificationId")
+            verificationCode = verificationId
+            mResendToken = token
+        }
+    }
+
 
     private fun sendOtp() {
         showLoadingDialog(this)
@@ -146,14 +171,14 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
         when(p0!!.id)
         {
             R.id.ivNext -> {
-//                if(verificationCode.equals(""))
-//                { showSnackBar(this,getString(R.string.wait_for_otp)) }
-//                else if (otp_view.otp!!.length == 0 || otp_view.otp!!.length < 6) {
-//                    if (otp_view.otp!!.length == 0) showSnackBar(this, getString(R.string.please_enter_otp))
-//                    else if (otp_view.otp!!.length < 6) showSnackBar(this, getString(R.string.please_enter_valid_otp))
-//                } else { signInWithPhoneAuthCredential(PhoneAuthProvider.getCredential(verificationCode, otp_view.otp!!)) }
-
-                otpViewModel.verfiyPhoneApi(intent.getStringExtra("phone_number")!!,prefs.device_token!!,product_id,seller_id,quantity)
+                if(verificationCode.equals(""))
+                { showSnackBar(this,getString(R.string.wait_for_otp)) }
+                else if (otp_view.otp!!.length == 0 || otp_view.otp!!.length < 6) {
+                    if (otp_view.otp!!.length == 0) showSnackBar(this, getString(R.string.please_enter_otp))
+                    else if (otp_view.otp!!.length < 6) showSnackBar(this, getString(R.string.please_enter_valid_otp))
+                } else { signInWithPhoneAuthCredential(PhoneAuthProvider.getCredential(verificationCode, otp_view.otp!!)) }
+//
+//                otpViewModel.verfiyPhoneApi(intent.getStringExtra("phone_number")!!,prefs.device_token!!,product_id,seller_id,quantity)
             }
 
             R.id.btnOk -> {
@@ -172,26 +197,7 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
         }
     }
 
-    private var mCallback:PhoneAuthProvider.OnVerificationStateChangedCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
-        override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-            dismissLoadingDialog()
-            otp_view.setOTP(""+credential.smsCode!!)
-            signInWithPhoneAuthCredential(credential)
-        }
-
-        override fun onVerificationFailed(e: FirebaseException) {
-            dismissLoadingDialog()
-            showSnackBar(this@OTPVerificationActivity,e.message)
-        }
-
-        override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
-            dismissLoadingDialog()
-            Log.d("OTPVerificationActivity", "onCodeSent:$verificationId")
-            verificationCode = verificationId
-            mResendToken = token
-        }
-    }
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         showLoadingDialog(this)

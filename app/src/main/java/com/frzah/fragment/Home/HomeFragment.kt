@@ -52,13 +52,14 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import me.kungfucat.viewpagertransformers.DepthPageTransformer
 import java.util.*
 
-class HomeFragment(var tvBadges: TextView) : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onOptionClickListner, CommonHomeAdapter.setOnShopClickListner, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, OnSuccessListener<Location> {
+class HomeFragment(var tvBadges: TextView?) : BaseFragment(), View.OnClickListener, HomeOptionAdapter.onOptionClickListner, CommonHomeAdapter.setOnShopClickListner, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, OnSuccessListener<Location> {
+    constructor():this(null)
     private lateinit var homeViewModel: HomeViewModel
     private var homeData: ResponseBean?=null
     private var homeDataList :List<CommonShopsItemModel>?=null
     var pos:Int?=0
     val FILTER_RESULT_REQ:Int=10
-    private var googleApiClient: GoogleApiClient? = null
+    private  var googleApiClient: GoogleApiClient?=null
     private var locationRequest: LocationRequest? = null
     private var locationCallback: LocationCallback? = null
     var lat: Double? = null
@@ -66,6 +67,8 @@ class HomeFragment(var tvBadges: TextView) : BaseFragment(), View.OnClickListene
     private var mFusedLocationClient: FusedLocationProviderClient? = null
     private var currentPos=0
     val handler= Handler()
+    var isLocation:Boolean=false
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -74,8 +77,22 @@ class HomeFragment(var tvBadges: TextView) : BaseFragment(), View.OnClickListene
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        startLocationFunctioning()
+        if(checkPermission()) startLocationFunctioning()
     }
+
+    fun checkPermission() : Boolean{
+        var ret=true
+        if (ActivityCompat.checkSelfPermission(requireActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                ret=false
+                requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), PERMISSION)
+            }
+        }
+
+        return ret
+    }
+
 
     fun startLocationFunctioning() {
         if (!isOnline(requireActivity())) { Toast.makeText(requireActivity(), getString(R.string.internet_not_available), Toast.LENGTH_SHORT).show()
@@ -87,22 +104,25 @@ class HomeFragment(var tvBadges: TextView) : BaseFragment(), View.OnClickListene
     }
 
     private fun buildGoogleApiClient() {
-        googleApiClient = GoogleApiClient.Builder(requireActivity())
-            .addApi(LocationServices.API)
-            .enableAutoManage(requireActivity(), 0, this)
-            .addApi(com.google.android.gms.location.places.Places.GEO_DATA_API)
-            .addConnectionCallbacks(this)
-            .addOnConnectionFailedListener(this)
-            .build()
-        googleApiClient!!.connect()
+        try {
+            googleApiClient = GoogleApiClient.Builder(requireActivity())
+                .addApi(LocationServices.API)
+                .enableAutoManage(requireActivity(), 0, this)
+                .addApi(com.google.android.gms.location.places.Places.GEO_DATA_API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build()
+            googleApiClient?.connect()
+        }catch (e:java.lang.Exception){
+            e.printStackTrace()
+        }
+
     }
 
     override fun onPause() {
         super.onPause()
-        if(googleApiClient!=null) {
-            googleApiClient!!.stopAutoManage(requireActivity())
-            googleApiClient!!.disconnect()
-        }
+        googleApiClient?.stopAutoManage(requireActivity())
+        googleApiClient?.disconnect()
     }
 
     override fun onStop() {
@@ -123,33 +143,28 @@ class HomeFragment(var tvBadges: TextView) : BaseFragment(), View.OnClickListene
         return locationRequest
     }
 
+    @SuppressLint("MissingPermission")
     fun loadCurrentLoc() {
         try {
             locationCallback=object: LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
                     for (location in locationResult.locations) {
                         if (location != null) {
+                            mFusedLocationClient?.removeLocationUpdates(locationCallback)
                             locationCallBack(location)
-                            mFusedLocationClient!!.removeLocationUpdates(locationCallback)
                         }
                     }
                 }
             }
-            if (ActivityCompat.checkSelfPermission(requireActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), PERMISSION)
-                }
-            }
-            else {
-                mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-                mFusedLocationClient!!.lastLocation.addOnSuccessListener(this)
-            }
+             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+             mFusedLocationClient!!.lastLocation.addOnSuccessListener(this)
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
     fun locationCallBack(location: Location?) {
+        mFusedLocationClient?.removeLocationUpdates(locationCallback)
+        isLocation = true
         lat = location!!.latitude
         lng = location.longitude
         init()
@@ -249,9 +264,9 @@ class HomeFragment(var tvBadges: TextView) : BaseFragment(), View.OnClickListene
     }
 
     private fun checkNotificationBadge(response: ResponseBean?) {
-        if(response!!.count.equals("0")) tvBadges.visibility=View.GONE
-        else tvBadges.visibility=View.VISIBLE
-        tvBadges.text=response!!.count
+        if(response!!.count.equals("0")) tvBadges?.visibility=View.GONE
+        else tvBadges?.visibility=View.VISIBLE
+        tvBadges?.text=response!!.count
     }
 
     private fun checkFavData(response: CommonModel?) {

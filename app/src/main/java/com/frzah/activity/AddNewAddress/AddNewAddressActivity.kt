@@ -101,7 +101,6 @@ class AddNewAddressActivity : BaseActivity(), View.OnClickListener, RadioGroup.O
     }
 
     override fun myObserver() {
-
         addNewViewModel.response.observe(this, Observer {
         if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) setDataToUI(it)
         else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message) })
@@ -151,6 +150,7 @@ class AddNewAddressActivity : BaseActivity(), View.OnClickListener, RadioGroup.O
                 intent.putExtra("cameFrom", AddNewAddressActivity::class.simpleName)
                 startActivityForResult(intent,ADDRESS_REQ_CODE)
             }
+
         }
     }
 

@@ -39,7 +39,8 @@ class CommonOrderAdapter(var context: Context,var pos:Int,var list:List<Response
                if(list.get(position).item_count==1L) holder.itemView.tvItemsCount.text=""+list.get(position).item_count+" "+context.getString(R.string.item)
                else holder.itemView.tvItemsCount.text=""+list.get(position).item_count+" "+context.getString(R.string.items)
                holder.itemView.tvSellerNames.text=list.get(position).seller_name
-               holder.itemView.tvAmount.text=context.getString(R.string.sar)+" "+list.get(position).amount
+               if(prefs?.selectedLanguage.equals("en",ignoreCase = true))  holder.itemView.tvAmount.text=context.getString(R.string.sar)+" "+list.get(position).amount
+               else holder.itemView.tvAmount.text=list.get(position).amount+" "+context.getString(R.string.sar)
                holder.itemView.tvStatus.text=list.get(position).status
                holder.itemView.tvOrderDate.text=context.getString(R.string.status)
                if(getDispatchTime(list.get(position).dispatch_at!!,context=context)!!.split(" ".toRegex()).size>1){
@@ -54,7 +55,8 @@ class CommonOrderAdapter(var context: Context,var pos:Int,var list:List<Response
                else holder.itemView.tvItems.text = ""+list.get(position).item_count + " "+context.getString(R.string.items)
                setRoundImage(context, holder.itemView.ivSeller, holder.itemView.lv, list.get(position).images!!)
                holder.itemView.tvSellerName.text = list.get(position).seller_name
-               holder.itemView.tvSellingPrice.text = context.getString(R.string.sar)+" " + list.get(position).amount
+               if(prefs?.selectedLanguage.equals("en",ignoreCase = true))  holder.itemView.tvAmount.text=context.getString(R.string.sar)+" "+list.get(position).amount
+               else holder.itemView.tvAmount.text=list.get(position).amount+" "+context.getString(R.string.sar)
                holder.itemView.tvOrderStaus.text = list.get(position).status
                if (list.get(position).status.equals("Delivered", ignoreCase = true)){
                    holder.itemView.btnRate.visibility=View.VISIBLE

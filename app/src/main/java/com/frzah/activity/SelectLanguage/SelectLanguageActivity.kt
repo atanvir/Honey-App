@@ -28,7 +28,7 @@ class SelectLanguageActivity : BaseActivity(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         prefs.isLanguageFirstTime=true
-
+        prefs.isFirstTime=true
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -69,16 +69,20 @@ class SelectLanguageActivity : BaseActivity(), View.OnClickListener {
         when(p0!!.id)
         {
             R.id.btnContinue ->{
-                if(intent.getStringExtra("cameFrom")!=null)
-                {
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }else {
-                    val intent = Intent(this, WalkThroughActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+//
+//                if(intent.getStringExtra("cameFrom")!=null)
+//                {
+//                    val intent = Intent(this, MainActivity::class.java)
+//                    startActivity(intent)
+//                    finish()
+//                }else {
+//                    val intent = Intent(this, WalkThroughActivity::class.java)
+//                    startActivity(intent)
+//                    finish()
+//                }
             }
 
             R.id.btnEnglish ->{

@@ -141,7 +141,8 @@ class ProductDetailActivity : BaseActivity(), View.OnClickListener {
         tvRating.text = "" + response.rating
         if(response.review!!.size==0) tvReviews.text="(+ 0 "+getString(R.string.review)+")"
         else tvReviews.text="(+"+response.review!!.size+" "+getString(R.string.review)+")"
-        tvSellingPrice.text =getString(R.string.sar)+" "+response.sp
+        if(prefs?.selectedLanguage.equals("en")) tvSellingPrice.text =getString(R.string.sar)+" "+response.sp
+        else tvSellingPrice.text =response.sp+" "+getString(R.string.sar)
         if(response.mrp.equals("0")){ tvMRP.visibility=View.GONE }
         tvMRP.text =getString(R.string.sar)+" "+response.mrp
         tvDesc.text=response.description

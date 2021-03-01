@@ -67,6 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
+                android:text="sar 250"
                 android:textColor="@color/app_theme_organe"
                 android:textSize="16dp"
                 app:layout_constraintEnd_toEndOf="parent"

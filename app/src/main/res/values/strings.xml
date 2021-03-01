@@ -133,7 +133,7 @@
     <string name="re_order">Re-Order</string>
     <string name="rate">Rate</string>
     <string name="type_verification_code">Please type the  verification code sent to</string>
-    <string name="phone_number_not_exist">Phone Number does not exist</string>
+    <string name="phone_number_not_exist">Phone Number does not exist.</string>
     <string name="login_successfully">Login successfully.</string>
     <string name="login_successful">Login Successful</string>
     <string name="wait_for_otp">Please wait for the otp</string>

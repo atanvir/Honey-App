@@ -25,7 +25,7 @@ import com.frzah.activity.MyProfile.MyProfileActivity
 import com.frzah.activity.Order.OrderActivity
 import com.frzah.activity.SearchLocation.SearchLocationActivity
 import com.frzah.activity.SelectLanguage.SelectLanguageActivity
-import com.frzah.activity.Webview.WebviewActivity
+import com.frzah.activity.Webview.CommonWebviewActivity
 import com.frzah.base.BaseActivity
 import com.frzah.firebase.MyFirebaseMessageService
 import com.frzah.fragment.Bag.BagFragment
@@ -62,6 +62,7 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
     var tvBadge:TextView?=null
     var notifcationBroadcastReceiver:BroadcastReceiver?=null
     var isFavSelected=false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setLocale(this)
@@ -215,7 +216,7 @@ class MainActivity : BaseActivity(), View.OnClickListener, BottomNavigationView.
         }
     }
     private fun intentWebView(title: String, apiName: String) {
-        val intent= Intent(this, WebviewActivity::class.java)
+        val intent= Intent(this, CommonWebviewActivity::class.java)
         intent.flags= Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         intent.putExtra("title", title)
         intent.putExtra("apiName", apiName)

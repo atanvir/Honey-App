@@ -56,8 +56,8 @@
     <string name="filter">تصفية</string>
     <string name="sar">ريال </string>
     <string name="filtered_shops">متاجر مصفّاة</string>
-    <string name="store_added">Store added to wishlist successfully</string>
-    <string name="store_removed">Store removed from wishlist successfully</string>
+    <string name="store_added">تمت إضافة المتجر إلى قائمة الرغبات بنجاح </string>
+    <string name="store_removed">تمت إزالة المتجر من قائمة الرغبات بنجاح </string>
     <string name="shops">متاجر</string>
     <string name="search_honey_products_stores">البحث عن منتجات/متاجر العسل</string>
     <string name="honey_type">نوع العسل</string>
@@ -133,8 +133,8 @@
     <string name="re_order">إعادة الطلب</string>
     <string name="rate">المعدّل</string>
     <string name="type_verification_code">يُرجى كتابة رمز التحقق المُرسَل إلى</string>
-    <string name="phone_number_not_exist">Phone Number does not exist</string>
-    <string name="login_successfully">Login successfully.</string>
+    <string name="phone_number_not_exist">Phone Number does not exist.</string>
+    <string name="login_successfully"> .تسجيل الدخول بنجاح</string>
     <string name="login_successful">تم تسجيل الدخول بنجاح</string>
     <string name="wait_for_otp">يُرجى انتظار رمز التحقق لمرة واحدة</string>
     <string name="please_enter_otp">يُرجى إدخال رمز التحقق لمرة واحدة</string>
@@ -179,10 +179,10 @@
     <string name="select_delivery_location">تحديد موقع الاستلام</string>
     <string name="your_address">عنوانك</string>
     <string name="confirm_location">تأكيد الموقع</string>
-    <string name="product_removed_from_wishlist">Product removed from wishlist successfully</string>
-    <string name="product_added_to_wishlist">Product added to wishlist successfully</string>
-    <string name="store_added_to_wishlist">Store added to wishlist successfully</string>
-    <string name="product_added_to_cart">Product added to Cart successfully</string>
+    <string name="product_removed_from_wishlist">تمت إزالة المنتج من قائمة الرغبات بنجاح </string>
+    <string name="product_added_to_wishlist">تمت إضافة المنتج إلى قائمة الرغبات بنجاح </string>
+    <string name="store_added_to_wishlist">تمت إضافة المتجر إلى قائمة الرغبات بنجاح </string>
+    <string name="product_added_to_cart">تمت إضافة المنتج إلى سلة التسوق بنجاح </string>
     <string name="day">اليوم</string>
     <string name="no_item_cart">لا يوجد أي عنصر في سلة التسوق</string>
     <string name="apply_coupon">استعمال قسيمة التخفيض</string>
@@ -195,7 +195,7 @@
     <string name="latest">الأحدث</string>
     <string name="popular_caps">الأكثر رواجًا</string>
     <string name="distance_caps">المسافة</string>
-    <string name="store_removed_from_wishlist">Store removed from wishlist successfully</string>
+    <string name="store_removed_from_wishlist">تمت إزالة المتجر من قائمة الرغبات بنجاح </string>
     <string name="all_shops">جميع المتاجر</string>
     <string name="all_shop">كل المتجر</string>
     <string name="offers">العروض</string>

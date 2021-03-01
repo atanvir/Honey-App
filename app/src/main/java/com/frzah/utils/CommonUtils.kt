@@ -40,6 +40,7 @@ import com.frzah.activity.Main.MainActivity
 import com.frzah.activity.ShopDetail.ShopDetailsActivity
 import com.frzah.fragment.Favorite.FavoriteFragment
 import com.frzah.fragment.Notification.NotificationFragment
+import com.frzah.webservices.ApiConstant
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.tasks.OnCompleteListener
@@ -267,6 +268,7 @@ class CommonUtils {
             lottie: LottieAnimationView?,
             url: String?
         ) {
+
             if (lottie != null) {
                 lottie.visibility = View.VISIBLE
             }
@@ -295,9 +297,10 @@ class CommonUtils {
         }
 
         private fun checkUrl(url: String?): Any {
-            if(url.equals("https://mobuloustech.com/honey_app/public/img/imagenotfound.jpg")) return "https://i.ibb.co/y6sCcvm/user-thumbnail.jpg"
+            if(url.equals(""+ParamEnum.BASE_URL.theValue()+"honey_app/public/img/imagenotfound.jpg")) return "https://i.ibb.co/y6sCcvm/user-thumbnail.jpg"
             else if(url.equals("")) return "https://i.ibb.co/y6sCcvm/user-thumbnail.jpg"
             else if(url==null) return "https://i.ibb.co/y6sCcvm/user-thumbnail.jpg"
+            else if(url.equals("http://54.152.130.226/honey_app/public",ignoreCase = true)) return "https://i.ibb.co/y6sCcvm/user-thumbnail.jpg"
             else return url
         }
 

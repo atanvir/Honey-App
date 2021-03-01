@@ -84,10 +84,10 @@ class SplashActivity: BaseActivity()
                 }
                 startActivity(intent)
                 finish()
-            } else if (prefs.isLanguageFirstTime!! && !(prefs.isFirstTime!!)) {
+            }/* else if (prefs.isLanguageFirstTime!! && !(prefs.isFirstTime!!)) {
                 startActivity(Intent(this, WalkThroughActivity::class.java))
                 finish()
-            } else {
+            }*/ else {
                 startActivity(Intent(this, SelectLanguageActivity::class.java))
                 finish()
             }

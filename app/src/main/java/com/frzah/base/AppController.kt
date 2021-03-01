@@ -2,9 +2,9 @@ package com.frzah.base
 
 import android.app.Application
 import android.content.Context
-import androidx.multidex.MultiDex
+import com.telr.mobile.sdk.TelrApplication
 
-class AppController : Application(){
+class AppController : TelrApplication() {
 
     override fun onCreate() {
         super.onCreate()
@@ -16,8 +16,4 @@ class AppController : Application(){
       fun getInstance(): AppController? { return minstance }
     }
 
-    override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(base)
-        MultiDex.install(this)
-    }
 }

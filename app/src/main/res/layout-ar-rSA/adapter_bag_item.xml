@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/app_theme_color"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:id="@+id/ivProductPic"
+        android:layout_width="59dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/drawable_circle_corners"
+        android:backgroundTint="@android:color/white"
+        android:elevation="5dp"
+        android:padding="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvProductName"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lvCart"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/ivProductPic"
+        app:layout_constraintEnd_toEndOf="@+id/ivProductPic"
+        app:layout_constraintStart_toStartOf="@+id/ivProductPic"
+        app:layout_constraintTop_toTopOf="@+id/ivProductPic"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="loader.json"
+        app:lottie_loop="true" />
+
+    <ImageView
+        android:id="@+id/ivRemove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:paddingStart="20dp"
+        android:paddingBottom="20dp"
+        android:src="@drawable/bitmap_remove"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivProductPic" />
+
+    <TextView
+        android:id="@+id/tvProductName"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="0dp"
+        android:text="blah"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textAlignment="viewStart"
+        app:layout_constraintEnd_toStartOf="@+id/ivRemove"
+        app:layout_constraintStart_toEndOf="@+id/ivProductPic"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvProductDescription"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="wrap_content"
+        android:text="blah"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:textColor="@color/cool_grey"
+        android:textSize="12dp"
+        app:layout_constraintStart_toStartOf="@+id/tvProductName"
+        app:layout_constraintTop_toTopOf="@+id/tvProductName" />
+
+
+    <TextView
+        android:id="@+id/tvCoupon"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:text="Coupon Applied"
+        android:textColor="@color/green"
+        android:textSize="12dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/tvProductName"
+        app:layout_constraintTop_toTopOf="@+id/tvProductDescription" />
+
+    <TextView
+        android:id="@+id/tvSellingPrice"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:text="@string/sar"
+        android:textColor="@color/app_theme_organe"
+        android:textSize="15.3dp"
+        app:layout_constraintStart_toStartOf="@+id/tvProductDescription"
+        app:layout_constraintTop_toTopOf="@+id/tvCoupon" />
+
+
+    <TextView
+        android:id="@+id/tvQuatity"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="11dp"
+        android:textColor="@color/black"
+        android:textSize="14dp"
+        android:text="2"
+        app:layout_constraintBottom_toBottomOf="@+id/ivPlus"
+        app:layout_constraintEnd_toStartOf="@+id/ivPlus"
+        app:layout_constraintTop_toTopOf="@+id/ivPlus" />
+
+
+    <TextView
+        android:id="@+id/tvQuatityDetailPage"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="45dp"
+        android:text="2"
+        android:visibility="gone"
+        android:textColor="@color/black"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivPlus"
+        android:layout_width="28.3dp"
+        android:layout_height="28.3dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/drawable_circle"
+        android:backgroundTint="@color/app_theme_organe"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSellingPrice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSellingPrice" />
+
+    <View
+        android:id="@+id/viewPlus"
+        android:layout_width="10dp"
+        android:layout_height="1.5dp"
+        android:background="@drawable/drawable_round_circle_corners"
+        android:backgroundTint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/ivPlus"
+        app:layout_constraintEnd_toEndOf="@+id/ivPlus"
+        app:layout_constraintStart_toStartOf="@+id/ivPlus"
+        app:layout_constraintTop_toTopOf="@+id/ivPlus" />
+
+
+    <View
+        android:id="@+id/viewPlus2"
+        android:layout_width="10dp"
+        android:layout_height="1.5dp"
+        android:background="@drawable/drawable_round_circle_corners"
+        android:backgroundTint="@android:color/white"
+        android:rotation="90"
+        app:layout_constraintBottom_toBottomOf="@+id/ivPlus"
+        app:layout_constraintEnd_toEndOf="@+id/ivPlus"
+        app:layout_constraintStart_toStartOf="@+id/ivPlus"
+        app:layout_constraintTop_toTopOf="@+id/ivPlus" />
+
+
+    <ImageView
+        android:id="@+id/ivMinus"
+        android:layout_width="28.3dp"
+        android:layout_height="28.3dp"
+        android:layout_marginEnd="11dp"
+        android:background="@drawable/drawable_stroke_circle"
+        android:padding="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivPlus"
+        app:layout_constraintEnd_toStartOf="@+id/tvQuatity"
+        app:layout_constraintTop_toTopOf="@+id/ivPlus" />
+
+
+    <View
+        android:id="@+id/viewMinus"
+        android:layout_width="10dp"
+        android:layout_height="1.5dp"
+        android:background="@drawable/drawable_round_circle_corners"
+        android:backgroundTint="@color/app_theme_organe"
+        app:layout_constraintBottom_toBottomOf="@+id/ivMinus"
+        app:layout_constraintEnd_toEndOf="@+id/ivMinus"
+        app:layout_constraintStart_toStartOf="@+id/ivMinus"
+        app:layout_constraintTop_toTopOf="@+id/ivMinus" />
+</androidx.constraintlayout.widget.ConstraintLayout>

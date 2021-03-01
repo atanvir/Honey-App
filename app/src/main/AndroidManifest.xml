@@ -23,6 +23,7 @@
         android:roundIcon="@drawable/app_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        tools:replace="android:theme,name"
         android:usesCleartextTraffic="true">
         <activity android:name="com.frzah.activity.OfferDetail.OfferDetailActivity"></activity>
         <activity android:name="com.frzah.activity.Coupon.CouponActivity" />
@@ -40,7 +41,7 @@
             android:name="com.frzah.activity.FAQs.FAQsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.frzah.activity.Webview.WebviewActivity"
+            android:name="com.frzah.activity.Webview.CommonWebviewActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.frzah.activity.ContactUs.ContactUsActivity"

@@ -17,11 +17,13 @@ import com.frzah.activity.ShopDetail.ShopDetailsActivity
 import com.frzah.model.response.success.ProductDetailModel
 import com.frzah.utils.CommonUtils.Companion.setRoundImage
 import com.frzah.utils.ParamEnum
+import com.frzah.utils.SharedPreferenceUtil
 import kotlinx.android.synthetic.main.adapter_common_product.view.*
 import kotlinx.android.synthetic.main.adapter_common_stores.view.*
 
 class CommonTabAdapter(var context: Context,var screen: String,var positions: Int,var list: MutableList<ProductDetailModel>,var listner:setOnUnFavClickListner) : RecyclerView.Adapter<CommonTabAdapter.MyViewHolder>() {
 
+    var prefs:SharedPreferenceUtil= SharedPreferenceUtil.getInstance(context)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommonTabAdapter.MyViewHolder {
         if(positions==0) return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.adapter_common_product, parent, false),positions)
         else return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.adapter_common_stores, parent, false),positions)
@@ -93,7 +95,8 @@ class CommonTabAdapter(var context: Context,var screen: String,var positions: In
                 holder.itemView.tvPercentage.visibility=View.INVISIBLE
                 holder.itemView.tvMRP.visibility=View.INVISIBLE
             }
-            holder.itemView.tvSellingPrice.setText(context.getString(R.string.sar)+" "+list.get(position).sp!!)
+            if(prefs.selectedLanguage.equals("en",ignoreCase = true)) holder.itemView.tvSellingPrice.setText(context.getString(R.string.sar)+" "+list.get(position).sp!!)
+            else holder.itemView.tvSellingPrice.setText(list.get(position).sp!!+" "+context.getString(R.string.sar))
             holder.itemView.tvMRP.paintFlags=holder.itemView.tvMRP.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
             holder.itemView.tvMRP.setText(context.getString(R.string.sar)+" "+list.get(position).mrp!!)
             holder.itemView.tvProduct.setText(list.get(position).name!!)

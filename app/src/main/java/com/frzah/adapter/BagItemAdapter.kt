@@ -9,19 +9,25 @@ import com.frzah.R
 import com.frzah.activity.OrderDetail.OrderDetailActivity
 import com.frzah.model.response.success.CartListModel
 import com.frzah.utils.CommonUtils.Companion.setRoundImage
+import com.frzah.utils.SharedPreferenceUtil
 import kotlinx.android.synthetic.main.adapter_bag_item.view.*
 
 class BagItemAdapter(var context: Context,var list: List<CartListModel>,var listner: setOnBagClickListner?): RecyclerView.Adapter<BagItemAdapter.MyViewHolder>()
 {
+    var prefs:SharedPreferenceUtil= SharedPreferenceUtil.getInstance(context)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BagItemAdapter.MyViewHolder=MyViewHolder(LayoutInflater.from(context).inflate(R.layout.adapter_bag_item,parent,false))
     override fun getItemCount(): Int=list.size
     override fun getItemId(position: Int): Long =position.toLong()
     override fun getItemViewType(position: Int):Int=position
     override fun onBindViewHolder(holder: BagItemAdapter.MyViewHolder, position: Int) {
+
+
+
         setRoundImage(context, holder.itemView.ivProductPic, holder.itemView.lvCart, list.get(position).image!!)
         holder.itemView.tvProductName.text=list.get(position).name!!
         holder.itemView.tvProductDescription.text=list.get(position).category_id!!
-        holder.itemView.tvSellingPrice.text =context.getString(R.string.sar)+" "+list.get(position).sp!!
+        if(prefs?.selectedLanguage.equals("en",ignoreCase = true)) holder.itemView.tvSellingPrice.text =context.getString(R.string.sar)+" "+list.get(position).sp!!
+        else holder.itemView.tvSellingPrice.text =list.get(position).sp!!+" "+context.getString(R.string.sar)
         if(context is OrderDetailActivity)
         {
             // Order Details Items
