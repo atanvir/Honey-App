@@ -59,7 +59,7 @@ object  TelrPayload {
          */
         tran.clazz = "paypage" // Transaction class only 'paypage' is allowed on mobile, which means 'use the hosted payment page to capture and process the card details'
         tran.cartid = BigInteger(128, Random()).toString()
-        tran.description = "" // Transaction description
+        tran.description = prefs.soldBy // Transaction description
         tran.currency = "SAR"
         tran.amount = amount
         tran.version= context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName

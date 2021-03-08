@@ -1,6 +1,5 @@
 package com.frzah.activity.Payment
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -8,10 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.RadioGroup
 import android.widget.Toast
-import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.annotation.RequiresApi
-import androidx.databinding.DataBindingUtil.setContentView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.frzah.R
@@ -21,23 +17,24 @@ import com.frzah.base.BaseActivity
 import com.frzah.model.request.CommonModel
 import com.frzah.model.response.success.ResponseBean
 import com.frzah.telr.TelrPayload.getTelrPayoad
-import com.frzah.telr.TransactionStatusActivity
 import com.frzah.utils.CommonUtils
 import com.frzah.utils.CommonUtils.Companion.setToolbar
 import com.frzah.utils.CommonUtils.Companion.showSnackBar
 import com.frzah.utils.ErrorUtil
 import com.frzah.utils.ParamEnum
 import com.telr.mobile.sdk.activity.WebviewActivity
+import com.telr.mobile.sdk.entity.response.status.StatusResponse
 import com.thekhaeng.pushdownanim.PushDownAnim
 import kotlinx.android.synthetic.main.activity_payment.*
 import kotlinx.android.synthetic.main.layout_billing_details.*
 
 
-class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheckedChangeListener, TransactionStatusActivity.PaymentResponseListnerss {
+class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheckedChangeListener {
     private lateinit var paymentViewModel: PaymentViewModel
     private var address_id:String?=null
     private var payment_type: String?=""
     private var defaultAddress:ResponseBean?=null
+    private var TELR_REQ:Int=12;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
@@ -164,14 +161,13 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
             R.id.btnConfirmOrder -> {
                 if (checkValidation()) {
                     if (payment_type.equals(ParamEnum.ONLINE.theValue().toString())) {
-                        TransactionStatusActivity.setListner(this)
                         val intent = Intent(this, WebviewActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT)
                         intent.putExtra(WebviewActivity.EXTRA_MESSAGE, getTelrPayoad(this, tvPhoneNumber.text.toString(), defaultAddress, tvTotal.text.toString()))
-                        intent.putExtra(WebviewActivity.SUCCESS_ACTIVTY_CLASS_NAME, "com.frzah.activity.telr.TransactionStatusActivity")
-                        intent.putExtra(WebviewActivity.FAILED_ACTIVTY_CLASS_NAME, "com.frzah.activity.telr.TransactionStatusActivity")
+                        intent.putExtra(WebviewActivity.SUCCESS_ACTIVTY_CLASS_NAME, "com.frzah.activity.Payment.PaymentActivity")
+                        intent.putExtra(WebviewActivity.FAILED_ACTIVTY_CLASS_NAME, "com.frzah.activity.Payment.PaymentActivity")
                         intent.putExtra(WebviewActivity.IS_SECURITY_ENABLED, true)
-                        startActivity(intent)
+                        startActivityForResult(intent,TELR_REQ)
                     } else {
                         paymentViewModel.placeOrderApi(this, prefs.jwtToken!!, payment_type!!, "", prefs.coupon_code!!, tvShippingCharges.text.toString(), address_id!!)
                     }
@@ -234,15 +230,36 @@ class PaymentActivity : BaseActivity(), View.OnClickListener, RadioGroup.OnCheck
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when(requestCode){
-            101 ->{
-                Log.e("data","--> "+data);
+            101 ->{ Log.e("data","--> "+data) }
+            TELR_REQ -> { getTelrResponse(data,resultCode) } }
+        }
+
+
+    private fun getTelrResponse(data: Intent?, resultCode: Int) {
+        val intent = data
+        val any: Any? = intent?.getParcelableExtra(WebviewActivity.PAYMENT_RESPONSE)
+        if (resultCode == RESULT_OK) {
+            if (any is StatusResponse) {
+                if (any.getAuth() != null) {
+                    Toast.makeText(this,getString(R.string.payment_sccessfull),Toast.LENGTH_LONG).show()
+                    paymentViewModel.placeOrderApi(this, prefs.jwtToken!!, payment_type!!, any.auth.tranref, prefs.coupon_code!!, tvShippingCharges.text.toString(), address_id!!)
+                }
+
+            } else if (any is String) {
+                showSnackBar(this,any)
             }
+        } else {
+            if (any is StatusResponse) {
+                if (any.getAuth() != null) {
+                    showSnackBar(this, any.auth.message)
+                }
+            } else if (any is String) {
+                showSnackBar(this,any)
+            }
+
         }
     }
 
-    override fun onPaymentCallBack(transactionId: String, status: String) {
-        paymentViewModel.placeOrderApi(this, prefs.jwtToken!!, payment_type!!, transactionId, prefs.coupon_code!!, tvShippingCharges.text.toString(), address_id!!)
-    }
 
 
 }

@@ -84,6 +84,11 @@ private constructor(val context: Context) {
         set(value) = sharedPreferences.set("longitude", value)
 
 
+    var soldBy: String
+        get() = sharedPreferences["soldBy", ""]!!
+        set(value) = sharedPreferences.set("soldBy", value)
+
+
     var device_token: String?
         get() = sharedPreferences["device_token", ""]!!
         set(value) = sharedPreferences.set("device_token", value)

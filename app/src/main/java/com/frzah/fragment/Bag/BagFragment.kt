@@ -178,6 +178,7 @@ class BagFragment : BaseFragment(), View.OnClickListener, BagItemAdapter.setOnBa
                 Log.e("Longitude",""+cartData!!.longitude)
                 prefs.latitude=""+cartData!!.latitude
                 prefs.longitude= ""+cartData!!.longitude
+                prefs.soldBy = ""+cartData!!.soldBy
                 if(prefs.isLogin!!) startActivity(requireActivity(), PaymentActivity::class.java)
                 else startActivity(requireActivity(), LoginActivity::class.java) }
             R.id.clCoupon ->{

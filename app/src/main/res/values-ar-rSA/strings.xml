@@ -252,6 +252,7 @@
     <string name="remove">إزالة</string>
     <string name="estimated_arrival">الوصول المتوقع</string>
     <string name="saved_address">العنوان المحفوظ</string>
+    <string name="payment_sccessfull">الدفع ناجح!</string>
 
 
 </resources>
