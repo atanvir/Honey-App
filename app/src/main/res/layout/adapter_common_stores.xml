@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clMain"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/tvCountStore"
+        style="@style/AltaTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:textAlignment="viewStart"
+        android:textSize="26dp"
+        app:layout_constraintEnd_toStartOf="@+id/cardView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tvCountStore"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteX="9dp"
+            tools:layout_editor_absoluteY="12dp">
+
+            <ImageView
+                android:id="@+id/ivStorePic"
+                android:layout_width="56.6dp"
+                android:layout_height="56.6dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/drawable_circle_corners"
+                android:backgroundTint="@color/app_theme_color"
+                android:elevation="10dp"
+                android:padding="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lvIvStore"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="@+id/ivStorePic"
+                app:layout_constraintEnd_toEndOf="@+id/ivStorePic"
+                app:layout_constraintStart_toStartOf="@+id/ivStorePic"
+                app:layout_constraintTop_toTopOf="@+id/ivStorePic"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="loader.json"
+                app:lottie_loop="true" />
+
+            <ImageView
+                android:id="@+id/ivContainer"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/drawable_round_circle_corners"
+                android:backgroundTint="@color/app_theme_organe"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/ivDelete"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:src="@drawable/delete"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"  />
+
+            <ImageView
+                android:id="@+id/ivHeartStore"
+                android:layout_width="15.1dp"
+                android:layout_height="13.8dp"
+                android:src="@drawable/bitmap_fav_in"
+                app:layout_constraintBottom_toBottomOf="@+id/ivContainer"
+                app:layout_constraintEnd_toEndOf="@+id/ivContainer"
+                app:layout_constraintStart_toStartOf="@+id/ivContainer"
+                app:layout_constraintTop_toTopOf="@+id/ivContainer" />
+
+            <TextView
+                android:id="@+id/tvRating"
+                style="@style/AltaTextView"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/drawable_circle_corners"
+                android:backgroundTint="@color/app_theme_organe"
+                android:elevation="12dp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:textColor="@color/app_theme_color"
+                android:textSize="10dp"
+                app:layout_constraintStart_toStartOf="@+id/ivStorePic"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/tvStoreName"
+                style="@style/AltaTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="6dp"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="@+id/ivStorePic"
+                app:layout_constraintTop_toBottomOf="@+id/ivStorePic" />
+
+
+            <TextView
+                android:id="@+id/tvStoreSp"
+                style="@style/WalkThroughTitleDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="10dp"
+                android:drawableStart="@drawable/delivery"
+                android:drawablePadding="4dp"
+                android:textColor="@color/cool_grey"
+                android:textSize="10dp"
+                android:text="4"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tvStoreName"
+                app:layout_constraintTop_toBottomOf="@+id/tvStoreName"
+                app:layout_constraintVertical_bias="0.0" />
+
+
+            <TextView
+                android:id="@+id/tvDeliveryTime"
+                style="@style/WalkThroughTitleDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:drawableStart="@drawable/bitmap_time"
+                android:drawablePadding="4dp"
+                android:text="10-15 mins"
+                android:textColor="@color/cool_grey"
+                android:textSize="10dp"
+                app:layout_constraintStart_toStartOf="@+id/tvStoreSp"
+                app:layout_constraintTop_toBottomOf="@+id/tvStoreName" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvOptions"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tvStoreSp"
+                app:layout_constraintTop_toBottomOf="@+id/tvStoreSp">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

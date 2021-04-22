@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.Coupon.CouponActivity">
+
+    <include
+        android:id="@+id/include15"
+        layout="@layout/layout_common_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <EditText
+        android:id="@+id/edCoupon"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/drawable_shadow_corners"
+        android:backgroundTint="@android:color/white"
+        android:elevation="1dp"
+        android:hint="@string/enter_coupon_code"
+        android:paddingStart="30dp"
+        android:textAlignment="viewStart"
+        android:textColorHint="#ccb3b3b3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include15" />
+
+    <Button
+        android:id="@+id/btnApply"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/drawable_round_circle_corners"
+        android:backgroundTint="@color/app_theme_organe"
+        android:elevation="5dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="@string/apply"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_normal"
+        app:layout_constraintBottom_toBottomOf="@+id/edCoupon"
+        app:layout_constraintEnd_toEndOf="@+id/edCoupon"
+        app:layout_constraintTop_toTopOf="@+id/edCoupon" />
+
+
+    <com.mlsdev.animatedrv.AnimatedRecyclerView
+        android:id="@+id/rvCoupon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:nestedScrollingEnabled="false"
+        app:animationDuration="800"
+        app:layoutAnimation="@anim/layout_animation_from_bottom"
+        app:layoutManagerOrientation="vertical"
+        app:layoutManagerReverse="false"
+        app:layoutManagerType="linear"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edCoupon" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

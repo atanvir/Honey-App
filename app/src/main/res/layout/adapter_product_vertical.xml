@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/clMain"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clVertial"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lvFavVertical"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:elevation="5dp"
+                android:scaleType="fitCenter"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="fav.json"
+                app:lottie_loop="true" />
+
+            <ImageView
+                android:id="@+id/ivShopVerical"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_marginStart="8dp"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/user_menu"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lvProductPicVertical"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="@+id/ivShopVerical"
+                app:layout_constraintEnd_toEndOf="@+id/ivShopVerical"
+                app:layout_constraintStart_toStartOf="@+id/ivShopVerical"
+                app:layout_constraintTop_toTopOf="@+id/ivShopVerical"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="loader.json"
+                app:lottie_loop="true" />
+
+            <ImageView
+                android:id="@+id/ivFavVertical"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/drawable_round_circle_corners"
+                android:backgroundTint="@color/app_theme_organe"
+                android:elevation="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvProductNameVertical" />
+
+            <ImageView
+                android:id="@+id/ivHeart"
+                android:layout_width="15.1dp"
+                android:layout_height="13.8dp"
+                android:elevation="7dp"
+                android:src="@drawable/bitmap_fav_in"
+                app:layout_constraintBottom_toBottomOf="@+id/ivFavVertical"
+                app:layout_constraintEnd_toEndOf="@+id/ivFavVertical"
+                app:layout_constraintStart_toStartOf="@+id/ivFavVertical"
+                app:layout_constraintTop_toTopOf="@+id/ivFavVertical" />
+
+
+            <TextView
+                android:id="@+id/tvProductNameVertical"
+                style="@style/AltaTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
+                android:drawablePadding="6dp"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="Blah"
+                android:textAlignment="viewStart"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toStartOf="@+id/ivFavVertical"
+                app:layout_constraintStart_toEndOf="@+id/ivShopVerical"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="RtlCompat" />
+
+
+            <TextView
+                android:id="@+id/tvDiscountVertical"
+                style="@style/WalkThroughTitleView"
+                android:layout_width="39dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/drawable_round_circle_corners"
+                android:backgroundTint="@color/soft_green"
+                android:textAlignment="center"
+                android:textColor="@color/app_theme_color"
+                android:textSize="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvMrpVertical"
+                app:layout_constraintTop_toTopOf="@+id/tvMrpVertical" />
+
+            <TextView
+                android:id="@+id/tSpVertical"
+                style="@style/WalkThroughTitleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/app_theme_organe"
+                android:text="SAR 500"
+                android:textStyle="bold"
+                android:textSize="12dp"
+                app:layout_constraintStart_toStartOf="@+id/tvRating"
+                app:layout_constraintTop_toBottomOf="@+id/tvRating" />
+
+            <TextView
+                android:id="@+id/tvMrpVertical"
+                style="@style/WalkThroughTitleView"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:layout_marginStart="4dp"
+                android:textColor="#5b5b5e"
+                android:textSize="8dp"
+                app:layout_constraintStart_toEndOf="@+id/tSpVertical"
+                app:layout_constraintTop_toTopOf="@+id/tSpVertical" />
+
+            <TextView
+                android:id="@+id/tvCategoryVertical"
+                style="@style/WalkThroughTitleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:textColor="#5b5b5e"
+                android:textSize="12dp"
+                app:layout_constraintStart_toStartOf="@+id/tvProductNameVertical"
+                app:layout_constraintTop_toBottomOf="@+id/tvProductNameVertical" />
+
+            <TextView
+                android:id="@+id/tvRating"
+                style="@style/WalkThroughTitleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="3dp"
+                android:drawableStart="@drawable/bitmap_star"
+                android:textColor="@color/black"
+                android:textSize="10dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@+id/tvReviewss"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/ivShopVerical"
+                app:layout_constraintTop_toBottomOf="@+id/tvCategoryVertical" />
+
+            <TextView
+                android:id="@+id/tvReviewss"
+                style="@style/WalkThroughTitleView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="()"
+                android:textColor="@color/cool_grey"
+                android:textSize="10dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@+id/ivFavVertical"
+                app:layout_constraintStart_toEndOf="@+id/tvRating"
+                app:layout_constraintTop_toBottomOf="@+id/tvCategoryVertical" />
+
+            <ImageView
+                android:id="@+id/ivCartVertical"
+                android:layout_width="11.2dp"
+                android:layout_height="11.9dp"
+                android:layout_marginStart="13dp"
+                android:elevation="12dp"
+                android:src="@drawable/bitmap_cart_bag"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/btnAddCardVertical"
+                app:layout_constraintStart_toStartOf="@+id/btnAddCardVertical"
+                app:layout_constraintTop_toTopOf="@+id/btnAddCardVertical" />
+
+            <Button
+                android:id="@+id/btnAddCardVertical"
+                style="@style/WalkThroughTitleDescription"
+                android:layout_width="0dp"
+                android:layout_height="37dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/drawable_round_circle_corners"
+                android:backgroundTint="@color/app_theme_organe"
+                android:drawableStart="@drawable/bitmap_cart"
+                android:drawablePadding="10dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="20dp"
+                android:singleLine="true"
+                android:text="ADD TO CART"
+                android:textColor="@android:color/white"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ivFavVertical"
+                app:layout_constraintStart_toStartOf="@+id/tSpVertical"
+                app:layout_constraintTop_toBottomOf="@+id/tSpVertical" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

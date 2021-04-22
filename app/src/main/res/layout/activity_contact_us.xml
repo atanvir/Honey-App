@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ContactUs.ContactUsActivity">
+
+    <include
+        android:id="@+id/include12"
+        layout="@layout/layout_common_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/textView52"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/reason_order_id"
+        android:textColor="@color/cool_grey"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include12" />
+
+
+    <EditText
+        android:id="@+id/edReason"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/drawable_selector_edittext"
+        android:elevation="4dp"
+        android:hint="@string/enter_your_reason_order_id"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textColorHint="@color/edit_text_color"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView52"
+        app:layout_constraintTop_toBottomOf="@+id/textView52" />
+
+    <TextView
+        android:id="@+id/textView70"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/query"
+        android:textColor="@color/cool_grey"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edReason" />
+
+
+    <EditText
+        android:id="@+id/edQuery"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/drawable_selector_edittext"
+        android:elevation="4dp"
+        android:hint="@string/write_here"
+        android:maxLength="300"
+        android:paddingStart="25dp"
+        android:paddingTop="15dp"
+        android:paddingEnd="25dp"
+        android:paddingBottom="95dp"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textColorHint="@color/edit_text_color"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView70"
+        app:layout_constraintTop_toBottomOf="@+id/textView70" />
+
+    <TextView
+        android:id="@+id/textView64"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/upload_image"
+        android:textColor="@color/cool_grey"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="@+id/edQuery"
+        app:layout_constraintTop_toBottomOf="@+id/edQuery" />
+
+    <ImageView
+        android:id="@+id/ivQueryPhoto"
+        android:layout_width="103dp"
+        android:layout_height="103dp"
+        android:visibility="gone"
+        android:background="@drawable/drawable_round_circle_corners5"
+        app:layout_constraintStart_toStartOf="@+id/textView64"
+        app:layout_constraintTop_toBottomOf="@+id/textView64" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clAddImage"
+        android:layout_width="103dp"
+        android:layout_height="103dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/drawable_round_circle_corners5"
+        android:backgroundTint="@color/app_theme_organe"
+        app:layout_constraintStart_toStartOf="@+id/textView64"
+        app:layout_constraintTop_toBottomOf="@+id/textView64">
+
+
+        <ImageView
+            android:id="@+id/ivPic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:src="@drawable/upload_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/WalkThroughTitleDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="@string/add_image"
+            android:textColor="@color/app_theme_color"
+            android:textSize="14dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivPic" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btnSubmit"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/drawable_round_circle_corners"
+        android:backgroundTint="@color/app_theme_organe"
+        android:text="@string/submit"
+        android:textAlignment="center"
+        android:textColor="@color/app_theme_color"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/edQuery"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/edQuery" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragment.Bag.BagFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+     <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clNoItem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textView23"
+                style="@style/AltaTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/hey_it_feels_to_light"
+                android:textColor="@color/black"
+                android:textSize="22dp"
+                app:layout_constraintBottom_toTopOf="@+id/textView6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+         <TextView
+             android:id="@+id/textView6"
+             style="@style/AltaTextView"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:text="@string/there_is_nothing_in_your_bag_let_s_add_some_items"
+             android:textAlignment="center"
+             android:layout_marginHorizontal="12dp"
+             android:textColor="@color/cool_grey"
+             android:textSize="18dp"
+             app:layout_constraintBottom_toBottomOf="parent"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toTopOf="parent"
+             app:layout_constraintVertical_bias="0.52" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainCl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <com.mlsdev.animatedrv.AnimatedRecyclerView
+            android:id="@+id/rvCart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:nestedScrollingEnabled="false"
+            app:animationDuration="800"
+            app:layoutAnimation="@anim/layout_animation_from_bottom"
+            app:layoutManagerOrientation="vertical"
+            app:layoutManagerReverse="false"
+            app:layoutManagerType="linear"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clCoupon"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/drawable_round_circle_corners"
+            android:backgroundTint="@color/app_theme_organe"
+            android:elevation="5dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@+id/rvCart"
+            app:layout_constraintStart_toStartOf="@+id/rvCart"
+            app:layout_constraintTop_toBottomOf="@+id/rvCart">
+
+            <TextView
+                android:id="@+id/tvLabelCoupon"
+                style="@style/WalkThroughTitleDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:text="@string/apply_coupon"
+
+                android:textColor="@color/app_theme_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivArrowCoupon"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/drawable_round_circle_corners"
+                android:backgroundTint="@android:color/white"
+                android:padding="12dp"
+                android:src="@drawable/bitmap_arrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <include
+            android:id="@+id/bill"
+            layout="@layout/layout_billing_details"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/clCoupon"
+            app:layout_constraintStart_toStartOf="@+id/clCoupon"
+            app:layout_constraintTop_toBottomOf="@+id/clCoupon" />
+
+
+        <Button
+            android:id="@+id/btnCheckout"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="45dp"
+            android:background="@drawable/drawable_round_circle_corners"
+            android:backgroundTint="@color/app_theme_organe"
+            android:elevation="10dp"
+            android:textAlignment="center"
+            android:text="@string/checkout"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/bill"
+            app:layout_constraintStart_toStartOf="@+id/bill"
+            app:layout_constraintTop_toBottomOf="@+id/bill"
+            app:layout_constraintVertical_bias="1.0" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

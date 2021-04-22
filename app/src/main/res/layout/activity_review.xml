@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.Review.ReviewActivity">
+
+
+    <include
+        android:id="@+id/include4"
+        layout="@layout/layout_common_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etReview"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:elevation="6dp"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/drawable_stroke_round_corners"
+        android:drawablePadding="16dp"
+        android:hint="@string/write_your_review"
+        android:imeOptions="actionDone"
+        android:paddingStart="60dp"
+        android:paddingEnd="12dp"
+        android:maxLength="300"
+        android:inputType="text"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include4" />
+
+    <ImageView
+        android:id="@+id/ciPic"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
+        android:elevation="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/etReview"
+        app:layout_constraintStart_toStartOf="@+id/etReview"
+        app:layout_constraintTop_toTopOf="@+id/etReview" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnim"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:scaleType="fitCenter"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/ciPic"
+        app:layout_constraintEnd_toEndOf="@id/ciPic"
+        app:layout_constraintStart_toStartOf="@id/ciPic"
+        app:layout_constraintTop_toTopOf="@id/ciPic"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="loader.json"
+        app:lottie_loop="true" />
+
+
+    <com.mlsdev.animatedrv.AnimatedRecyclerView
+        android:id="@+id/rvReviews"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:animationDuration="800"
+        app:layoutAnimation="@anim/layout_animation_from_bottom"
+        app:layoutManagerOrientation="vertical"
+        app:layoutManagerReverse="false"
+        app:layoutManagerType="linear"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/etReview"
+        app:layout_constraintStart_toStartOf="@+id/etReview"
+        app:layout_constraintTop_toBottomOf="@+id/etReview">
+
+
+    </com.mlsdev.animatedrv.AnimatedRecyclerView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

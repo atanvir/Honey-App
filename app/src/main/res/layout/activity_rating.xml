@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.Rating.RatingActivity">
+
+    <include
+        android:id="@+id/include20"
+        layout="@layout/layout_common_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView94"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center_horizontal"
+        android:text="@string/rate_your_product"
+        android:textColor="@color/black"
+        android:textSize="22dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include20" />
+
+    <com.willy.ratingbar.RotationRatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srb_numStars="5"
+        app:srb_starWidth="28dp"
+        app:srb_starHeight="28dp"
+        app:srb_starPadding="8dp"
+        app:srb_stepSize="0.1"
+        app:srb_isIndicator="false"
+        app:srb_clickable="true"
+        app:srb_scrollable="true"
+        app:srb_clearRatingEnabled="true"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView94"
+        app:srb_drawableEmpty="@drawable/star_un"
+        app:srb_drawableFilled="@drawable/bitmap_star_small">
+    </com.willy.ratingbar.RotationRatingBar>
+
+
+    <TextView
+        android:id="@+id/textView95"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:gravity="center_horizontal"
+        android:text="@string/rate_your_store"
+        android:textColor="@color/black"
+        android:textSize="22dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+
+
+    <com.willy.ratingbar.RotationRatingBar
+        android:id="@+id/rbStore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srb_numStars="5"
+        app:srb_starWidth="28dp"
+        app:srb_starHeight="28dp"
+        app:srb_starPadding="8dp"
+        app:srb_stepSize="0.1"
+        app:srb_isIndicator="false"
+        app:srb_clickable="true"
+        app:srb_scrollable="true"
+        app:srb_clearRatingEnabled="true"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView95"
+        app:srb_drawableEmpty="@drawable/star_un"
+        app:srb_drawableFilled="@drawable/bitmap_star_small">
+    </com.willy.ratingbar.RotationRatingBar>
+
+    <EditText
+        android:id="@+id/edSuggestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:background="@null"
+        android:textSize="14dp"
+        style="@style/WalkThroughTitleDescription"
+        android:textAlignment="viewStart"
+        android:hint="@string/any_comment_suggestions"
+        android:textColor="@color/edit_text_color"
+        android:textColorHint="@color/edit_text_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rbStore" />
+
+    <View
+        android:id="@+id/view6"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/cool_grey"
+        app:layout_constraintEnd_toEndOf="@+id/edSuggestion"
+        app:layout_constraintStart_toStartOf="@+id/edSuggestion"
+        app:layout_constraintTop_toBottomOf="@+id/edSuggestion" />
+
+    <Button
+        android:id="@+id/btnSubmit"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/drawable_round_circle_corners"
+        android:backgroundTint="@color/app_theme_organe"
+        android:text="@string/submit"
+        android:textAlignment="center"
+        android:textColor="@color/app_theme_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/edSuggestion"
+        app:layout_constraintStart_toStartOf="@+id/edSuggestion"
+        app:layout_constraintTop_toBottomOf="@+id/edSuggestion"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

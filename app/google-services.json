@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "177147388825",
+    "project_id": "frzah-a1d31",
+    "storage_bucket": "frzah-a1d31.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177147388825:android:b26117487c8264c6a36908",
+        "android_client_info": {
+          "package_name": "com.frzah"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "177147388825-0mrvd055p5ued4kjfa969ldtsgv0k18u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.frzah",
+            "certificate_hash": "77de1fd42000e8893767ba97c215b74146f41a0e"
+          }
+        },
+        {
+          "client_id": "177147388825-vg9l2cfascqri91001rtr0gjurvvv9uq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.frzah",
+            "certificate_hash": "a4952341a18f4523824b3e4111a96652194373d4"
+          }
+        },
+        {
+          "client_id": "177147388825-jftr99lqdf37oi1br9kn7j3udt3ta07s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9bIeHS_nosSWhM8AFPFGvB2F-nKQH4qk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "177147388825-jftr99lqdf37oi1br9kn7j3udt3ta07s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "177147388825-h5i1m4dkoq8m1o96u5aq2pjg796k4iul.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Honey.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

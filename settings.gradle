@@ -1,0 +1,3 @@
+include ':telrlibrary_3_5-release'
+include ':app'
+rootProject.name = "Honey"

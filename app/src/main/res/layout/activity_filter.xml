@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:fillViewport="true"
+    android:layout_height="match_parent"
+    tools:context=".activity.Filter.FilterActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clMain"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/layout_common_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/textView31"
+            style="@style/AltaTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/honey_type"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/include" />
+
+        <com.mlsdev.animatedrv.AnimatedRecyclerView
+            android:id="@+id/rvType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:nestedScrollingEnabled="false"
+            app:animationDuration="800"
+            app:layoutAnimation="@anim/layout_animation_from_bottom"
+            app:layoutManagerOrientation="horizontal"
+            app:layoutManagerReverse="false"
+            app:layoutManagerType="linear"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView31"
+            app:layout_constraintTop_toBottomOf="@+id/textView31">
+
+        </com.mlsdev.animatedrv.AnimatedRecyclerView>
+
+
+        <TextView
+            android:id="@+id/textView36"
+            style="@style/AltaTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_by"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            app:layout_constraintStart_toStartOf="@+id/rvType"
+            app:layout_constraintTop_toBottomOf="@+id/rvType" />
+
+        <com.mlsdev.animatedrv.AnimatedRecyclerView
+            android:id="@+id/rvSort"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:nestedScrollingEnabled="false"
+            app:animationDuration="800"
+            app:layoutAnimation="@anim/layout_animation_from_bottom"
+            app:layoutManagerOrientation="horizontal"
+            app:layoutManagerReverse="false"
+            app:layoutManagerType="linear"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView36"
+            app:layout_constraintTop_toBottomOf="@+id/textView36">
+
+        </com.mlsdev.animatedrv.AnimatedRecyclerView>
+
+
+        <TextView
+            android:id="@+id/textView37"
+            style="@style/AltaTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/rating"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            app:layout_constraintStart_toStartOf="@+id/rvSort"
+            app:layout_constraintTop_toBottomOf="@+id/rvSort" />
+
+        <com.mlsdev.animatedrv.AnimatedRecyclerView
+            android:id="@+id/rvRating"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:nestedScrollingEnabled="false"
+            app:animationDuration="800"
+            app:layoutAnimation="@anim/layout_animation_from_bottom"
+            app:layoutManagerOrientation="horizontal"
+            app:layoutManagerReverse="false"
+            app:layoutManagerType="grid"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView37"
+            app:layout_constraintTop_toBottomOf="@+id/textView37">
+
+        </com.mlsdev.animatedrv.AnimatedRecyclerView>
+
+
+        <TextView
+            android:id="@+id/textView38"
+            style="@style/AltaTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/price_range"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            app:layout_constraintStart_toStartOf="@+id/rvRating"
+            app:layout_constraintTop_toBottomOf="@+id/rvRating" />
+
+        <TextView
+            android:id="@+id/tvRange"
+            style="@style/WalkThroughTitleDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text ="@string/sar_5_sar_5000"
+            android:textColor="#111719"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView38"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView38" />
+
+
+        <com.stfalcon.pricerangebar.RangeBarWithChart
+            android:id="@+id/seekBarWithChart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:barActiveLineColor="@color/app_theme_organe"
+            app:barActiveThumbColor="@android:color/holo_blue_light"
+            app:barActiveTickRadius="@dimen/custom_active_tick_radius"
+            app:barChartSelectedBackgroundColor="@android:color/holo_red_dark"
+            app:barChartSelectedLineColor="@android:color/holo_green_dark"
+            app:barChartUnSelectedLineColor="@android:color/holo_green_light"
+            app:barChartUnselectedBackgroundColor="@android:color/holo_red_light"
+            app:barLineColor="@android:color/holo_blue_light"
+            app:layout_constraintEnd_toEndOf="@+id/tvRange"
+            app:layout_constraintStart_toStartOf="@+id/textView38"
+            app:layout_constraintTop_toBottomOf="@+id/textView38" />
+
+
+        <Button
+            android:id="@+id/btnApply"
+            style="@style/WalkThroughTitleDescription"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/drawable_round_circle_corners"
+            android:backgroundTint="@color/app_theme_organe"
+            android:text="@string/apply"
+            android:textAlignment="center"
+            android:textColor="@color/app_theme_color"
+            android:textSize="@dimen/text_size_normal"
+            app:layout_constraintBottom_toBottomOf="@+id/btnReset"
+            app:layout_constraintEnd_toEndOf="@+id/seekBarWithChart"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btnReset"
+            app:layout_constraintTop_toTopOf="@+id/btnReset" />
+
+        <Button
+            android:id="@+id/btnReset"
+            style="@style/WalkThroughTitleDescription"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/drawable_round_circle_stroke_corners"
+            android:text="@string/reset"
+            android:textAlignment="center"
+            android:textColor="@color/app_theme_organe"
+            android:textSize="@dimen/text_size_normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnApply"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/seekBarWithChart"
+            app:layout_constraintTop_toBottomOf="@+id/seekBarWithChart" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.core.widget.NestedScrollView>

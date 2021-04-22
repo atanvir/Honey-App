@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvUpcoming"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ivSellerPhoto"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:scaleType="fitCenter"
+                android:background="@drawable/drawable_round_circle_corners5"
+                android:backgroundTint="@color/app_theme_color"
+                android:elevation="6dp"
+                android:src="@drawable/store_c"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/la"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/ivSellerPhoto"
+                app:layout_constraintEnd_toEndOf="@id/ivSellerPhoto"
+                app:layout_constraintStart_toStartOf="@id/ivSellerPhoto"
+                app:layout_constraintTop_toTopOf="@+id/ivSellerPhoto"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="loader.json"
+                app:lottie_loop="true" />
+
+            <TextView
+                android:id="@+id/tvItemsCount"
+                style="@style/WalkThroughTitleDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/cool_grey"
+                android:textSize="12dp"
+                app:layout_constraintStart_toEndOf="@+id/ivSellerPhoto"
+                app:layout_constraintTop_toTopOf="@+id/ivSellerPhoto" />
+
+            <TextView
+                android:id="@+id/tvAmount"
+                style="@style/WalkThroughTitleDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="sar 250"
+                android:textColor="@color/app_theme_organe"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/ivSellerPhoto" />
+
+            <TextView
+                android:id="@+id/tvSellerNames"
+                style="@style/WalkThroughTitleDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="@+id/tvItemsCount"
+                app:layout_constraintTop_toBottomOf="@+id/tvItemsCount" />
+
+
+            <TextView
+                android:id="@+id/textView41"
+                style="@style/WalkThroughTitleDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/estimated_arrival"
+                android:textColor="@color/cool_grey"
+                android:textSize="12dp"
+                app:layout_constraintStart_toStartOf="@+id/ivSellerPhoto"
+                app:layout_constraintTop_toBottomOf="@+id/ivSellerPhoto" />
+
+
+            <TextView
+                android:id="@+id/tvDispatchTime"
+                style="@style/WalkThroughTitleDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/black"
+                android:textSize="40dp"
+                app:layout_constraintStart_toStartOf="@+id/textView41"
+                app:layout_constraintTop_toBottomOf="@+id/textView41" />
+
+
+            <TextView
+                android:id="@+id/tvNoOfDays"
+                style="@style/WalkThroughTitleDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvDispatchTime"
+                app:layout_constraintStart_toEndOf="@+id/tvDispatchTime"
+                app:layout_constraintTop_toTopOf="@+id/tvDispatchTime"
+                app:layout_constraintVertical_bias="0.39" />
+
+
+            <TextView
+                android:id="@+id/tvOrderDate"
+                style="@style/WalkThroughTitleDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="Now"
+                android:textColor="@color/cool_grey"
+                android:textSize="12dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView41"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView41" />
+
+
+            <TextView
+                android:id="@+id/tvStatus"
+                style="@style/WalkThroughTitleDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvNoOfDays"
+                app:layout_constraintEnd_toEndOf="@+id/tvOrderDate"
+                app:layout_constraintTop_toTopOf="@+id/tvNoOfDays"
+                app:layout_constraintVertical_bias="0.44" />
+
+
+            <Button
+                android:id="@+id/btnCancel"
+                style="@style/WalkThroughTitleDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/drawable_round_circle_corners"
+                android:backgroundTint="#1efea405"
+                android:elevation="2dp"
+                android:text="Cancel"
+                android:visibility="gone"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btnTrackOrder"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDispatchTime" />
+
+            <Button
+                android:id="@+id/btnTrackOrder"
+                style="@style/WalkThroughTitleDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:visibility="gone"
+                android:background="@drawable/drawable_round_circle_corners4"
+                android:backgroundTint="@color/app_theme_organe"
+                android:elevation="6dp"
+                android:text="Track Order"
+                android:textAllCaps="false"
+                android:textColor="@color/app_theme_color"
+                app:layout_constraintBottom_toBottomOf="@+id/btnCancel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/btnCancel"
+                app:layout_constraintTop_toTopOf="@+id/btnCancel" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

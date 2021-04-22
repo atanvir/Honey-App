@@ -1,0 +1,65 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/app_theme_organe</item>
+        <item name="colorPrimaryDark">@color/app_theme_organe</item>
+        <item name="colorAccent">@color/app_theme_organe</item>
+
+    </style>
+
+
+    <style name="AppTheme.ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <!-- White arrow -->
+        <item name="colorControlNormal">@android:color/white</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@color/drawerArrowColor</item>
+    </style>
+
+    <style name="WalkThroughTitleView" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:textColor">@color/light_black</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:fontFamily">@font/angkor</item>
+
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/heading_text_size_large</item>
+    </style>
+
+
+    <style name="AltaTextView" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:textColor">@color/light_black</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/alata_regular</item>
+<!--        <item name="android:gravity">center</item>-->
+        <item name="android:textSize">@dimen/heading_text_size_large</item>
+    </style>
+
+    <style name="WalkThroughTitleDescription" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:textColor">@color/light_grey</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:fontFamily">@font/angkor</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
+    </style>
+
+    <style name="CustomTextAppearanceTab">
+
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">15dp</item>
+
+
+    </style>
+
+    <style name="foodRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/drawable_rating_bar</item>
+
+
+    </style>
+
+
+</resources>

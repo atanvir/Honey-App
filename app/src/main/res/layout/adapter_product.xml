@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/clMain"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clLandscape"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lvFavs"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:elevation="5dp"
+                android:scaleType="fitCenter"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/btnAddCard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="fav.json"
+                app:lottie_loop="true" />
+
+            <ImageView
+                android:id="@+id/ivShop"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="70dp"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/ivFavLands" />
+
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lvProductPic"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="@+id/ivShop"
+                app:layout_constraintEnd_toEndOf="@+id/ivShop"
+                app:layout_constraintStart_toStartOf="@+id/ivShop"
+                app:layout_constraintTop_toTopOf="@+id/ivShop"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="loader.json"
+                app:lottie_loop="true" />
+
+            <ImageView
+                android:id="@+id/ivFavLands"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/drawable_round_circle_corners"
+                android:backgroundTint="@color/app_theme_organe"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivHeartLand"
+                android:layout_width="15.1dp"
+                android:layout_height="13.8dp"
+                android:src="@drawable/bitmap_fav_in"
+                app:layout_constraintBottom_toBottomOf="@+id/ivFavLands"
+                app:layout_constraintEnd_toEndOf="@+id/ivFavLands"
+                app:layout_constraintStart_toStartOf="@+id/ivFavLands"
+                app:layout_constraintTop_toTopOf="@+id/ivFavLands" />
+
+
+            <TextView
+                android:id="@+id/tvProductName"
+                style="@style/AltaTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="16dp"
+                android:drawablePadding="6dp"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textAlignment="viewStart"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tSp"
+                app:layout_constraintTop_toBottomOf="@+id/tSp"
+                tools:ignore="RtlCompat" />
+
+            <TextView
+                android:id="@+id/tvDiscount"
+                style="@style/WalkThroughTitleView"
+                android:layout_width="39dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/drawable_round_circle_corners"
+                android:backgroundTint="@color/soft_green"
+                android:textColor="@color/app_theme_color"
+                android:textSize="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivShop" />
+
+
+            <TextView
+                android:id="@+id/tSp"
+                style="@style/WalkThroughTitleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/app_theme_organe"
+                android:textSize="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDiscount" />
+
+            <TextView
+                android:id="@+id/tvMrp"
+                style="@style/WalkThroughTitleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textColor="#5b5b5e"
+                android:textSize="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tSp"
+                app:layout_constraintStart_toEndOf="@+id/tSp"
+                app:layout_constraintTop_toBottomOf="@+id/tvDiscount" />
+
+            <TextView
+                android:id="@+id/tvCategory"
+                style="@style/WalkThroughTitleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:textColor="#5b5b5e"
+                android:textSize="12dp"
+                app:layout_constraintStart_toStartOf="@+id/tvProductName"
+                app:layout_constraintTop_toBottomOf="@+id/tvProductName" />
+
+            <ImageView
+                android:id="@+id/ivCartLandscape"
+                android:layout_width="11.2dp"
+                android:layout_height="11.9dp"
+                android:layout_marginStart="13dp"
+                android:elevation="12dp"
+                android:src="@drawable/bitmap_cart_bag"
+                app:layout_constraintBottom_toBottomOf="@+id/btnAddCard"
+                app:layout_constraintStart_toStartOf="@+id/btnAddCard"
+                app:layout_constraintTop_toTopOf="@+id/btnAddCard" />
+
+            <Button
+                android:id="@+id/btnAddCard"
+                style="@style/WalkThroughTitleDescription"
+                android:layout_width="0dp"
+                android:layout_height="37dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/drawable_round_circle_corners"
+                android:backgroundTint="@color/app_theme_organe"
+                android:drawableStart="@drawable/bitmap_cart"
+                android:drawablePadding="10dp"
+                android:paddingStart="5dp"
+                android:singleLine="true"
+                android:paddingEnd="20dp"
+                android:text="ADD TO CART"
+                android:textColor="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCategory" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

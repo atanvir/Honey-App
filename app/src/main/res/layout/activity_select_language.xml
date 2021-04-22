@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_theme_color"
+    tools:context=".activity.SelectLanguage.SelectLanguageActivity">
+
+
+    <TextView
+        android:id="@+id/textView91"
+        style="@style/AltaTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_language"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.26999998" />
+
+
+    <Button
+        android:id="@+id/btnEnglish"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/drawable_round_circle_stroke_corners"
+        android:paddingStart="40dp"
+        android:text="@string/english"
+        style="@style/AltaTextView"
+        android:textSize="16dp"
+        android:textAlignment="viewStart"
+        android:textColor="@color/app_theme_organe"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView91" />
+
+    <Button
+        android:id="@+id/btnArabic"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/drawable_round_circle_stroke_corners"
+        android:paddingStart="40dp"
+        style="@style/AltaTextView"
+        android:textSize="16dp"
+        android:text="العربية"
+        android:textAlignment="viewStart"
+        android:textColor="@color/app_theme_organe"
+        app:layout_constraintEnd_toEndOf="@+id/btnEnglish"
+        app:layout_constraintStart_toStartOf="@+id/btnEnglish"
+        app:layout_constraintTop_toBottomOf="@+id/btnEnglish" />
+
+
+    <Button
+        android:id="@+id/btnContinue"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/drawable_round_circle_stroke_corners"
+        android:backgroundTint="@color/app_theme_organe"
+        android:elevation="6dp"
+        android:text="@string/continues"
+        style="@style/AltaTextView"
+        android:textSize="16dp"
+        android:textAlignment="center"
+        android:textColor="@color/app_theme_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btnArabic"
+        app:layout_constraintStart_toStartOf="@+id/btnArabic" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

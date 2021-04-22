@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.frzah">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
+    <application
+        android:name="com.frzah.base.AppController"
+        android:allowBackup="true"
+        android:icon="@drawable/app_icon"
+        android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@drawable/app_icon_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:theme,name"
+        android:usesCleartextTraffic="true">
+        <activity android:name="com.frzah.activity.OfferDetail.OfferDetailActivity"></activity>
+        <activity android:name="com.frzah.activity.Coupon.CouponActivity" />
+        <activity android:name="com.frzah.activity.Rating.RatingActivity" />
+        <activity
+            android:name="com.frzah.activity.SelectLanguage.SelectLanguageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.OrderDetail.OrderDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.Payment.PaymentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.FAQs.FAQsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.Webview.CommonWebviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.ContactUs.ContactUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.SelectLocation.SelectLocationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.SearchLocation.SearchLocationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.AddNewAddress.AddNewAddressActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.DeliveryAddress.DeliveryAddressActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.OTPVerification.OTPVerificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.Login.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.MyProfile.MyProfileActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.frzah.activity.Order.OrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.Filter.FilterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.Review.ReviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.ProductDetail.ProductDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.ShopDetail.ShopDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.Main.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.WalkThrough.WalkThroughActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.Splash.SplashActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.frzah.activity.Search.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.HomeFilter.HomeFilterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frzah.activity.FilteredShops.FilteredShopActivity"
+            android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/google_map_api_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/icon" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/app_theme_organe" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
+
+        <service
+            android:name="com.frzah.firebase.MyFirebaseMessageService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>

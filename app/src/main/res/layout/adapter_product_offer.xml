@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/app_theme_color"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:id="@+id/ivProductPic"
+        android:layout_width="59dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/pro_img"
+        android:background="@drawable/drawable_circle_corners"
+        android:backgroundTint="@android:color/white"
+        android:elevation="5dp"
+        android:padding="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lvCart"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/ivProductPic"
+        app:layout_constraintEnd_toEndOf="@+id/ivProductPic"
+        app:layout_constraintStart_toStartOf="@+id/ivProductPic"
+        app:layout_constraintTop_toTopOf="@+id/ivProductPic"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="loader.json"
+        app:lottie_loop="true" />
+
+
+    <TextView
+        android:id="@+id/tvProductName"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="24dp"
+        android:singleLine="true"
+        android:text="Product 1"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/tvQuantity"
+        app:layout_constraintStart_toEndOf="@+id/ivProductPic"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvProductDescription"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="wrap_content"
+        android:text="KSA"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:textColor="@color/cool_grey"
+        android:textSize="12dp"
+        app:layout_constraintStart_toStartOf="@+id/tvProductName"
+        app:layout_constraintTop_toTopOf="@+id/tvProductName" />
+
+
+    <TextView
+        android:id="@+id/tvCoupon"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:text="Coupon Applied"
+        android:textColor="@color/green"
+        android:textSize="12dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/tvProductName"
+        app:layout_constraintTop_toTopOf="@+id/tvProductDescription" />
+
+    <TextView
+        android:id="@+id/tvSellingPrice"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:layout_marginBottom="10dp"
+        android:text="SAR 200"
+        android:textColor="@color/app_theme_organe"
+        android:textSize="15.3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvProductDescription"
+        app:layout_constraintTop_toTopOf="@+id/tvCoupon" />
+
+
+    <TextView
+        android:id="@+id/tvQuantity"
+        style="@style/WalkThroughTitleDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="x1"
+        android:textColor="@color/black"
+        android:textSize="15.3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
