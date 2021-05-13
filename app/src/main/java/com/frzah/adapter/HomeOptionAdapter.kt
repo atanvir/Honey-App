@@ -17,7 +17,7 @@ class HomeOptionAdapter(var context: Context, val screen: String, val data: List
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder= MyViewHolder(LayoutInflater.from(context).inflate(R.layout.adapter_home_option, parent, false))
     override fun getItemId(position: Int): Long =position.toLong();
     override fun getItemViewType(position: Int): Int =position
-    override fun getItemCount(): Int=data!!.size;
+    override fun getItemCount(): Int=data?.size?:0;
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {

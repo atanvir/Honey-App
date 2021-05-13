@@ -1,4 +1,4 @@
-i pelick package com.frzah.activity.SelectLocation
+package com.frzah.activity.SelectLocation
 
 import android.content.Context
 import android.location.Address

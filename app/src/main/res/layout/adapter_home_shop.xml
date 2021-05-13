@@ -21,11 +21,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <com.sherlockshi.widget.AspectRatioImageView
                 android:id="@+id/ivShops"
                 android:layout_width="0dp"
-                android:layout_height="140dp"
-                android:scaleType="centerCrop"
+                android:layout_height="wrap_content"
+                app:width_ratio="4"
+                app:height_ratio="2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

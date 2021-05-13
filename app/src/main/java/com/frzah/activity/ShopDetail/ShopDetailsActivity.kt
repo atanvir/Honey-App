@@ -180,12 +180,14 @@ class ShopDetailsActivity : BaseActivity(), View.OnClickListener, HomeOptionAdap
         else tvReviews.text="(+ "+response.review!!.size +" "+getString(R.string.review)+" )"
         setRoundImage(this, ivShopCover, lvShopCoverDetail, "" + response!!.storeModel!!.cover_image)
 
+
         // Select Option
-        val selectOption = LinearLayoutManager(this)
-        selectOption.orientation=LinearLayoutManager.HORIZONTAL
-        rvOptionsSelection.layoutManager=selectOption
-        rvOptionsSelection.adapter=HomeOptionAdapter(this, "Home", response!!.storeModel!!.type, this)
-        rvOptionsSelection.scheduleLayoutAnimation()
+            val selectOption = LinearLayoutManager(this)
+            selectOption.orientation = LinearLayoutManager.HORIZONTAL
+            rvOptionsSelection.layoutManager = selectOption
+            rvOptionsSelection.adapter =
+                HomeOptionAdapter(this, "Home", response!!.storeModel!!.type, this)
+            rvOptionsSelection.scheduleLayoutAnimation()
 
         if(response.storeModel!!.favourite.equals("yes")) ivHeart.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.bitmap_fav_in))
         else ivHeart.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.bitmap_fav_out))

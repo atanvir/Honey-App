@@ -157,6 +157,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+//    implementation 'com.github.santalu:aspect-ratio-imageview:1.0.9'
+
+    implementation 'com.sherlockshi.widget:aspectratioimageview:1.0.1'
+
+
+
     implementation( 'com.github.thekhaeng:pushdown-anim-click:1.1.1' ){
         exclude group: 'com.android.support'
     }
