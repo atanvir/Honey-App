@@ -44,7 +44,7 @@ interface ApiInterface {
     @FormUrlEncoded
     @POST(ApiConstant.PRODUCT_TYPE)
     fun productsType(@Field("store_id") storeId: String,
-                     @Field("type") type: String,
+                     @Field("type") type: String?,
                      @Field("token") token: String,
                      @Field("cart_id") cart_id: String,
                      @Field("quantity") quantity: String): Observable<CommonModel>

@@ -9,10 +9,11 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.frzah.R
+import com.frzah.model.response.success.TypeModel
 import com.thekhaeng.pushdownanim.PushDownAnim
 import kotlinx.android.synthetic.main.adapter_home_option.view.*
 
-class HomeOptionAdapter(var context: Context, val screen: String, val data: List<String>?,var listner: onOptionClickListner?) : RecyclerView.Adapter<HomeOptionAdapter.MyViewHolder>(){
+class HomeOptionAdapter(var context: Context, val screen: String, val data: List<TypeModel>?,var listner: onOptionClickListner?) : RecyclerView.Adapter<HomeOptionAdapter.MyViewHolder>(){
     var selectedPos=0;
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder= MyViewHolder(LayoutInflater.from(context).inflate(R.layout.adapter_home_option, parent, false))
     override fun getItemId(position: Int): Long =position.toLong();
@@ -34,7 +35,7 @@ class HomeOptionAdapter(var context: Context, val screen: String, val data: List
             holder.itemView.tvOptions.backgroundTintList = context.getColorStateList(R.color.common_grey)
             holder.itemView.tvOptions.setTextColor(ContextCompat.getColor(context, R.color.light_black_home))
         }
-        holder.itemView.tvOptions.text=data!!.get(position).trim()
+        holder.itemView.tvOptions.text=data?.get(position)?.name?:"".trim()
     }
 
      inner class  MyViewHolder(viewHolder: View): RecyclerView.ViewHolder(viewHolder), View.OnClickListener {
@@ -49,7 +50,7 @@ class HomeOptionAdapter(var context: Context, val screen: String, val data: List
                  R.id.tvOptions -> {
                      if (selectedPos != adapterPosition) {
                          selectedPos = adapterPosition
-                         if (listner != null) listner!!.onSelectedOtion(data!!.get(adapterPosition),adapterPosition)
+                         if (listner != null) listner!!.onSelectedOtion(data?.get(adapterPosition)?.id?:"",adapterPosition)
                          notifyDataSetChanged()
                      }
                  }

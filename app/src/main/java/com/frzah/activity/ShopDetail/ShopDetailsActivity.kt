@@ -185,8 +185,7 @@ class ShopDetailsActivity : BaseActivity(), View.OnClickListener, HomeOptionAdap
             val selectOption = LinearLayoutManager(this)
             selectOption.orientation = LinearLayoutManager.HORIZONTAL
             rvOptionsSelection.layoutManager = selectOption
-            rvOptionsSelection.adapter =
-                HomeOptionAdapter(this, "Home", response!!.storeModel!!.type, this)
+            rvOptionsSelection.adapter = HomeOptionAdapter(this, "Home", response!!.storeModel!!.type, this)
             rvOptionsSelection.scheduleLayoutAnimation()
 
         if(response.storeModel!!.favourite.equals("yes")) ivHeart.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.bitmap_fav_in))

@@ -18,6 +18,7 @@ import com.frzah.adapter.FilterRatingAdapter
 import com.frzah.base.BaseActivity
 import com.frzah.model.request.CommonModel
 import com.frzah.model.response.success.ProductDetailModel
+import com.frzah.model.response.success.ResponseBean
 import com.frzah.utils.CommonUtils.Companion.setToolbar
 import com.frzah.utils.CommonUtils.Companion.showSnackBar
 import com.frzah.utils.ErrorUtil
@@ -39,6 +40,7 @@ class HomeFilterActivity: BaseActivity(), View.OnClickListener, FilterItemAdapte
 //    var from:String?="100"
     var price_low: String?="50"
     var price_high: String?="5000"
+    var typeList : List<ResponseBean>?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,6 +105,7 @@ class HomeFilterActivity: BaseActivity(), View.OnClickListener, FilterItemAdapte
     private fun setDataToUI(it: CommonModel?) {
         clMain.visibility=View.VISIBLE
         honeyType!!.clear()
+        typeList=it?.categorylist
         for (i in 1..(it!!.categorylist!!.size-1)) {
             honeyType!!.add(it.categorylist!!.get(i).name!!)
         }
@@ -137,7 +140,7 @@ class HomeFilterActivity: BaseActivity(), View.OnClickListener, FilterItemAdapte
         when(v!!.id)
         {
             R.id.btnApply ->{
-            filterViewModel.homeFilterApi(context = this,token=prefs.jwtToken!!,latitude = prefs.latitude,longitude = prefs.longitude,rating=rating!!,type=type!!,delivery_day =deliveryTime!!,price_low=price_low!!,price_high=price_high!!)
+            filterViewModel.homeFilterApi(context = this,token=prefs.jwtToken!!,latitude = prefs.latitude,longitude = prefs.longitude,rating=rating!!,type=getHoneyType(type)!!,delivery_day =deliveryTime!!,price_low=price_low!!,price_high=price_high!!)
             }
 
             R.id.btnReset ->{
@@ -168,6 +171,19 @@ class HomeFilterActivity: BaseActivity(), View.OnClickListener, FilterItemAdapte
     override fun ratingClick(rating: String) {
         this.rating=rating
         rvRating.adapter!!.notifyDataSetChanged()
+    }
+
+    private fun getHoneyType(type: String?): String? {
+        var id=""
+        for(i in typeList?.indices!!){
+            if(typeList?.get(i)?.name.equals(type)){
+                id= typeList?.get(i)?.id.toString() ?:"0"
+                break
+            }
+        }
+
+        return id
+
     }
 
 }

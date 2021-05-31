@@ -15,6 +15,7 @@ import com.frzah.adapter.FilterItemAdapter
 import com.frzah.adapter.FilterRatingAdapter
 import com.frzah.base.BaseActivity
 import com.frzah.model.request.CommonModel
+import com.frzah.model.response.success.ResponseBean
 import com.frzah.utils.CommonUtils.Companion.setToolbar
 import com.frzah.utils.CommonUtils.Companion.showSnackBar
 import com.frzah.utils.ErrorUtil
@@ -32,6 +33,7 @@ class FilterActivity : BaseActivity(), View.OnClickListener, FilterRatingAdapter
     var price_low: String?="50"
     var price_high: String?="5000"
     var rating: String?=""
+    var typeList : List<ResponseBean>?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +84,7 @@ class FilterActivity : BaseActivity(), View.OnClickListener, FilterRatingAdapter
     private fun setDataToUI(it: CommonModel?) {
         clMain.visibility=View.VISIBLE
         honeyType!!.clear()
+        typeList=it?.categorylist
         for (i in 1..(it!!.categorylist!!.size-1)) {
            honeyType!!.add(it.categorylist!!.get(i).name!!)
         }
@@ -117,7 +120,7 @@ class FilterActivity : BaseActivity(), View.OnClickListener, FilterRatingAdapter
         {
             R.id.btnApply ->{
             val intent=Intent()
-            intent.putExtra(""+ParamEnum.TYPE.theValue(),""+type)
+            intent.putExtra(""+ParamEnum.TYPE.theValue(),""+getHoneyType(type))
             intent.putExtra(""+ParamEnum.SORT_BY.theValue(),""+sort_by)
             intent.putExtra(""+ParamEnum.PRICE_LOW.theValue(),""+price_low)
             intent.putExtra(""+ParamEnum.PRICE_HIGH.theValue(),""+price_high)
@@ -137,6 +140,19 @@ class FilterActivity : BaseActivity(), View.OnClickListener, FilterRatingAdapter
             finish()
             }
         }
+    }
+
+    private fun getHoneyType(type: String?): String? {
+        var id=""
+        for(i in typeList?.indices!!){
+            if(typeList?.get(i)?.name.equals(type)){
+                id= typeList?.get(i)?.id.toString() ?:"0"
+                break
+            }
+        }
+
+        return id
+
     }
 
     override fun ratingClick(rating: String) {

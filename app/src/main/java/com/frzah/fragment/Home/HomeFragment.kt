@@ -34,6 +34,7 @@ import com.frzah.base.BaseFragment
 import com.frzah.model.request.CommonModel
 import com.frzah.model.response.success.CommonShopsItemModel
 import com.frzah.model.response.success.ResponseBean
+import com.frzah.model.response.success.TypeModel
 import com.frzah.utils.CommonUtils.Companion.DELAY_MS
 import com.frzah.utils.CommonUtils.Companion.PERIOD_MS
 import com.frzah.utils.CommonUtils.Companion.PERMISSION
@@ -234,7 +235,10 @@ class HomeFragment(var tvBadges: TextView?) : BaseFragment(), View.OnClickListen
 
         // Options RecycleView
 //        val options = arrayListOf("ALL", "LATEST", "POPULAR", "OFFERS", "DISTANCE")
-        val options = arrayListOf(getString(R.string.all), getString(R.string.latest), getString(R.string.popular_caps), getString(R.string.distance_caps))
+        val options = arrayListOf<TypeModel>(TypeModel(getString(R.string.all),getString(R.string.all)),
+                                             TypeModel(getString(R.string.latest),getString(R.string.latest)),
+                                             TypeModel(getString(R.string.popular_caps),getString(R.string.popular_caps)),
+                                             TypeModel(getString(R.string.distance_caps),getString(R.string.distance_caps)))
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation=LinearLayoutManager.HORIZONTAL
         rvOptions.layoutManager=layoutManager

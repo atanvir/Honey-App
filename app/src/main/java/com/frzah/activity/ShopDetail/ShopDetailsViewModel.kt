@@ -53,7 +53,7 @@ class ShopDetailsViewModel : BaseViewModel() {
 
     fun onSuccess(response: CommonModel, storeId: String,token: String,cart_id: String,quantity:String){
         this.response.value=response
-        if(response!!.response!!.storeModel!!.type!!.size>0) apiInterface.productsType(storeId=storeId,type= response!!.response!!.storeModel!!.type!!.get(0).toLowerCase(),token = token,cart_id=cart_id,quantity=quantity).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onProductSuccess(it) }, { onFailure(it) })
+        if(response!!.response!!.storeModel!!.type!!.size>0) apiInterface.productsType(storeId=storeId,type= response?.response?.storeModel?.type?.get(0)?.id,token = token,cart_id=cart_id,quantity=quantity).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({ onProductSuccess(it) }, { onFailure(it) })
         else dismissLoadingDialog()
     }
 

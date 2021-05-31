@@ -9,7 +9,7 @@ import com.frzah.R
 import com.frzah.fragment.FavAndSearchTab.CommonTabFragment
 import com.frzah.fragment.Order.OrderFragment
 
-class FrgamentPagerAdapter(var context: Context,var screen: String,fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+class FrgamentPagerAdapter(var context: Context,var screen: String,fm: FragmentManager) : FragmentStatePagerAdapter(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT ) {
     override fun getItem(position: Int): Fragment= if(screen.equals("Order")) OrderFragment(position) else CommonTabFragment(position, screen)
     override fun getCount(): Int=2
     override fun getItemPosition(`object`: Any): Int=POSITION_NONE

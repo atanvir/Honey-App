@@ -172,6 +172,9 @@ class OTPVerificationActivity : BaseActivity(), View.OnClickListener, DialogInte
         when(p0!!.id)
         {
             R.id.ivNext -> {
+//                otpViewModel.verfiyPhoneApi(intent.getStringExtra("phone_number")!!,prefs.device_token!!,product_id,seller_id,quantity)
+//
+//
                 if(verificationCode.equals(""))
                 { showSnackBar(this,getString(R.string.wait_for_otp)) }
                 else if (otp_view.otp!!.length == 0 || otp_view.otp!!.length < 6) {

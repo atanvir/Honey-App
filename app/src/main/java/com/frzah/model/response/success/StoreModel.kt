@@ -89,7 +89,7 @@ class StoreModel {
 
     @SerializedName("type")
     @Expose
-    var type: List<String>? = null
+    var type: List<TypeModel>? = null
 
     @SerializedName("favourite")
     @Expose
