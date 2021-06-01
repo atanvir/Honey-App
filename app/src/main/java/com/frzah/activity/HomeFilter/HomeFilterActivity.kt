@@ -176,7 +176,7 @@ class HomeFilterActivity: BaseActivity(), View.OnClickListener, FilterItemAdapte
     private fun getHoneyType(type: String?): String? {
         var id=""
         for(i in typeList?.indices!!){
-            if(typeList?.get(i)?.name.equals(type)){
+            if(typeList?.get(i)?.name.equals(type,ignoreCase = true)){
                 id= typeList?.get(i)?.id.toString() ?:"0"
                 break
             }

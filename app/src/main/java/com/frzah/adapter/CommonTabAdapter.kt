@@ -1,3 +1,4 @@
+
 package com.frzah.adapter
 
 import android.content.Context
@@ -28,6 +29,7 @@ class CommonTabAdapter(var context: Context,var screen: String,var positions: In
         if(positions==0) return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.adapter_common_product, parent, false),positions)
         else return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.adapter_common_stores, parent, false),positions)
     }
+
     override fun getItemCount(): Int=list.size
     override fun getItemId(position: Int):Long =position.toLong()
     override fun getItemViewType(position: Int): Int = this.positions
@@ -99,7 +101,10 @@ class CommonTabAdapter(var context: Context,var screen: String,var positions: In
             else holder.itemView.tvSellingPrice.setText(list.get(position).sp!!+" "+context.getString(R.string.sar))
             holder.itemView.tvMRP.paintFlags=holder.itemView.tvMRP.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG
             holder.itemView.tvMRP.setText(context.getString(R.string.sar)+" "+list.get(position).mrp!!)
-            holder.itemView.tvProduct.setText(list.get(position).name!!)
+
+            if(list.get(position)?.name!=null) {
+                holder.itemView.tvProduct.setText(list.get(position).name!!)
+            }
             if(list.get(position).categoryId!=null){
             holder.itemView.tvCategoryProduct.setText(list.get(position).categoryId!!)}
 
@@ -147,7 +152,6 @@ class CommonTabAdapter(var context: Context,var screen: String,var positions: In
                 R.id.ivContainer->{ onFavClick(adapterPosition,ParamEnum.STORE.theValue()) }
             }
         }
-
     }
 
     private fun onFavClick(adapterPosition: Int, type: Any?) {
