@@ -336,7 +336,7 @@ class CommonUtils {
 
         fun getDeviceToken(prefs: SharedPreferenceUtil): String {
             var token:String?=null
-            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(OnCompleteListener<String?> { task ->
+            FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener<String?> { task ->
                 if (!task.isSuccessful) {
                     Log.w("TAG", "Fetching FCM registration token failed", task.exception)
                     return@OnCompleteListener

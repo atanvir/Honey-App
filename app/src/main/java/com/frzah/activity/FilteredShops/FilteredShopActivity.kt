@@ -51,7 +51,6 @@ class FilteredShopActivity : BaseActivity(), CommonHomeAdapter.setOnShopClickLis
     }
 
     override fun myObserver() {
-
         filteredShopViewModel.onFavResponse.observe(this, Observer {
             if(it.status!!.equals(ParamEnum.SUCCESS.theValue())) checkFavData(it)
             else if(it.status.equals(ParamEnum.FAILURE.theValue())) showSnackBar(this,it.message)

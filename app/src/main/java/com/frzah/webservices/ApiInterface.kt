@@ -236,4 +236,9 @@ interface ApiInterface {
     @POST(ApiConstant.NOTIFICATION_COUNT)
     fun notificationToken(@Field("token")token: String): Observable<CommonModel>
 
+
+    @FormUrlEncoded
+    @POST(ApiConstant.LANGAUAGE_CHANGE)
+    fun changeLanguage(@Field("user_id") user_id: String,@Field("lang") lang: String): Observable<CommonModel>
+
 }
