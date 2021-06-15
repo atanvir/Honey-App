@@ -76,13 +76,12 @@ class SelectLanguageActivity : BaseActivity(), View.OnClickListener {
     override fun myObserver() {
         viewModel.response.observe(this,{
             CommonUtils.dismissLoadingDialog()
-            if(it.status?.equals(ParamEnum.SUCCESS.theValue())==true){
+
+            if(it.status?.equals(ParamEnum.SUCCESS.theValue())==true) {
                val intent = Intent(this, MainActivity::class.java)
                startActivity(intent)
                finish()
-
-
-            }else if(it.status?.equals(ParamEnum.FAILURE.theValue())==true){
+            } else if(it.status?.equals(ParamEnum.FAILURE.theValue())==true){
                 CommonUtils.showSnackBar(this,it.message)
             }
 

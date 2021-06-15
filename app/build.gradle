@@ -18,11 +18,12 @@ android {
         applicationId "com.frzah"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 5
-        versionName "1.4"
+        versionCode 6
+        versionName "1.5"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
     buildFeatures {
         dataBinding true
     }

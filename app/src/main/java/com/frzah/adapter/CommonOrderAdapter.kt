@@ -55,14 +55,15 @@ class CommonOrderAdapter(var context: Context,var pos:Int,var list:List<Response
                else holder.itemView.tvItems.text = ""+list.get(position).item_count + " "+context.getString(R.string.items)
                setRoundImage(context, holder.itemView.ivSeller, holder.itemView.lv, list.get(position).images!!)
                holder.itemView.tvSellerName.text = list.get(position).seller_name
-               if(prefs?.selectedLanguage.equals("en",ignoreCase = true))  holder.itemView.tvAmount.text=context.getString(R.string.sar)+" "+list.get(position).amount
-               else holder.itemView.tvAmount.text=list.get(position).amount+" "+context.getString(R.string.sar)
-               holder.itemView.tvOrderStaus.text = list.get(position).status
+               if(prefs?.selectedLanguage.equals("en",ignoreCase = true))  holder.itemView.tvSellingPrice.text=context.getString(R.string.sar)+" "+list?.get(position)?.amount?:""
+               else holder.itemView.tvSellingPrice.text = list?.get(position)?.amount?:""+" "+context.getString(R.string.sar)
+               holder.itemView.tvOrderStaus.text = list?.get(position).status
+
                if (list.get(position).status.equals("Delivered", ignoreCase = true)){
                    holder.itemView.btnRate.visibility=View.VISIBLE
                    holder.itemView.tvOrderStaus.setCompoundDrawablesRelativeWithIntrinsicBounds(ContextCompat.getDrawable(context,R.drawable.drawable_green_dot),null,null,null)
                    holder.itemView.tvOrderStaus.setTextColor(ContextCompat.getColor(context,R.color.green))
-               }else{
+               }else {
                    holder.itemView.btnRate.visibility=View.GONE
                    holder.itemView.tvOrderStaus.setCompoundDrawablesRelativeWithIntrinsicBounds(ContextCompat.getDrawable(context,R.drawable.drawable_red_dot),null,null,null)
                    holder.itemView.tvOrderStaus.setTextColor(ContextCompat.getColor(context,R.color.red))
