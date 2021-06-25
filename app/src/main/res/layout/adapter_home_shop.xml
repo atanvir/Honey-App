@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/clMain"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/clMain"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
@@ -21,12 +22,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.sherlockshi.widget.AspectRatioImageView
+            <ImageView
                 android:id="@+id/ivShops"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:width_ratio="4"
-                app:height_ratio="2"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:src="@drawable/user_pic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
